@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="de.srlabs.snoopsnitch">
+    <!-- Remove android:versionCode="15"
+    android:versionName="@string/app_version" -->
+
+    <uses-sdk />
+        <!-- Remove android:minSdkVersion="16"
+        android:targetSdkVersion="21"  / -->
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_SUPERUSER"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- Emi: In anticipation for 1.0.3 automatic network changes etc.
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CONTROL_LOCATION_UPDATES" />
+    <uses-permission android:name="android.permission.DIAGNOSTIC" />
+    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.RECEIVE_WAP_PUSH" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_CELL_BROADCASTS" />
+
+    Google non-3rd party:
+    <uses-permission android:name="android.permission.REAL_GET_TASKS" />
+
+    / -->
+
+    <supports-screens android:xlargeScreens="false"/>
+
+    <application
+        android:allowBackup="false"
+        android:fullBackupContent="false"
+        android:supportsRtl="false"
+        android:icon="@drawable/ic_content_imsi_event"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+        <receiver android:name="de.srlabs.snoopsnitch.BootCompletedIntentReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="de.srlabs.snoopsnitch.StartupActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="de.srlabs.snoopsnitch.DashboardActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop" >
+        </activity>
+        
+        <!-- Detail Chart Activity -->
+        <activity
+             android:name="de.srlabs.snoopsnitch.DetailChartActivity"
+             android:screenOrientation="portrait"
+             android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity">     
+        </activity>
+        
+        <!-- Map Activity -->
+        <activity
+             android:name="de.srlabs.snoopsnitch.MapActivity"
+             android:screenOrientation="portrait"
+             android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity">     
+        </activity>
+        
+        <!-- Local Map Activity -->
+        <activity
+             android:name="de.srlabs.snoopsnitch.LocalMapActivity"
+             android:screenOrientation="portrait"
+             android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity">     
+        </activity>
+        
+        <!-- Test Activity -->
+        <activity
+            android:name="de.srlabs.snoopsnitch.MsdServiceHelperTest"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" 
+            android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity">
+        </activity>
+        
+        <!-- Settings Activity -->
+        <activity
+            android:name="de.srlabs.snoopsnitch.SettingsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+        <!-- About Activity -->
+        <activity
+            android:name="de.srlabs.snoopsnitch.AboutActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity" >
+        </activity>
+        
+        <!-- Network Info Activity -->
+        <activity
+            android:name="de.srlabs.snoopsnitch.NetworkInfoActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity" >
+        </activity>
+
+        <!-- Upload Debug Activity -->
+        <activity
+            android:name="de.srlabs.snoopsnitch.UploadDebugActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity" >
+        </activity>
+
+        <!-- Crash Upload Activity-->
+        <activity
+            android:name="de.srlabs.snoopsnitch.CrashUploadActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+    		android:taskAffinity=""
+    		android:excludeFromRecents="true">
+        </activity>
+              
+        <!-- Active Test Advanced Mode -->
+        <activity
+            android:name="de.srlabs.snoopsnitch.ActiveTestAdvanced"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity" >
+        </activity>
+
+        <!-- Dialog for enabling Auto-Upload Mode from Notification -->
+        <activity
+            android:name="de.srlabs.snoopsnitch.EnableAutoUploadModeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity" >
+        </activity>
+
+        <service android:name="de.srlabs.snoopsnitch.qdmon.MsdService" android:exported="false" android:process=".snoopsnitch_service" />
+    	<service android:name="de.srlabs.snoopsnitch.active_test.ActiveTestService" android:exported="false" />
+    </application>
+</manifest>

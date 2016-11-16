@@ -1,0 +1,176 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25                    // 25
+    buildToolsVersion "25.0.0"              // 24.0.2 Always use latest build-tools unless otherwise required by app (what's that?)
+
+    // Since Android-M/23 (AOS 6.0), the original apacheHTTP is no longer supported.
+    // Instead Google promote to use: HttpURLConnection. However:
+    // http://hc.apache.org/httpcomponents-client-4.5.x/android-port.html
+    // http://stackoverflow.com/a/40302007/1147688
+    useLibrary 'org.apache.http.legacy'     //
+
+    defaultConfig {
+        applicationId "de.srlabs.snoopsnitch"
+        minSdkVersion 16                    // 16 (4.1) .. 19 (4.4)
+        targetSdkVersion 25                 // 25 (7.1)
+        versionCode 2                       // 1 - Ant, 2 - AS + Gradle builds
+        versionName "1.0.2"                 // 1.0
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        externalNativeBuild {
+//            cmake {
+//                cppFlags ""
+//            }
+//        }
+
+    }
+
+    // This is for automatic code-signing of the resulting APK
+    // Keys should be stored in:  build.gradle  (and obviously excluded from any VCS)
+//    signingConfigs {
+//        release {
+//            try {
+//                storeFile file("myreleasekey.keystore")
+//                storePassword KEYSTORE_PASSWORD
+//                keyAlias "MyReleaseKey"
+//                keyPassword KEY_PASSWORD
+//                // v2SigningEnabled false     // Can be "true" on Android-N (AOS 7.0+ / API 24)
+//            }
+//            catch (ex) {
+//                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
+//            }
+//        }
+//    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
+        }
+        applicationVariants.all { variant ->
+           variant.outputs.each { output ->
+               def file = output.outputFile
+               def filename = file.name.replace("app", "SnoopSnitch")
+               output.outputFile = new File(file.parent, filename)
+
+           }
+       }
+    }
+
+//    externalNativeBuild {
+//        cmake {
+//            path "CMakeLists.txt"
+//        }
+//    }
+
+    // compileOptions {...}
+    /*compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }*/
+
+
+    //compileJava {
+    //    options.encoding = 'UTF-8'
+    //    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    //}
+
+    // The following snippet (supposedly) Enable the "deprecation" and "unchecked" lint warnings...
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
+
+    // https://google.github.io/android-gradle-dsl/current/com.android.build.gradle.internal.dsl.LintOptions.html
+    lintOptions {
+        //disable 'deprecation'         // Does this exists (as shown in -Xlint gradle output)?
+        //disable 'unchecked'           // Does this exists (as shown in -Xlint gradle output)?
+
+        disable 'AppCompatResource'   // Menu namespace: appcompat library resources should refer "showAsAction" in the app:namespace
+        disable 'MissingTranslation'    // Strings declared in one language should also be translated in all other languages
+	    //disable 'ExtraTranslation'    // Make sure all labelled strings appear in all locales
+	    disable 'ValidFragment'         //
+        disable 'CommitPrefEdits'       // ToDO: Consider using apply() instead;
+        //disable 'SdCardPath'          // Use non-specific API independent external sdcard paths
+        disable 'Typos'                 // ... SIE SIE ...
+        disable 'HardwareIds'           // Using getSubscriberId to get device identifiers (IMSI) is not recommended
+        disable 'SetJavaScriptEnabled'  // Used in: [Local]MapActivity.java  -- Does it require JS?
+        //disable 'Wakelock'            // Why do we use wakelock? (Incorrect use here...)
+        disable 'Overdraw'              // @color/common_sectionBackground
+        disable 'UnusedResources'       // Many unused strings and images: <placeholders?>
+        //disable 'UselessParent'       // activity_dashboard.xml: 20,27   can be flattened
+        //disable 'TooManyViews'        // activity_dashboard.xml & fragment_chart_slide_page_hour.xml  has > 80 views
+        //disable 'EasterEgg'           // ...is code deliberately hidden in the code. Where?
+
+        disable 'GoogleAppIndexingWarning'      // Ignore Googles Firebase App Indexing ?
+        //disable 'AppLinksAutoVerifyError'     // where?
+        //disable 'AppLinksAutoVerifyWarning'   // where?
+        //disable 'ClickableViewAccessibility'  // lint require View#performClick: ActiveTestAdvanced.java 163
+        disable 'SetTextI18n'                   // We don't translate button strings
+        disable 'HardcodedText'                 // We don't care about hardcoded text for numbers...
+
+        //--- UI: Icons & Images --------------------------------------------------------
+        disable 'IconColors'            // Ugly Material design only allow Gray/White icons..we ignore.
+        disable 'IconDipSize'           // ToDo: Fix icons
+        disable 'IconDuplicatesConfig'  // ToDo: maybe nothing
+        disable 'IconDensities'         // ToDo: Fix icons
+        //disable 'IconExpectedSize'    // Use predefined sizes (for each density) for launcher icons
+        disable 'IconLocation'          // ToDo: Fix icons: "Found bitmap drawable in densityless folder..."
+        disable 'ContentDescription'    // Images without contentDescription
+
+        //--- UI: RTL -------------------------------------------------------------------
+        // NOTE: [1] If your minSdkVersion is less than 17, you should add BOTH the older
+        //           left/right attributes as well as the new start/right attributes.
+        //       [2] To enable RTL support, when running on API 17 and higher, you must
+        //           set the android:supportsRtl attribute in the Android manifest
+        //-------------------------------------------------------------------------------
+        disable 'RtlSymmetry'           // ToDo: Do we need to check all "Padding and margin symmetry"?
+        disable 'RtlHardcoded'          // We (currently) don't care about RTL layouts (L/R vs Start/End)
+        //disable 'RtlEnabled'          // See [2].
+
+        //--- UI: Buttons ---------------------------------------------------------------
+        disable 'BackButton'                    // Should we have a more clearly defined "back" button?
+        //disable 'ButtonStyle'                 // "Button should be borderless"  https://material.google.com/components/buttons.html#
+
+        //disable '' //
+        //disable '' //
+        //disable '' //
+        //disable '' //
+
+	    abortOnError false
+        textOutput 'stdout'
+    }
+
+}
+
+dependencies {
+
+    // What jars are we using here?
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // This is the maintained apacheHTTP version from apache.
+    // replace the "org.apache.http" by "cz.msebera.android.httpclient"
+    //compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5.1'  // API 22-
+    //compile group: 'cz.msebera.android', name: 'httpclient', version: '4.4.1.1'                   // API 23+
+
+    // Android Support Libraries
+    compile 'com.android.support:support-v4:25.0.0'             // v4
+    //compile 'com.android.support:support-compat:25.0.0'       // v4
+    //compile "com.android.support:support-core-utils:25.0.0"   // v4
+    compile 'com.android.support:appcompat-v7:25.0.0'           // depends on v4 ?
+
+    // OpenCSV (comma-separated values) parser library
+    //compile 'au.com.bytecode:opencsv:2.4'
+
+    // Easy to use Root Shell for Android Applications
+    //compile 'com.github.Stericson:RootShell:d708ae1f0a'
+
+    // Simple Android UI test framework
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    testCompile 'junit:junit:4.12'
+}

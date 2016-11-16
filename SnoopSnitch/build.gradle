@@ -1,0 +1,90 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+// Developers Notes: 
+//   The following:     "task someTask << { code }",
+//   is shorthand for   "task someTask { doLast { code } }"
+
+
+task myPrebuildTask {
+    // Builds:  libasn1c,libosmocore,libosmo-asn1-rrc,gsm-parser,openssl,diag_helper
+    group 'SnoopSnitch'
+    description 'Compiles all the NDK binaries/libraries: libosmocore, ..., OpenSSL and diag_helper.'
+    println "  Configuring myPrebuildTask ..."
+    doLast {
+        exec {
+            workingDir "$projectDir/../contrib"
+            commandLine 'bash', '-c', './compile.sh -t android -g -u'
+        }
+    }
+}
+
+
+task myCopyTask {
+    group 'SnoopSnitch'
+    description 'Copies all previously built binaries/libraries (*.so, *.sql) to app assets.'
+    println "  Configuring myCopyTask ..."
+    doLast {
+        exec {
+            workingDir "$projectDir"
+            commandLine 'bash', '-c', './copy.sh'
+        }
+    }
+}
+
+// If not pass, we need to re-compile from scratch.
+// Deps: cleanSuper, myPrebuildTask, myCopyTask
+task myCheckLibs {
+    group 'SnoopSnitch'
+    description '[WIP/ToDo] Checks if previously built binaries/libraries (*.so, *.sql) have been built.'
+    println "  Configuring myCheckLibs ..."
+    doLast {
+        exec {
+            workingDir "$projectDir"
+            //commandLine 'bash', '-c', './check.sh'
+            commandLine 'sh', '-c', './do_nothing2.sh'
+        }
+    }
+}
+
+
+task clean(type: Delete) {
+    group 'SnoopSnitch'
+    description 'Remove previous gradle built files. (Only remove Java build files.)'
+    // rootProject: ?
+    // buildDir:    ?
+    delete rootProject.buildDir
+    // rm -fr ./build-* 
+}
+
+task cleanSuper(type: Delete) {
+    group 'SnoopSnitch'
+    description 'WIP: Removes all previous build files, including gradle and binaries. Use before tar or git operations.'
+    // TODO 
+    //delete rootProject.buildDir
+    // rm -fr ./build-* 
+}
+
+// [ToDo] Dependencies:  
+//myCopyTask.dependsOn myPrebuildTask
+//cleanSuper.dependsOn clean
+
+//build.dependsOn myPrebuildTask
+//build.dependsOn myCopyTask
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.2'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
