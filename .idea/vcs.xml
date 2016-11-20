@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/contrib/gsm-parser" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/contrib/libasn1c" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/contrib/libosmocore" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
   </component>
 </project>

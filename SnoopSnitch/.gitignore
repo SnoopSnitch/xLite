@@ -1,6 +1,12 @@
-*.iml
+# We share *.iml files for easy Android-Studio when local.properties are the same
+# Remove if necessary
+#*.iml
+
+# We share the local.properties for user to edit
+# EDIT:
+#/local.properties
+
 .gradle
-/local.properties
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
