@@ -1,6 +1,5 @@
-# We share *.iml files for easy Android-Studio when local.properties are the same
 # Remove if necessary
-#*.iml
+*.iml
 
 # We share the local.properties for user to edit
 # EDIT:
