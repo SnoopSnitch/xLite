@@ -156,10 +156,10 @@ dependencies {
     //compile group: 'cz.msebera.android', name: 'httpclient', version: '4.4.1.1'                   // API 23+
 
     // Android Support Libraries
-    compile 'com.android.support:support-v4:25.0.0'             // v4
+    compile 'com.android.support:support-v4:25.0.1'             // v4
     //compile 'com.android.support:support-compat:25.0.0'       // v4
     //compile "com.android.support:support-core-utils:25.0.0"   // v4
-    compile 'com.android.support:appcompat-v7:25.0.0'           // depends on v4 ?
+    compile 'com.android.support:appcompat-v7:25.0.1'           // depends on v4 ?
 
     // OpenCSV (comma-separated values) parser library
     //compile 'au.com.bytecode:opencsv:2.4'
