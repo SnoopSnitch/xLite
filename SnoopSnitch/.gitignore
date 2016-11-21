@@ -8,7 +8,12 @@
 .gradle
 /.idea/workspace.xml
 /.idea/libraries
-.DS_Store
+
+# Apparently IntelliJ IDEA generate Java package stubs under: 
+# ./app/src/main/gen/ search for "Generated_by_IDEA"
+/app/src/main/gen
+
 /build
 /captures
 .externalNativeBuild
+.DS_Store
