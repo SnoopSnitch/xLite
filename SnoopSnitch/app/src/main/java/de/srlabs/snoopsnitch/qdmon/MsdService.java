@@ -40,7 +40,6 @@ import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.Service;
 import android.content.ContentValues;
@@ -52,6 +51,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.DeadObjectException;
 import android.os.Handler;
@@ -1414,7 +1414,9 @@ public class MsdService extends Service{
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 		}
 	}
-	@SuppressLint("NewApi")
+
+	// We should not suppress here, but in ./app/build.gradle
+	//@SuppressLint("NewApi")
 	class MyPhoneStateListener extends PhoneStateListener{
 		@Override
 		public void onCellLocationChanged(CellLocation location) {
@@ -1444,7 +1446,16 @@ public class MsdService extends Service{
 				// Some phones may not send onCellInfoChanged(). So let's record
 				// the neighboring cells as well if the current serving cell
 				// changes.
-				doCellinfoList(telephonyManager.getAllCellInfo());
+				// NOTE:
+				//  getAllCellInfo()           require API >= 17
+				//  getNeighboringCellInfo()   require API <= 23
+				if (Build.VERSION.SDK_INT > 16) {
+					doCellinfoList(telephonyManager.getAllCellInfo());
+				}
+				// else {
+				//	doCellinfoList(telephonyManager.getNeighboringCellInfo());
+				//}
+
 			} else
 				warn("onCellLocationChanged() called with invalid location class: " + location.getClass());
 		}
@@ -1464,6 +1475,7 @@ public class MsdService extends Service{
 				if(last_sc_insert != null){
 					for(CellInfo ci:cellInfo){
 						if (ci instanceof CellInfoGsm) {
+							// These require API 17
 							CellInfoGsm ci_gsm = (CellInfoGsm) ci;
 							ContentValues values = new ContentValues();
 							values.put("mcc",ci_gsm.getCellIdentity().getMcc());
@@ -1473,6 +1485,7 @@ public class MsdService extends Service{
 							NeighboringPendingSqliteStatement stmt = new NeighboringPendingSqliteStatement(values, last_sc_insert);
 							pendingSqlStatements.add(stmt);
 						} else if (ci instanceof CellInfoWcdma) {
+							// These require API 18
 							CellInfoWcdma ci_wcdma = (CellInfoWcdma) ci;
 							ContentValues values = new ContentValues();
 							values.put("mcc",ci_wcdma.getCellIdentity().getMcc());

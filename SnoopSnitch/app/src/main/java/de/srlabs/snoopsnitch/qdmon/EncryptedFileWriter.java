@@ -9,7 +9,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.zip.GZIPOutputStream;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.PowerManager;
 import android.text.TextUtils;
@@ -43,7 +42,8 @@ public class EncryptedFileWriter{
 		this.compressPlaintextFile = compressPlaintextFile;
 		openOutput();
 	}
-	@SuppressLint("NewApi")
+
+	//@SuppressLint("NewApi")
 	private void openOutput() throws EncryptedFileWriterError {
 		if(encryptedFilename != null){
 			info("Writing encrypted output to " + encryptedFilename);

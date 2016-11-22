@@ -23,7 +23,6 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -75,7 +74,8 @@ public class Utils {
 	 * 
 	 * @return
 	 */
-	@SuppressLint("TrulyRandom")
+	// We don't care about the quality of random here...
+	//@SuppressLint("TrulyRandom")
 	public static String generateAppId(){
 		SecureRandom sr = new SecureRandom();
 		byte[] random = new byte[4];
@@ -87,6 +87,7 @@ public class Utils {
 		Date date = new Date(millis);
 		return dateFormat.format(date);
 	}
+
 	/**
 	 * Determines the network generation based on the networkType retrieved via telephonyManager.getNetworkType()
 	 * @param networkType
@@ -232,9 +233,12 @@ public class Utils {
 		}
 		c.close();
 	}
+
 	/**
 	 * Dump data related to an event to file
-	 * @param id ID of an event
+	 * The pseudo param id (ID of an event) is obtained by an SQL query of a given time range:
+	 * @param startTime starting time range of events
+	 * @param endTime ending time range of events
 	 * @param outputFile Target file
 	 * @throws EncryptedFileWriterError
 	 */
@@ -302,6 +306,7 @@ public class Utils {
 
 		outputFile.write(info);
 	}
+
 	/**
 	 * @param context
 	 * @param db
@@ -340,7 +345,6 @@ public class Utils {
 	 *
 	 * @return
 	 */
-	@SuppressLint("DefaultLocale")
 	public static Integer getDiagDeviceNodeMajor() {
 		BufferedReader r = null;
 		try {
@@ -353,7 +357,7 @@ public class Utils {
 				String[] line_elements = line.split("\\s+");
 				if(line_elements.length != 2)
 					continue;
-				if(line_elements[1].trim().toLowerCase().equals("dia")){
+				if(line_elements[1].trim().toLowerCase(Locale.US).equals("dia")){
 					return Integer.parseInt(line_elements[0].trim());
 				}
 			}
@@ -380,6 +384,7 @@ public class Utils {
 			return "Diag device does not exist and /proc/devices does not contain entry for 'dia'";
 		}
 		// Try both standard mknod and busybox mknod
+		// ToDo: Need to check if we actually HAVE busybox
 		String mknodCmd = "mknod /dev/diag c " + diagDeviceMajor + " 0 || busybox mknod /dev/diag c " + diagDeviceMajor + " 0";
 		String suBinary = DeviceCompatibilityChecker.getSuBinary();
 		String cmd[] = { suBinary, "-c", mknodCmd};

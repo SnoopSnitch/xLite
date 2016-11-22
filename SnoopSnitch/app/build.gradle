@@ -134,8 +134,8 @@ android {
         disable 'BackButton'                    // Should we have a more clearly defined "back" button?
         //disable 'ButtonStyle'                 // "Button should be borderless"  https://material.google.com/components/buttons.html#
 
-        //disable '' //
-        //disable '' //
+        disable 'TrulyRandom'                   // If this lint only appears in Utils.java then it's ok
+        //disable 'NewApi'                      //
         //disable '' //
         //disable '' //
 
