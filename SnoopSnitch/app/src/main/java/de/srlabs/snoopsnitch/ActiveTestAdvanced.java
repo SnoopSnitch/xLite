@@ -1,6 +1,5 @@
 package de.srlabs.snoopsnitch;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -153,7 +152,8 @@ public class ActiveTestAdvanced extends BaseActivity{
 			btnStartStop.setText("Start");
 		}
 	}
-	@SuppressLint("SetJavaScriptEnabled")
+
+	//@SuppressLint("SetJavaScriptEnabled")
 	private void loadWebView(){
 		MsdLog.i(TAG, "loadWebView() called");
 		activeTestWebView.getSettings().setJavaScriptEnabled(true);

@@ -31,7 +31,7 @@ public class ListViewEventAdapter extends ArrayAdapter<Event> implements Filtera
 	
 	public ListViewEventAdapter (Context context, Vector<Event> values) 
 	{
-		super(context, R.layout.custom_row_layout_sms, values);
+	    super(context, R.layout.custom_row_layout_sms, values);
 	    this.context = context;
 	    this.allEvents = values;
 	    this.values = values;
@@ -144,16 +144,14 @@ public class ListViewEventAdapter extends ArrayAdapter<Event> implements Filtera
 		return new Filter() 
 		{		
 			@Override
-			protected void publishResults(CharSequence constraint, FilterResults results) 
-			{
-				if (results.count == 0)
-				{
+			protected void publishResults(CharSequence constraint, FilterResults results) {
+				// ToDo: Fix this! What is it supposed to do?
+				// In addition, this gives an [unchecked] cast warning.
+				if (results.count == 0) {
 					//notifyDataSetInvalidated();
 					values = (Vector<Event>) results.values;
 					notifyDataSetChanged();
-				}
-				else
-				{
+				} else {
 					values = (Vector<Event>) results.values;
 					notifyDataSetChanged();
 				}

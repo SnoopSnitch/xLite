@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25                    // 25
-    buildToolsVersion "25.0.0"              // 24.0.2 Always use latest build-tools unless otherwise required by app (what's that?)
+    buildToolsVersion "25.0.1"              // 24.0.2 Always use latest build-tools unless otherwise required by app (what's that?)
 
     // Since Android-M/23 (AOS 6.0), the original apacheHTTP is no longer supported.
     // Instead Google promote to use: HttpURLConnection. However:
@@ -92,11 +92,11 @@ android {
         disable 'MissingTranslation'    // Strings declared in one language should also be translated in all other languages
 	    //disable 'ExtraTranslation'    // Make sure all labelled strings appear in all locales
 	    disable 'ValidFragment'         //
-        disable 'CommitPrefEdits'       // ToDO: Consider using apply() instead;
+        disable 'CommitPrefEdits'       // ToDo: Consider using apply() instead;
         //disable 'SdCardPath'          // Use non-specific API independent external sdcard paths
         disable 'Typos'                 // ... SIE SIE ...
         disable 'HardwareIds'           // Using getSubscriberId to get device identifiers (IMSI) is not recommended
-        disable 'SetJavaScriptEnabled'  // Used in: [Local]MapActivity.java  -- Does it require JS?
+        disable 'SetJavaScriptEnabled'  // Used in: [Local]MapActivity.java  & ActiveTestAdvanced.java -- Does it require JS?
         //disable 'Wakelock'            // Why do we use wakelock? (Incorrect use here...)
         disable 'Overdraw'              // @color/common_sectionBackground
         disable 'UnusedResources'       // Many unused strings and images: <placeholders?>
@@ -139,7 +139,12 @@ android {
         //disable '' //
         //disable '' //
 
-	    abortOnError false
+        //--- lint ------------------------------------
+        //checkAllWarnings false
+        //checkReleaseBuilds false
+        //ignoreWarnings true       // false by default
+        //quiet true                // false by default
+	    abortOnError false          // true by default
         textOutput 'stdout'
     }
 

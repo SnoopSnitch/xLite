@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Vector;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.telephony.TelephonyManager;
 import de.srlabs.snoopsnitch.R;
@@ -362,7 +361,8 @@ public class ActiveTestResults implements Serializable {
 			return "undefined";
 		return "\"" + input.replace("\\","\\\\").replace("\"", "\\\"").replace("\n","\\n") + "\"";
 	}
-	@SuppressLint("DefaultLocale")
+
+	//@SuppressLint("DefaultLocale")
 	public String getUpdateJavascript(Context context){
 		StringBuffer result = new StringBuffer();
 		NetworkOperatorTestResults currentNetworkOperator = getCurrentNetworkOperator();
@@ -464,6 +464,7 @@ public class ActiveTestResults implements Serializable {
 			return getRes(context, R.string.at_idle); // No action running
 		}
 	}
+
 	public boolean isTestRunning(){
 		return (getCurrentTest() != null && getCurrentTest().isRunning());
 	}
