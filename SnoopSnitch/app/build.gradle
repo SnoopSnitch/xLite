@@ -14,7 +14,7 @@ android {
         applicationId "de.srlabs.snoopsnitch"
         minSdkVersion 16                    // 16 (4.1) .. 19 (4.4)
         targetSdkVersion 25                 // 25 (7.1)
-        versionCode 2                       // 1 - Ant, 2 - AS + Gradle builds
+        versionCode 16                      // In GooglePlay:  Ant: < 16 ;  AS(Gradle): > 15
         versionName "1.1.0"                 // 1.0
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        externalNativeBuild {
@@ -88,7 +88,7 @@ android {
         //disable 'deprecation'         // Does this exists (as shown in -Xlint gradle output)?
         //disable 'unchecked'           // Does this exists (as shown in -Xlint gradle output)?
 
-        disable 'AppCompatResource'   // Menu namespace: appcompat library resources should refer "showAsAction" in the app:namespace
+        disable 'AppCompatResource'     // Menu namespace: appcompat library resources should refer "showAsAction" in the app:namespace
         disable 'MissingTranslation'    // Strings declared in one language should also be translated in all other languages
 	    //disable 'ExtraTranslation'    // Make sure all labelled strings appear in all locales
 	    disable 'ValidFragment'         //
