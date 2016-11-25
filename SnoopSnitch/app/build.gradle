@@ -139,6 +139,8 @@ android {
         disable 'TrulyRandom'           // If this lint only appears in Utils.java then it's ok
         //disable 'NewApi'              // If there are new API calls used on older minSdkVersion
         disable 'LabelFor'              // API 17+ : Text fields should be labelled with a "labelFor" attribute
+        //disable 'SSLCertificateSocketFactoryCreateSocket' // ToDo: Fix? ./qdmon/TlsSniSocketFactory.java
+        //disable '' //
         //disable '' //
 
         //--- lint ------------------------------------
@@ -149,7 +151,6 @@ android {
         //quiet true                // false by default
         textOutput 'stdout'
     }
-
 }
 
 dependencies {
