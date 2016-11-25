@@ -13,39 +13,53 @@
 # 		compile_openssl.sh
 # 
 # Libraries: 
-# 		libasn1c
-# 		libosmocore
-# 		gsm-parser
-# 		libosmo-asn1-rrc 
+# 		libasn1c			[own git]
+# 		libosmocore			[own git]
+# 		gsm-parser			[own git]
+# 		libosmo-asn1-rrc 	[?]
 # 		openssl 			(Android)
 # 		diag_helper			(Android)
+# 
+# Date: 2016-11-25
 # 
 # ToDo: 
 # 		[ ] Add option to only build OpenSSL libs
 # 		[ ] Add automatic NDK ./platform/android-NN/ selector
-# 		[ ] Add compile "clock" time to Building...
-#  
+# 		[x] Add compile "clock" time to Building...
+# 		[x] Add auto-check for git submodules (see above)
+# 		[ ] Add auto-import of git submodules
+# 		[ ] Add automatic run of copy.sh script after compile.
+# 
+# NOTE: 
+# 		1) To import forgotten or missing git submodules, do this: 
+# 			cd <my_cloned_repo> 
+# 			git submodule update --init --recursive
+# 
+# 		2) This script is location dependent, if you move it, 
+# 		   make sure to edit the paths.
+# 
 #============================================================================
 # Setting time-stamp to: 20161004-183200
 #TS=`date +'%Y%m%d-%H%M%S'` 
 mytime() { date +'%H:%M:%S'; }  # to remove newline add:  | tr '\n' ' '
 deltat() { echo "  [$(($SECONDS / 60)):$(($SECONDS % 60))]"; }
 
-usage()
-{
-    echo >&2 "Usage: $0 -t {android|host} [-f] [-h]"
-    echo >&2 "   -t <target>   Target to build for"
-    echo >&2 "   -f            Fast mode - only build parser"
-    echo >&2 "   -g            init git submodules"
-    echo >&2 "   -u            update ./prebuilt directory"
-    #echo >&2 "   -s            only build OpenSSL"
-    echo >&2 "   -h            This help screen"
-    #exit 1
+#----------------------------------------------------------------------
+usage() {
+	echo >&2 "Usage: $0 -t {android|host} [-f] [-h]"
+	echo >&2 "   -t <target>   Target to build for"
+	echo >&2 "   -f            Fast mode - only build parser"
+	echo >&2 "   -g            init git submodules"
+	echo >&2 "   -u            update ./prebuilt directory"
+	#echo >&2 "   -s            only build OpenSSL"
+	echo >&2 "   -h            This help screen"
+	#exit 1
 }
+#----------------------------------------------------------------------
 
 # Use:  cecho green "my text"
 # See: http://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
-# Bug: output of "C:\tmp\temp" is garbled...
+# Bug: output of "C:\tmp\temp" is garbled... because of "\", use something like: sed 's/\\\/\\\\\\/i'  
 cecho() {
   local code="\033["
   case "$1" in
@@ -63,31 +77,45 @@ cecho() {
   echo -en "${text}"  # Cygwin seem to need -e flag
 }
 
-# print between lines 
+# print text between lines 
 function lecho () { MYT=$1; mys=${#MYT}; MYL=$(printf '=%.0s' $(seq 1 $mys ) ); echo -e "${MYL}\n${MYT}\n${MYL}"; }
+
+function repo_miss () { 
+	cecho red "\n\nError:"; cecho yellow " Missing submodule sources!\n";
+	echo "It seem that you have forgotten to clone the submodule repositories."
+	echo "To import all forgotten or missing git submodules, do this:"
+	cecho purple "cd repository_base_directory\n";
+	cecho purple "git submodule update --init --recursive\n";
+	miss=$(echo "$1" | sed 's/\/.*$//'; ) 
+	echo "The missing submodule is: $miss";
+}
+
+#----------------------------------------------------------------------
+# START
+#----------------------------------------------------------------------
 
 fast=""
 update=""
 
 while getopts hfgust: o
 do
-    case "$o" in
-        t)      target="${OPTARG}";;
-        f)      fast=1;;
-        u)      update=1;;
-        h)      usage; exit 0;; # ok
-        g)      do_git=1;;
-		s)		onlyssl=1;;
-        [?])    usage; exit 1;;	# err
-		#*)		usage; exit 1;;	# err
-    esac
+	case "$o" in
+		t)      target="${OPTARG}";;
+		f)      fast=1;;
+		u)      update=1;;
+		h)      usage; exit 0;; # ok
+		g)      do_git=1;;
+		s)      onlyssl=1;;
+		[?])    usage; exit 1;;	# err
+		#*)      usage; exit 1;;	# err
+	esac
 done
 
 shift $(($OPTIND-1))
 
 case ${target} in
-        android|host) 	;;
-        *)      		usage; exit 1;;
+		android|host) ;;
+		*)            usage; exit 1;;
 esac
 
 # set platform
@@ -95,10 +123,10 @@ MACH=$(uname -m)
 KERN=$(uname -s)
 
 case ${KERN} in
-        Darwin) 	HOST="darwin-${MACH}";;
-        Linux)  	HOST="linux-${MACH}";;
+		Darwin) 	HOST="darwin-${MACH}";;
+		Linux)  	HOST="linux-${MACH}";;
 		CYGWIN*) 	HOST="linux-${MACH}";; # may not work fully
-        *)      	echo "Unknown platform ${KERN}-${MACH}!"; exit 1;;
+		*)      	echo "Unknown platform ${KERN}-${MACH}!"; exit 1;;
 esac
 
 # Link to latest successful build
@@ -114,19 +142,29 @@ fi
 # Full path to this script directory
 export BASE_DIR="$( cd "$( dirname $0 )" && pwd )"
 
-# SLOW: create/init submodules if necessary
+
+# Check if git submodules exists by looking for some random files:
+TESTFILES="gsm-parser/diag_import.c libasn1c/src/ber_decoder.c libosmocore/src/gsmtap_util.c"
+for x in ${TESTFILES}; do
+	# instead of exit, we could download it automatically...
+	[ -f "$x" ] || { repo_miss $x; exit 1 ;}
+done
+
+
+# [-g]: init submodules, if missing
 if [ "$do_git" -a -z "$fast" ];then
-    if [ ! "$(ls -A libasn1c)" ];     then (cd .. && git submodule init contrib/libasn1c) ; fi
-    if [ ! "$(ls -A libosmocore)" ];  then (cd .. && git submodule init contrib/libosmocore) ; fi
-    if [ ! "$(ls -A gsm-parser)" ];   then (cd .. && git submodule init contrib/gsm-parser) ; fi
+	# ToDo: Need better path control and cd here!
+	if [ ! "$(ls -A libasn1c)" ];     then (cd .. && git submodule init contrib/libasn1c && cd - ) ; fi
+	if [ ! "$(ls -A libosmocore)" ];  then (cd .. && git submodule init contrib/libosmocore && cd - ) ; fi
+	if [ ! "$(ls -A gsm-parser)" ];   then (cd .. && git submodule init contrib/gsm-parser && cd - ) ; fi
 fi
 
-# FAST: just update the submodules
+# [-g] + [-f] FAST: clone/download submodules
 if [ "$do_git" -a "$fast" ];then
 		(cd .. && \
-	    git submodule update contrib/libasn1c && \
-	    git submodule update contrib/libosmocore && \
-	    git submodule update contrib/gsm-parser)
+		git submodule update contrib/libasn1c && \
+		git submodule update contrib/libosmocore && \
+		git submodule update contrib/gsm-parser)
 fi
 
 lecho "Building on ${HOST} for ${target}..."
@@ -184,18 +222,18 @@ if [ "$onlyssl" ]; then TARGETS="openssl"; fi;
 # Run all the compile scripts
 for i in ${TARGETS}; do
 	#echo -n "Building $i ... "
-    echo -n "Building "; cecho yellow "$i";  echo -n " ... "
-    SECONDS=0;
-    cd $OUTPUT_DIR
-    if ${BASE_DIR}/scripts/compile_$i.sh > ${OUTPUT_DIR}/$i.compile_log 2>&1;then
-    #if [ (${BASE_DIR}/scripts/compile_$i.sh > ${OUTPUT_DIR}/$i.compile_log 2>&1) ];then
+	echo -n "Building "; cecho yellow "$i";  echo -n " ... "
+	SECONDS=0;
+	cd $OUTPUT_DIR
+	if ${BASE_DIR}/scripts/compile_$i.sh > ${OUTPUT_DIR}/$i.compile_log 2>&1;then
+	#if [ (${BASE_DIR}/scripts/compile_$i.sh > ${OUTPUT_DIR}/$i.compile_log 2>&1) ];then
 		#echo "ok"
 		cecho green "ok"; deltat;
-    else
+	else
 		cecho red "Failed!\n"
 		echo "Please see the log file: ${OUTPUT_DIR}/${i}.compile_log"
 		exit 1
-    fi
+	fi
 done
 
 mytime;
@@ -260,6 +298,6 @@ fi
 
 echo -e "Done.\n"
 echo -e "Remeber to copy library (*.so) and sqlite3 (*.sql) files to app jniLibs and assests."
-echo -e "To do this, run: . ./copy.sh   from:  ../SnoopSnitch/"
+echo -e "To do this, run: ./copy.sh  from:  ../SnoopSnitch/"
 
 exit 0
