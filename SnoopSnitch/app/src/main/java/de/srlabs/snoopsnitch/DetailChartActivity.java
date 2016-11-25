@@ -1,6 +1,7 @@
 package de.srlabs.snoopsnitch;
 
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
@@ -12,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import de.srlabs.snoopsnitch.R;
+
 import de.srlabs.snoopsnitch.analysis.Event;
 import de.srlabs.snoopsnitch.analysis.Event.Type;
 import de.srlabs.snoopsnitch.qdmon.StateChangedReason;
@@ -59,12 +60,11 @@ public class DetailChartActivity extends BaseActivity
         mPager.setAdapter(mPagerAdapter);
         
         setThreatTypeImageText();
-        
-        mPager.setOnPageChangeListener(new OnPageChangeListener() 
-        {
+
+		mPager.setOnPageChangeListener(new OnPageChangeListener() {
+        //mPager.SimpleOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 			@Override
-			public void onPageSelected(int position) 
-			{
+			public void onPageSelected(int position) {
 				spinner.setSelection(0);
 				fillList(_threatType, position);
 			}
@@ -72,13 +72,11 @@ public class DetailChartActivity extends BaseActivity
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
 				// TODO Auto-generated method stub
-				
 			}
 
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
 				// TODO Auto-generated method stub
-				
 			}
 		});
         
@@ -88,13 +86,10 @@ public class DetailChartActivity extends BaseActivity
 		configureSpinner(getIntent().getIntExtra("ThreatType", R.id.IMSICatcherCharts));
 		fillList(getIntent().getIntExtra("ThreatType", R.id.IMSICatcherCharts), mPager.getCurrentItem());
 		
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() 
-		{
-
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) 
-			{
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
 				if (_threatType != R.id.IMSICatcherCharts)
 				{
 					switch (position) {
@@ -115,14 +110,11 @@ public class DetailChartActivity extends BaseActivity
 					}
 				}
 			}
-
 			@Override
-			public void onNothingSelected(AdapterView<?> parent) 
-			{
-				
+			public void onNothingSelected(AdapterView<?> parent) {
+				// empty
 			}
-			
-		});
+		}); // END spinner
 	}
 	
 	@Override
@@ -136,70 +128,60 @@ public class DetailChartActivity extends BaseActivity
 		resetListView();
 	}
 	
-	private void configureSpinner (int id)
-	{
-		if (id == R.id.SilentSMSCharts)
-		{			
-			ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, 
+	private void configureSpinner (int id) {
+		if (id == R.id.SilentSMSCharts) {
+			ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,
 					android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.event_types));
 			    spinner.setAdapter(spinnerAdapter);
 		}
 	}
 	
-	private void fillList (int id, int position)
-	{
+	private void fillList (int id, int position) {
 		long _startTime;
 		long _endTime;
 		
 		switch (position) {
-		case 3:
-			_startTime = TimeSpace.Times.Hour.getStartTime();
-			_endTime = TimeSpace.Times.Hour.getEndTime();
-			break;
-		case 2:
-			_startTime = TimeSpace.Times.Day.getStartTime();
-			_endTime = TimeSpace.Times.Day.getEndTime();
-			break;
-		case 1:
-			_startTime = TimeSpace.Times.Week.getStartTime();
-			_endTime = TimeSpace.Times.Week.getEndTime();
-			break;
-		case 0:
-			_startTime = TimeSpace.Times.Month.getStartTime();
-			_endTime = TimeSpace.Times.Month.getEndTime();
-			break;
-		default:
-			_startTime = 0;
-			_endTime = 0;
-			break;
+			case 3:
+				_startTime = TimeSpace.Times.Hour.getStartTime();
+				_endTime = TimeSpace.Times.Hour.getEndTime();
+				break;
+			case 2:
+				_startTime = TimeSpace.Times.Day.getStartTime();
+				_endTime = TimeSpace.Times.Day.getEndTime();
+				break;
+			case 1:
+				_startTime = TimeSpace.Times.Week.getStartTime();
+				_endTime = TimeSpace.Times.Week.getEndTime();
+				break;
+			case 0:
+				_startTime = TimeSpace.Times.Month.getStartTime();
+				_endTime = TimeSpace.Times.Month.getEndTime();
+				break;
+			default:
+				_startTime = 0;
+				_endTime = 0;
+				break;
 		}
 		
-		if (id == R.id.SilentSMSCharts)
-		{			
+		if (id == R.id.SilentSMSCharts) {
 			ListViewEventAdapter listViewAdapter = new ListViewEventAdapter(this, 
 					getMsdServiceHelperCreator().getMsdServiceHelper().getData().getEvent(_startTime, _endTime));
 			listView.setAdapter(listViewAdapter);
 			
-			if (_txtThreatTypeSilentSmsCount != null)
-			{
+			if (_txtThreatTypeSilentSmsCount != null) {
 				_txtThreatTypeSilentSmsCount.setText(String.valueOf(getMsdServiceHelperCreator().
 						getEventOfType(Type.INVALID_EVENT, _startTime, _endTime).size()));
 			}
-		}
-		else
-		{
+		} else {
 			ListViewImsiCatcherAdapter listViewAdapter = new ListViewImsiCatcherAdapter (this, 
 					getMsdServiceHelperCreator().getMsdServiceHelper().getData().getImsiCatchers (_startTime, _endTime));
 			listView.setAdapter(listViewAdapter);
 			
-			if (_txtThreatTypeImsiCatcherCount != null)
-			{
+			if (_txtThreatTypeImsiCatcherCount != null)	{
 				_txtThreatTypeImsiCatcherCount.setText(String.valueOf(getMsdServiceHelperCreator().
 						getMsdServiceHelper().getData().getImsiCatchers(_startTime, _endTime).size()));
 			}
 		}
-		
-
 	}
 	
 	public int getThreatType ()
@@ -207,31 +189,24 @@ public class DetailChartActivity extends BaseActivity
 		return _threatType;
 	}
 	
-	private void setThreatTypeImageText ()
-	{
-		if (_threatType == R.id.IMSICatcherCharts)
-		{
-			_imgThreatType.setBackground(getResources().getDrawable(R.drawable.ic_content_imsi_event));
+	private void setThreatTypeImageText () {
+		if (_threatType == R.id.IMSICatcherCharts) {
+			_imgThreatType.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_content_imsi_event, null));
 			_llThreatTypeImsiCatcher.setVisibility(View.VISIBLE);
 			_llThreatTypeSms.setVisibility(View.GONE);
-		}
-		else
-		{
-			_imgThreatType.setBackground(getResources().getDrawable(R.drawable.ic_content_sms_event));
+		} else {
+			_imgThreatType.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_content_sms_event, null));
 			_llThreatTypeSms.setVisibility(View.VISIBLE);
 			_llThreatTypeImsiCatcher.setVisibility(View.GONE);
 		}
 	}
 	
 	@Override
-	public void stateChanged(StateChangedReason reason) 
-	{
+	public void stateChanged(StateChangedReason reason) {
 		super.stateChanged(reason);
-		
-		if (reason.equals(StateChangedReason.CATCHER_DETECTED) || reason.equals(StateChangedReason.SMS_DETECTED))
-		{
+
+		if (reason.equals(StateChangedReason.CATCHER_DETECTED) || reason.equals(StateChangedReason.SMS_DETECTED)) {
 			resetListView();
-			
 		}
 	}
 	
@@ -241,8 +216,7 @@ public class DetailChartActivity extends BaseActivity
 		mPager.getAdapter().notifyDataSetChanged();
 	}
 	
-	private void resetListView ()
-	{		
+	private void resetListView () {
 		fillList(_threatType, mPager.getCurrentItem());
 		mPager.getAdapter().notifyDataSetChanged();
 	}

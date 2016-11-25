@@ -9,6 +9,7 @@ import java.util.Vector;
 
 import android.content.Context;
 import android.telephony.TelephonyManager;
+
 import de.srlabs.snoopsnitch.R;
 import de.srlabs.snoopsnitch.util.MsdLog;
 import de.srlabs.snoopsnitch.util.Utils;
@@ -55,10 +56,10 @@ public class ActiveTestResults implements Serializable {
 			result.append("Network " + operatorName + ": " + mccMnc + "\n");
 			String format = "%-10s%-10s%-10s-%10s\n";
 			result.append(String.format(format,"Test", currentGeneration == 2 ? "*GSM*" : "GSM",currentGeneration == 3 ? "*3G*" : "3G", currentGeneration == 4 ? "*LTE*" : "LTE"));
-			result.append(String.format(format,"SMS out",getGeneration(2).formatCounts(TestType.SMS_MO),getGeneration(3).formatCounts(TestType.SMS_MO),getGeneration(4).formatCounts(TestType.SMS_MO)));
+			result.append(String.format(format,"SMS out", getGeneration(2).formatCounts(TestType.SMS_MO), getGeneration(3).formatCounts(TestType.SMS_MO), getGeneration(4).formatCounts(TestType.SMS_MO)));
 			result.append(String.format(format,"Call out",getGeneration(2).formatCounts(TestType.CALL_MO),getGeneration(3).formatCounts(TestType.CALL_MO),getGeneration(4).formatCounts(TestType.CALL_MO)));
-			result.append(String.format(format,"SMS in",getGeneration(2).formatCounts(TestType.SMS_MT),getGeneration(3).formatCounts(TestType.SMS_MT),getGeneration(4).formatCounts(TestType.SMS_MT)));
-			result.append(String.format(format,"Call in",getGeneration(2).formatCounts(TestType.CALL_MT),getGeneration(3).formatCounts(TestType.CALL_MT),getGeneration(4).formatCounts(TestType.CALL_MT)));
+			result.append(String.format(format,"SMS in",  getGeneration(2).formatCounts(TestType.SMS_MT), getGeneration(3).formatCounts(TestType.SMS_MT), getGeneration(4).formatCounts(TestType.SMS_MT)));
+			result.append(String.format(format,"Call in", getGeneration(2).formatCounts(TestType.CALL_MT),getGeneration(3).formatCounts(TestType.CALL_MT),getGeneration(4).formatCounts(TestType.CALL_MT)));
 			result.append("\n");
 		}
 	}
@@ -179,6 +180,7 @@ public class ActiveTestResults implements Serializable {
 		public boolean isRunning(){
 			return state == State.API_RUNNING || state == State.TEST_RUNNING || state == State.WAITING;
 		}
+
 		public boolean isSuccess() {
 			return state == State.SUCCESS;
 		}
@@ -189,6 +191,7 @@ public class ActiveTestResults implements Serializable {
 			appendErrorLog("API timeout in " + type.name());
 			state = State.FAILED_API_TIMEOUT;
 		}
+
 		public void failTimeout() {
 			if(state == State.WAITING){
 				if(type == TestType.CALL_MO){
@@ -221,6 +224,7 @@ public class ActiveTestResults implements Serializable {
 			}
 			state = State.FAILED_TIMEOUT;
 		}
+
 		public void failApiError(String requestId, String errorStr){
 			state = State.FAILED_API_ERROR;
 			this.errorStr = errorStr;
@@ -239,11 +243,13 @@ public class ActiveTestResults implements Serializable {
 			}
 			appendErrorLog(logMsg);
 		}
+
 		public void fail(String errorStr){
 			state = State.FAILED;
 			this.errorStr = errorStr;
 			appendErrorLog(errorStr);
 		}
+
 		public void setRequestId(String requestId) {
 			this.requestId = requestId;
 		}
@@ -253,7 +259,6 @@ public class ActiveTestResults implements Serializable {
 		 * @param context 
 		 * @return
 		 */
-
 		public String getStateDisplayText(Context context){
 
 			if(state == State.API_RUNNING){
@@ -308,6 +313,7 @@ public class ActiveTestResults implements Serializable {
 			return (int)(100.0*progress);
 		}
 	}
+
 	public void setNetworkOperatorAndRat(TelephonyManager tm, int networkGeneration){
 		this.currentMccMnc = tm.getNetworkOperator();
 		NetworkOperatorTestResults networkOperator;
@@ -321,6 +327,7 @@ public class ActiveTestResults implements Serializable {
 		}
 		networkOperator.currentGeneration = networkGeneration;
 	}
+
 	public void setDummyNetworkOperatorAndRat(){
 		this.currentMccMnc = "31337";
 		if(!networkOperators.containsKey(currentMccMnc)){
@@ -331,18 +338,21 @@ public class ActiveTestResults implements Serializable {
 			networkOperators.put(networkOperator.mccMnc, networkOperator);
 		}
 	}
+
 	public SingleTestState getCurrentTest(){
 		return currentTest;
 	}
 	public NetworkOperatorTestResults getCurrentNetworkOperator(){
 		return networkOperators.get(currentMccMnc);
 	}
+
 	public NetworkOperatorRatTestResults getCurrentNetworkOperatorRatTestResults(){
 		NetworkOperatorTestResults currentOperator = getCurrentNetworkOperator();
 		if(currentOperator == null)
 			return null;
 		return currentOperator.getCurrentGeneration();
 	}
+
 	public SingleTestState startTest(TestType type, long timeoutMillis){
 		testRoundComplete = false;
 		currentTest = new SingleTestState(type);
@@ -356,13 +366,13 @@ public class ActiveTestResults implements Serializable {
 		testRoundComplete = true;
 		currentTest = null;
 	}
+
 	private String escape(String input) {
 		if(input == null)
 			return "undefined";
 		return "\"" + input.replace("\\","\\\\").replace("\"", "\\\"").replace("\n","\\n") + "\"";
 	}
 
-	//@SuppressLint("DefaultLocale")
 	public String getUpdateJavascript(Context context){
 		StringBuffer result = new StringBuffer();
 		NetworkOperatorTestResults currentNetworkOperator = getCurrentNetworkOperator();
@@ -394,7 +404,7 @@ public class ActiveTestResults implements Serializable {
 				else if(generation == 4)
 					prefix = "lte_";
 				for(TestType test:TestType.values()){
-					String bucketPrefix = prefix + test.name().toLowerCase();
+					String bucketPrefix = prefix + test.name().toLowerCase(Locale.US);
 					result.append("\"" + bucketPrefix + "_success\":" + currentNetworkOperator.getGeneration(generation).getNumSuccess(test) + ",");
 					result.append("\"" + bucketPrefix + "_fail\":" + currentNetworkOperator.getGeneration(generation).getNumFailures(test) + ",");	
 				}
@@ -409,7 +419,7 @@ public class ActiveTestResults implements Serializable {
 				currentTest = "3g_";
 			else if(getCurrentNetworkOperatorRatTestResults().generation == 4)
 				currentTest = "lte_";
-			currentTest += getCurrentTest().type.name().toLowerCase();
+			currentTest += getCurrentTest().type.name().toLowerCase(Locale.US);
 			result.append("setCurrentTest(" + escape(currentTest) + ");\n");
 		} else{
 			result.append("setCurrentTest(\"\");\n");
@@ -424,6 +434,7 @@ public class ActiveTestResults implements Serializable {
 		result.append("setErrorLog(" + escape(getErrorLog()) + ");\n");
 		return result.toString();
 	}
+
 	public String formatTextTable(Context context){
 		StringBuffer result = new StringBuffer();
 		NetworkOperatorTestResults currentProvider = getCurrentNetworkOperator();
@@ -447,6 +458,7 @@ public class ActiveTestResults implements Serializable {
 		result.append(errorLog);
 		return result.toString();
 	}
+
 	public String getCurrentActionString(Context context){
 		if(blacklisted){
 			return getRes(context, R.string.at_banned);
@@ -468,6 +480,7 @@ public class ActiveTestResults implements Serializable {
 	public boolean isTestRunning(){
 		return (getCurrentTest() != null && getCurrentTest().isRunning());
 	}
+
 	public int getCurrentRunNumTotal(){
 		return 4*numIterations;
 	}
@@ -481,6 +494,7 @@ public class ActiveTestResults implements Serializable {
 	public int getCurrentRunNumSuccess(){
 		return 0;
 	}
+
 	/**
 	 * Number of failed tests within the current run. The failed percentage
 	 * is getCurrentRunNumFailed()/getCurrentRunNumTotal()
@@ -530,6 +544,7 @@ public class ActiveTestResults implements Serializable {
 		MsdLog.i("msd-active-test-service","STATE_INFO: " + logMsg);
 		errorLog += timestampStr + "  " + logMsg + "\n";
 	}
+
 	void clearCurrentResults(){
 		getCurrentNetworkOperatorRatTestResults().clearFails();
 	}
@@ -553,6 +568,7 @@ public class ActiveTestResults implements Serializable {
 			return false;
 		return results.getNumSuccess(type) > 0 && results.getNumSuccess(type) < numIterations;
 	}
+
 	public boolean isTestRoundContinueable() {
 		if(blacklisted)
 			return false;
@@ -566,6 +582,7 @@ public class ActiveTestResults implements Serializable {
 			return true;
 		return false;
 	}
+
 	public void setBlacklisted(boolean b) {
 		this.blacklisted = b;
 	}

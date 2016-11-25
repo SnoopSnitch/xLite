@@ -6,10 +6,10 @@ import java.util.Vector;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -18,7 +18,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import de.srlabs.snoopsnitch.R;
+
 import de.srlabs.snoopsnitch.active_test.ActiveTestCallback;
 import de.srlabs.snoopsnitch.active_test.ActiveTestHelper;
 import de.srlabs.snoopsnitch.active_test.ActiveTestResults;
@@ -44,6 +44,7 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 	private TextView txtImsiWeekCount;
 	private TextView txtImsiDayCount;
 	private TextView txtImsiHourCount;
+
 	private DashboardThreatChart dtcSmsHour;
 	private DashboardThreatChart dtcSmsDay;
 	private DashboardThreatChart dtcSmsWeek;
@@ -54,6 +55,7 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 	private DashboardThreatChart dtcImsiMonth;
 	private DashboardProviderChart pvcProviderInterception;
 	private DashboardProviderChart pvcProviderImpersonation;
+
 	private TextView txtLastAnalysisTime;
 	private TextView txtDashboardLastAnalysis;
 	private TextView txtDashboardInterception3g;
@@ -61,6 +63,7 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 	private TextView txtDashboardImpersonation2g;
 	private ListView lstDashboardProviderList;
 	private Button btnDashboardNetworkTest;
+
 	private Vector<Risk> providerList;
 	Vector<TextView> threatSmsCounts;
 	Vector<TextView> threatImsiCounts;
@@ -76,25 +79,25 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 		
 		this.activeTestHelper = new ActiveTestHelper(this, this);
 				
-		txtSmsMonthCount = (TextView) findViewById(R.id.txtDashboardSilentSmsMonthCount);
-		txtSmsWeekCount = (TextView) findViewById(R.id.txtDashboardSilentSmsWeekCount);
-		txtSmsDayCount = (TextView) findViewById(R.id.txtDashboardSilentSmsDayCount);
-		txtSmsHourCount = (TextView) findViewById(R.id.txtDashboardSilentSmsHourCount);
-		txtImsiMonthCount = (TextView) findViewById(R.id.txtDashboardImsiCatcherMonthCount);
-		txtImsiWeekCount = (TextView) findViewById(R.id.txtDashboardImsiCatcherWeekCount);
-		txtImsiDayCount = (TextView) findViewById(R.id.txtDashboardImsiCatcherDayCount);
-		txtImsiHourCount = (TextView) findViewById(R.id.txtDashboardImsiCatcherHourCount);
-		txtLastAnalysisTime = (TextView) findViewById(R.id.txtDashboardLastAnalysisTime);
+		txtSmsMonthCount 		= (TextView) findViewById(R.id.txtDashboardSilentSmsMonthCount);
+		txtSmsWeekCount 		= (TextView) findViewById(R.id.txtDashboardSilentSmsWeekCount);
+		txtSmsDayCount 			= (TextView) findViewById(R.id.txtDashboardSilentSmsDayCount);
+		txtSmsHourCount 		= (TextView) findViewById(R.id.txtDashboardSilentSmsHourCount);
+		txtImsiMonthCount 		= (TextView) findViewById(R.id.txtDashboardImsiCatcherMonthCount);
+		txtImsiWeekCount 		= (TextView) findViewById(R.id.txtDashboardImsiCatcherWeekCount);
+		txtImsiDayCount 		= (TextView) findViewById(R.id.txtDashboardImsiCatcherDayCount);
+		txtImsiHourCount 		= (TextView) findViewById(R.id.txtDashboardImsiCatcherHourCount);
+		txtLastAnalysisTime 	= (TextView) findViewById(R.id.txtDashboardLastAnalysisTime);
 		txtDashboardLastAnalysis = (TextView) findViewById(R.id.txtDashboardLastAnalysis);
 		
-		dtcSmsHour = (DashboardThreatChart) findViewById(R.id.SilentSMSChartHour);
-		dtcSmsDay = (DashboardThreatChart) findViewById(R.id.SilentSMSChartDay);
-		dtcSmsWeek = (DashboardThreatChart) findViewById(R.id.SilentSMSChartWeek);
-		dtcSmsMonth = (DashboardThreatChart) findViewById(R.id.SilentSMSChartMonth);
-		dtcImsiHour = (DashboardThreatChart) findViewById(R.id.IMSICatcherChartHour);
-		dtcImsiDay = (DashboardThreatChart) findViewById(R.id.IMSICatcherChartDay);
-		dtcImsiWeek = (DashboardThreatChart) findViewById(R.id.IMSICatcherChartWeek);
-		dtcImsiMonth = (DashboardThreatChart) findViewById(R.id.IMSICatcherChartMonth);
+		dtcSmsHour 		= (DashboardThreatChart) findViewById(R.id.SilentSMSChartHour);
+		dtcSmsDay 		= (DashboardThreatChart) findViewById(R.id.SilentSMSChartDay);
+		dtcSmsWeek 		= (DashboardThreatChart) findViewById(R.id.SilentSMSChartWeek);
+		dtcSmsMonth 	= (DashboardThreatChart) findViewById(R.id.SilentSMSChartMonth);
+		dtcImsiHour 	= (DashboardThreatChart) findViewById(R.id.IMSICatcherChartHour);
+		dtcImsiDay 		= (DashboardThreatChart) findViewById(R.id.IMSICatcherChartDay);
+		dtcImsiWeek 	= (DashboardThreatChart) findViewById(R.id.IMSICatcherChartWeek);
+		dtcImsiMonth 	= (DashboardThreatChart) findViewById(R.id.IMSICatcherChartMonth);
 		
 		pvcProviderInterception = (DashboardProviderChart) findViewById(R.id.pvcDashboardInterception);
 		pvcProviderImpersonation = (DashboardProviderChart) findViewById(R.id.pvcDashboardImpersonation);
@@ -108,13 +111,13 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 		
 		btnDashboardNetworkTest = (Button) findViewById(R.id.btnDashboardTestNetwork);
 		
-		threatSmsCounts = new Vector<TextView>();
+		threatSmsCounts = new Vector<>();
 		threatSmsCounts.add(txtSmsHourCount);
 		threatSmsCounts.add(txtSmsDayCount);
 		threatSmsCounts.add(txtSmsWeekCount);
 		threatSmsCounts.add(txtSmsMonthCount);
 		
-		threatImsiCounts = new Vector<TextView>();
+		threatImsiCounts = new Vector<>();
 		threatImsiCounts.add(txtImsiHourCount);
 		threatImsiCounts.add(txtImsiDayCount);
 		threatImsiCounts.add(txtImsiWeekCount);
@@ -129,13 +132,10 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.main, menu);
 	    
-		if (msdServiceHelperCreator.getMsdServiceHelper().isRecording())
-		{
-			menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.ic_menu_record_disable));
-		}
-		else
-		{
-			menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.ic_menu_notrecord_disable));
+		if (msdServiceHelperCreator.getMsdServiceHelper().isRecording()) {
+			menu.getItem(0).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu_record_disable, null));
+		} else {
+			menu.getItem(0).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu_notrecord_disable, null));
 		}
 		
 	    return super.onCreateOptionsMenu(menu);
@@ -175,74 +175,52 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 		updateLastAnalysis();
 	}
 	
-	public void openDetailView (View view)
-	{		
-		if (view.equals(findViewById(R.id.SilentSMSCharts)) || view.equals(findViewById(R.id.IMSICatcherCharts)))
-		{
+	public void openDetailView (View view)	{
+		if (view.equals(findViewById(R.id.SilentSMSCharts)) || view.equals(findViewById(R.id.IMSICatcherCharts))) {
 			Intent myIntent = new Intent(this, DetailChartActivity.class);
 			myIntent.putExtra("ThreatType", view.getId());
 			startActivity(myIntent);
 		}
 	}
 	
-	public void openLocalMapView (View view)
-	{
+	public void openLocalMapView (View view) {
 		if (view.equals(findViewById(R.id.pvcDashboardInterception)) || 
-				view.equals(findViewById(R.id.pvcDashboardImpersonation)))
-		{
+				view.equals(findViewById(R.id.pvcDashboardImpersonation))) {
 			Intent myIntent = new Intent(this, LocalMapActivity.class);
 			startActivity(myIntent);
 		}
 	}
 	
 	@Override
-	public void stateChanged(StateChangedReason reason) 
-	{
-
-		if (reason.equals(StateChangedReason.CATCHER_DETECTED) || reason.equals(StateChangedReason.SMS_DETECTED))
-		{
+	public void stateChanged(StateChangedReason reason) {
+		if (reason.equals(StateChangedReason.CATCHER_DETECTED) || reason.equals(StateChangedReason.SMS_DETECTED)) {
 			refreshView();
-		}
-		else if (reason.equals(StateChangedReason.ANALYSIS_DONE))
-		{
+		} else if (reason.equals(StateChangedReason.ANALYSIS_DONE))	{
 			updateLastAnalysis();
 			refreshView();
-		}
-		else if (reason.equals(StateChangedReason.RAT_CHANGED))
-		{
+		} else if (reason.equals(StateChangedReason.RAT_CHANGED)) {
 			updateInterseptionImpersonation();
-		}
-		else if (reason.equals(StateChangedReason.NO_BASEBAND_DATA))
-		{
+		} else if (reason.equals(StateChangedReason.NO_BASEBAND_DATA)) {
 			txtLastAnalysisTime.setText(getString(R.string.compat_no_baseband_messages));
 			txtLastAnalysisTime.setTextColor(getResources().getColor(R.color.common_chartRed));
 			txtDashboardLastAnalysis.setVisibility(View.GONE);
 		}
-		
 		super.stateChanged(reason);
 	}
 
 	@Override
-	protected void refreshView() 
-	{
+	protected void refreshView() {
 		checkOperator();
-
-		// Redraw charts
-		resetCharts();
-		
+		resetCharts(); // Redraw charts
 		resetPoviderCharts();
-		
 		refreshProviderList();
-		
-		// Set texts
-		resetThreatCounts();
+		resetThreatCounts(); // Set texts
 	}
 
 	private void checkOperator() {
 
 		Risk risk = MSDServiceHelperCreator.getInstance().getMsdServiceHelper().getData().getScores();
-		if (!unknownOperator && risk.operatorUnknown())
-		{
+		if (!unknownOperator && risk.operatorUnknown()) {
 			String msg =
 					this.getResources().getString(R.string.operator_not_found) +
 					" (MCC=" + risk.getMcc() + ", MNC=" + risk.getMnc() + ")";
@@ -256,8 +234,7 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 		unknownOperator = risk.operatorUnknown();
 	}
 	
-	private void resetThreatCounts ()
-	{	
+	private void resetThreatCounts () {
 		txtSmsMonthCount.setText(String.valueOf(msdServiceHelperCreator.getThreatsSmsMonthSum().length));
 		txtSmsWeekCount.setText(String.valueOf(msdServiceHelperCreator.getThreatsSmsWeekSum().length));
 		txtSmsDayCount.setText(String.valueOf(msdServiceHelperCreator.getThreatsSmsDaySum().length));
@@ -268,33 +245,24 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 		txtImsiHourCount.setText(String.valueOf(msdServiceHelperCreator.getThreatsImsiHourSum().length));
 		
 		// Set text color of threat counts
-		for (TextView tv : threatSmsCounts) 
-		{
-			if (Integer.valueOf(tv.getText().toString()) > 0)
-			{
+		for (TextView tv : threatSmsCounts) {
+			if (Integer.valueOf(tv.getText().toString()) > 0) {
 				tv.setTextColor(getResources().getColor(R.color.common_chartYellow));
-			}
-			else
-			{
+			} else {
 				tv.setTextColor(getResources().getColor(R.color.common_chartGreen));
 			}
 		}
 		
-		for (TextView tv : threatImsiCounts) 
-		{
-			if (Integer.valueOf(tv.getText().toString()) > 0)
-			{
+		for (TextView tv : threatImsiCounts) {
+			if (Integer.valueOf(tv.getText().toString()) > 0) {
 				tv.setTextColor(getResources().getColor(R.color.common_chartRed));
-			}
-			else
-			{
+			} else {
 				tv.setTextColor(getResources().getColor(R.color.common_chartGreen));
 			}
 		}
 	}
 	
-	private void resetCharts ()
-	{
+	private void resetCharts ()	{
 		dtcSmsHour.invalidate();
 		dtcSmsDay.invalidate();
 		dtcSmsWeek.invalidate();
@@ -305,14 +273,12 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 		dtcImsiMonth.invalidate();
 	}
 	
-	private void resetPoviderCharts ()
-	{
+	private void resetPoviderCharts () {
 		pvcProviderImpersonation.invalidate();
 		pvcProviderInterception.invalidate();
 	}
 	
-	private void fillProviderList ()
-	{
+	private void fillProviderList () {
 		ListViewProviderAdapter providerAdapter = new ListViewProviderAdapter(this, providerList);
 		lstDashboardProviderList.setAdapter(providerAdapter);	
 	}
@@ -322,28 +288,25 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 		lstDashboardProviderList.invalidate();
 	}
 	
-	private void updateLastAnalysis ()
-	{
+	private void updateLastAnalysis () {
 		// Set time of last measurement
 		long lastAnalysisTime = 0;
-		if(msdServiceHelperCreator.getMsdServiceHelper().isConnected()){
+		if(msdServiceHelperCreator.getMsdServiceHelper().isConnected()) {
 			lastAnalysisTime = msdServiceHelperCreator.getMsdServiceHelper().getLastAnalysisTimeMs();
 		}
-		if(lastAnalysisTime > 0){
+		if(lastAnalysisTime > 0) {
 			Calendar c = Calendar.getInstance();
 			c.setTimeInMillis(lastAnalysisTime);
 			txtLastAnalysisTime.setText(String.valueOf(DateFormat.getDateTimeInstance().format(c.getTime())));
 			txtLastAnalysisTime.setTextColor(getResources().getColor(R.color.common_text));
 			txtDashboardLastAnalysis.setVisibility(View.VISIBLE);
-		} else{
+		} else {
 			txtDashboardLastAnalysis.setVisibility(View.GONE);
 		}
 	}
 	
-	private void updateInterseptionImpersonation ()
-	{		
-		switch (msdServiceHelperCreator.getMsdServiceHelper().getData().getCurrentRAT()) 
-		{		
+	private void updateInterseptionImpersonation ()	{
+		switch (msdServiceHelperCreator.getMsdServiceHelper().getData().getCurrentRAT()) {
 			case RAT_2G:
 				txtDashboardInterception3g.setTypeface(Typeface.DEFAULT);
 				txtDashboardInterception2g.setTypeface(Typeface.DEFAULT_BOLD);
@@ -378,32 +341,23 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 	}
 
 	@Override
-	public void handleTestResults(ActiveTestResults results) 
-	{
+	public void handleTestResults(ActiveTestResults results) {
 		((TextView) findViewById(R.id.txtDashboardNetworkTest)).setText(results.getCurrentActionString(this.getApplicationContext()));
 	}
 
 	@Override
-	public void testStateChanged() 
-	{
-		if (activeTestHelper.isActiveTestRunning())
-		{
+	public void testStateChanged() 	{
+		if (activeTestHelper.isActiveTestRunning())	{
 			btnDashboardNetworkTest.setText(getResources().getString(R.string.common_button_networktest_stop));
-		}
-		else
-		{
+		} else {
 			btnDashboardNetworkTest.setText(getResources().getString(R.string.common_button_networktest_start));
 		}
 	}
 	
-	public void toggleNetworkTest (View view)
-	{
-		if (activeTestHelper.isActiveTestRunning())
-		{
+	public void toggleNetworkTest (View view) {
+		if (activeTestHelper.isActiveTestRunning()) {
 			activeTestHelper.stopActiveTest();
-		}
-		else
-		{
+		} else {
 			activeTestHelper.showConfirmDialogAndStart(true);
 		}
 	}
