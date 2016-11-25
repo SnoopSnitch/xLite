@@ -144,7 +144,7 @@ android {
         //--- lint ------------------------------------
         abortOnError false          // true by default
         //checkAllWarnings false    //
-        //checkReleaseBuilds false  // 
+        //checkReleaseBuilds false  //
         //ignoreWarnings true       // false by default
         //quiet true                // false by default
         textOutput 'stdout'
