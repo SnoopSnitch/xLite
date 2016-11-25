@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "de.srlabs.snoopsnitch"
-        minSdkVersion 16                    // 16 (4.1) .. 19 (4.4)
+        minSdkVersion 18                    // 16 (4.1) .. 19 (4.4)
         targetSdkVersion 25                 // 25 (7.1)
         versionCode 16                      // In GooglePlay:  Ant: < 16 ;  AS(Gradle): > 15
         versionName "1.1.0"                 // 1.0
@@ -131,20 +131,22 @@ android {
         //disable 'RtlEnabled'          // See [2].
 
         //--- UI: Buttons ---------------------------------------------------------------
-        disable 'BackButton'                    // Should we have a more clearly defined "back" button?
-        //disable 'ButtonStyle'                 // "Button should be borderless"  https://material.google.com/components/buttons.html#
+        // https://material.google.com/components/buttons.html
+        // http://stackoverflow.com/a/25610531/1147688
+        disable 'BackButton'            // Should we have a more clearly defined "back" button?
+        disable 'ButtonStyle'           // We don't want ugly borderless buttons: "Button should be borderless"
 
-        disable 'TrulyRandom'                   // If this lint only appears in Utils.java then it's ok
-        //disable 'NewApi'                      //
-        //disable '' //
+        disable 'TrulyRandom'           // If this lint only appears in Utils.java then it's ok
+        //disable 'NewApi'              // If there are new API calls used on older minSdkVersion
+        disable 'LabelFor'              // API 17+ : Text fields should be labelled with a "labelFor" attribute
         //disable '' //
 
         //--- lint ------------------------------------
-        //checkAllWarnings false
-        //checkReleaseBuilds false
+        abortOnError false          // true by default
+        //checkAllWarnings false    //
+        //checkReleaseBuilds false  // 
         //ignoreWarnings true       // false by default
         //quiet true                // false by default
-	    abortOnError false          // true by default
         textOutput 'stdout'
     }
 
