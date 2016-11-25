@@ -4,7 +4,6 @@
 //   The following:     "task someTask << { code }",
 //   is shorthand for   "task someTask { doLast { code } }"
 
-
 task myPrebuildTask {
     // Builds:  libasn1c,libosmocore,libosmo-asn1-rrc,gsm-parser,openssl,diag_helper
     group 'SnoopSnitch'
@@ -17,7 +16,6 @@ task myPrebuildTask {
         }
     }
 }
-
 
 task myCopyTask {
     group 'SnoopSnitch'
@@ -40,13 +38,12 @@ task myCheckLibs {
     doLast {
         exec {
             workingDir "$projectDir"
-            //commandLine 'bash', '-c', './check.sh'
-            commandLine 'sh', '-c', './do_nothing2.sh'
+            commandLine 'bash', '-c', './libcheck.sh'
         }
     }
 }
 
-
+// This might be redundant...
 task clean(type: Delete) {
     group 'SnoopSnitch'
     description 'Remove previous gradle built files. (Only remove Java build files.)'
@@ -58,10 +55,14 @@ task clean(type: Delete) {
 
 task cleanSuper(type: Delete) {
     group 'SnoopSnitch'
-    description 'WIP: Removes all previous build files, including gradle and binaries. Use before tar or git operations.'
-    // TODO 
-    //delete rootProject.buildDir
-    // rm -fr ./build-* 
+    description 'WIP: Removes all previous build files and binary atifacts. Use before tar or git operations.'
+    println "  Configuring cleanSuper ..."
+    doLast {
+        exec {
+            workingDir "$projectDir"
+            commandLine 'bash', '-c', './cleanup4git.sh'
+        }
+    }
 }
 
 // [ToDo] Dependencies:  
