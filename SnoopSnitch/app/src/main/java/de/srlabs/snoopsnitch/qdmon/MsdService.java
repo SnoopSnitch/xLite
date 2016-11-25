@@ -90,14 +90,13 @@ public class MsdService extends Service{
 	// TODO: Watch battery level and stop recording if battery level goes below configured limit
 
 	private final MyMsdServiceStub mBinder = new MyMsdServiceStub();
-
 	private  long activeTestTimestamp = 0;
 	private boolean recordingStartedForActiveTest = false;
-
 	public long lastAnalysisTimeMs = 0;
+
 	class MyMsdServiceStub extends IMsdService.Stub {
 
-		private Vector<IMsdServiceCallback> callbacks = new Vector<IMsdServiceCallback>();
+		private Vector<IMsdServiceCallback> callbacks = new Vector<>();
 
 		@Override
 		public synchronized boolean isRecording() throws RemoteException {
@@ -232,7 +231,8 @@ public class MsdService extends Service{
 		public long getLastAnalysisTimeMs() throws RemoteException {
 			return lastAnalysisTimeMs ;
 		}
-	};
+	}
+
 	AtomicBoolean shuttingDown = new AtomicBoolean(false);
 
 	Process helper;
@@ -241,9 +241,9 @@ public class MsdService extends Service{
 	private BufferedReader diagStderr;
 	FromDiagThread fromDiagThread;
 
-	private BlockingQueue<DiagMsgWrapper> toParserMsgQueue = new LinkedBlockingQueue<DiagMsgWrapper>();
-	private BlockingQueue<QueueElementWrapper<byte[]>> toDiagMsgQueue = new LinkedBlockingQueue<MsdService.QueueElementWrapper<byte[]>>();
-	private BlockingQueue<PendingSqliteStatement> pendingSqlStatements = new LinkedBlockingQueue<PendingSqliteStatement>();
+	private BlockingQueue<DiagMsgWrapper> toParserMsgQueue = new LinkedBlockingQueue<>();
+	private BlockingQueue<QueueElementWrapper<byte[]>> toDiagMsgQueue = new LinkedBlockingQueue<>();
+	private BlockingQueue<PendingSqliteStatement> pendingSqlStatements = new LinkedBlockingQueue<>();
 	private long pendingSqlStatementsEmptyTimestamp = 0;
 
 	private BufferedReader parserStdout;
@@ -369,7 +369,7 @@ public class MsdService extends Service{
 		//try {
 			df.endRecording(db, this);
 		//} catch (NullPointerException e) {
-		//	Log.e(TAG, "NPE! Please fix code...");
+		//	Log.e(TAG, "NPE! Please fix code: " + e );
 		//}
 
 		if(markForUpload){
@@ -387,8 +387,9 @@ public class MsdService extends Service{
 		if(!recording)
 			return false;
 		this.extraRecordingStartTime = System.currentTimeMillis();
-		this.extraRecordingRawFileWriter =
-				new EncryptedFileWriter(this, filename + ".gz.smime", true, MsdConfig.recordUnencryptedDumpfiles(this) ? filename + ".gz" : null, true);
+		this.extraRecordingRawFileWriter = new EncryptedFileWriter(this, filename + ".gz.smime",
+				true, MsdConfig.recordUnencryptedDumpfiles(this) ? filename + ".gz" : null, true);
+
 		MsdDatabaseManager.initializeInstance(new MsdSQLiteOpenHelper(this));
 		SQLiteDatabase db = MsdDatabaseManager.getInstance().openDatabase();
 		DumpFile df = new DumpFile(filename + ".gz.smime",DumpFile.TYPE_ENCRYPTED_QDMON);
@@ -406,7 +407,7 @@ public class MsdService extends Service{
 			}
 		} else{
 			debugLogWriter.write(logData);
-			debugLogWriter.flushIfUnflushedDataSince(10000);
+			debugLogWriter.flushIfUnflushedDataSince(10000); // TODO: Don't hardcode timers
 		}
 	}
 
@@ -414,7 +415,7 @@ public class MsdService extends Service{
 		@Override
 		public void run() {
 			checkRecordingState();
-			mainThreadHandler.postDelayed(periodicCheckRecordingStateRunnableWrapper, 5000);
+			mainThreadHandler.postDelayed(periodicCheckRecordingStateRunnableWrapper, 5000); // TODO: Don't hardcode timers
 		}
 	}
 
@@ -425,17 +426,17 @@ public class MsdService extends Service{
 				return;
 			if(debugLogWriter != null)
 				try {
-					debugLogWriter.flushIfUnflushedDataSince(10000);
+					debugLogWriter.flushIfUnflushedDataSince(10000); // TODO: Don't hardcode timers
 				} catch (EncryptedFileWriterError e) {
 					handleFatalError("Uncaught Exception during flush", e);
 				}
-			mainThreadHandler.postDelayed(new ExceptionHandlingRunnable(this), 5000);
+			mainThreadHandler.postDelayed(new ExceptionHandlingRunnable(this), 5000); // TODO: Don't hardcode timers
 		}
 	}
 
 	/**
 	 * This wrapper class handles all uncaught Exceptions in a Runnable. This is
-	 * neccessary since Thread.setDefaultUncaughtExceptionHandler will stop the
+	 * necessary since Thread.setDefaultUncaughtExceptionHandler will stop the
 	 * main Looper Thread and we still need it for the shutdown of the Service.
 	 * 
 	 * 
@@ -454,7 +455,6 @@ public class MsdService extends Service{
 			}
 		}
 	}
-
 
 	@Override
 	public void onCreate() {
@@ -480,6 +480,7 @@ public class MsdService extends Service{
 		sendStateChanged(StateChangedReason.ANALYSIS_DONE);
 		startRecording();
 	}
+
 	private void doStartForeground() {
 		Notification notification = msdServiceNotifications.getForegroundNotification();
 		startForeground(Constants.NOTIFICATION_ID_FOREGROUND_SERVICE, notification);
@@ -487,6 +488,7 @@ public class MsdService extends Service{
 	private void doStopForeground(){
 		stopForeground(true);
 	}
+
 	@Override
 	public void onDestroy() {
 		info("MsdService.onDestroy() called " + ( recording ? "shutting down" : ""));
@@ -497,6 +499,7 @@ public class MsdService extends Service{
 		// Make sure that the process of this service is actually closed
 		System.exit(0);
 	}
+
 	private void startLocationRecording(){
 		myLocationListener = new MyLocationListener();
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -742,8 +745,9 @@ public class MsdService extends Service{
 						try{
 							helper.waitFor();
 						} catch(InterruptedException e){
+							// nothing
 						}
-					};
+					}
 				};
 				t.start();
 				t.join(3000);
@@ -764,7 +768,7 @@ public class MsdService extends Service{
 			diagStderr = null;
 			// Terminate rawWriter
 			closeRawWriter();
-			// Termiante parser
+			// Terminate parser
 			if(parser != null){
 				toParserMsgQueue.add(new DiagMsgWrapper()); // Send shutdown marker to message queue
 				this.toParserThread.join(3000);
@@ -783,9 +787,11 @@ public class MsdService extends Service{
 						try{
 							parser.waitFor();
 						} catch(InterruptedException e){
+							// nothing?
 						}
-					};
+					}
 				};
+
 				t.start();
 				t.join(3000);
 				t.interrupt();
@@ -882,22 +888,22 @@ public class MsdService extends Service{
 						} catch (EncryptedFileWriterError e1) {
 							handleFatalError("Error writing raw file", e1);
 						}
-						if(extraRecordingRawFileWriter != null){
-							try{
+						if(extraRecordingRawFileWriter != null) {
+							try {
 								extraRecordingRawFileWriter.write(buf);
-							} catch(NullPointerException e){
-								// The check extraRecordingRawFileWriter != null is not thread safe, so let's just ignore a NullPointerException
-							} catch(EncryptedFileWriterError e1)
-							{
+							} catch (NullPointerException e) {
+								// The check extraRecordingRawFileWriter != null is not thread safe,
+								// so let's just ignore a NullPointerException
+							} catch (EncryptedFileWriterError e1) {
 								handleFatalError("Error writing extra raw file", e1);
 							}
 						}
 					}
 				}
 			} catch (EOFException e) {
-				if(shuttingDown.get()){
+				if(shuttingDown.get()) {
 					info("FromDiagThread shutting down due to EOFException while shuttingDown is set");
-				} else{
+				} else {
 					handleFatalError("FromDiagThread received EOFException but shuttingDown is not set!");
 				}
 			} catch (IOException e) {
@@ -905,6 +911,7 @@ public class MsdService extends Service{
 			}
 		}
 	}
+
 	class ToDiagThread extends Thread{
 		@Override
 		public void run() {
@@ -1034,6 +1041,7 @@ public class MsdService extends Service{
 					} else if(line.startsWith("RAT:")){
 						String parserRat = line.substring("RAT:".length()).trim();
 						info(parserLogging, "Parser RAT: " + parserRat);
+						// TODO: convert to switch statements:
 						if(parserRat.equals("GSM")){
 							parserRatGeneration = 2;
 						} else if(parserRat.equals("3G")){
@@ -1187,7 +1195,7 @@ public class MsdService extends Service{
 										}
 									}
 								}
-							};
+							}
 
 							int numEvents = MsdServiceAnalysis.runEventAnalysis(MsdService.this, db);
 							if (numEvents > 0) {
@@ -1203,14 +1211,17 @@ public class MsdService extends Service{
 										}
 									}
 								}
-							};
+							}
 							if (MsdServiceAnalysis.runSecurityAnalysis(MsdService.this, db)) {
 								sendStateChanged(StateChangedReason.SEC_METRICS_CHANGED);
-							};
+							}
 							lastAnalysisTime = System.currentTimeMillis();
 							lastAnalysisTimeMs = System.currentTimeMillis();
 
-							info(time + ": Analysis took " + (lastAnalysisTime - start.getTimeInMillis()) + "ms" + " CPU=" + (android.os.Debug.threadCpuTimeNanos()-analysisStartCpuTimeNanos)/1000000 + "ms");
+							info(time + ": Analysis took "
+									+ (lastAnalysisTime - start.getTimeInMillis()) + "ms" + " CPU="
+									+ (android.os.Debug.threadCpuTimeNanos()-analysisStartCpuTimeNanos)/1000000 + "ms");
+
 							if(dumpAnalysisStackTraces){
 								analysisStackTraceLogRunnable.stopped = true;
 							}
@@ -1311,8 +1322,8 @@ public class MsdService extends Service{
 		String table = null;
 		ContentValues values = null;
 		String sql = null;
-		public PendingSqliteStatement() {
-		}
+
+		public PendingSqliteStatement() { }
 		public PendingSqliteStatement(String sql) {
 			this.sql = sql;
 		}
@@ -1369,6 +1380,7 @@ public class MsdService extends Service{
 		 */
 		void postRunHook(){}
 	}
+
 	class DailyPingSqliteStatement extends PendingSqliteStatement{
 		@Override
 		public void run(SQLiteDatabase db) throws SQLException {
@@ -1384,12 +1396,14 @@ public class MsdService extends Service{
 			}
 		}
 	}
+
 	class ShutdownMarkerPendingSqliteStatement extends DailyPingSqliteStatement{
 		@Override
 		public boolean isShutdownMarker() {
 			return true;
 		}
 	}
+
 	class MyLocationListener implements LocationListener{
 		@Override
 		public void onLocationChanged(Location location) {
@@ -1405,18 +1419,13 @@ public class MsdService extends Service{
 				pendingSqlStatements.add(new PendingSqliteStatement("location_info", values));
 		}
 		@Override
-		public void onProviderDisabled(String provider) {
-		}
+		public void onProviderDisabled(String provider) { }
 		@Override
-		public void onProviderEnabled(String provider) {
-		}
+		public void onProviderEnabled(String provider) { }
 		@Override
-		public void onStatusChanged(String provider, int status, Bundle extras) {
-		}
+		public void onStatusChanged(String provider, int status, Bundle extras) { }
 	}
 
-	// We should not suppress here, but in ./app/build.gradle
-	//@SuppressLint("NewApi")
 	class MyPhoneStateListener extends PhoneStateListener{
 		@Override
 		public void onCellLocationChanged(CellLocation location) {
@@ -1424,7 +1433,7 @@ public class MsdService extends Service{
 				GsmCellLocation gsmLoc = (GsmCellLocation) location;
 				String networkOperator = telephonyManager.getNetworkOperator();
 				if(networkOperator.length() < 5){
-					warn("Invalid networkOperatr: " + networkOperator);
+					warn("Invalid networkOperator: " + networkOperator);
 					return;
 				}
 				String mcc = networkOperator.substring(0,3);
@@ -1440,6 +1449,7 @@ public class MsdService extends Service{
 				if(lac != Integer.MAX_VALUE && lac != -1)
 					values.put("lac", lac);
 				values.put("psc", gsmLoc.getPsc());
+
 				last_sc_insert = new PendingSqliteStatement("serving_cell_info", values);
 				if(!shuttingDown.get())
 					pendingSqlStatements.add(last_sc_insert);
@@ -1467,7 +1477,9 @@ public class MsdService extends Service{
 			// I do not know whether this code will be reached at all. Most
 			// phones only call this method with null as a parameter. So let's
 			// send a message so that we find out when it is called.
-			String msg = "onCellInfoChanged(" + ((cellInfo == null) ? "null" : cellInfo.size()) + ")"; 
+			// cellInfo is never null, so we remove this:
+			//  ((cellInfo == null) ? "null" : cellInfo.size())
+			String msg = "onCellInfoChanged(" + cellInfo.size() + ")";
 			info(msg);
 		}
 		void doCellinfoList(List<CellInfo> cellInfo){
@@ -1501,6 +1513,7 @@ public class MsdService extends Service{
 			}
 		}
 	}
+
 	class NeighboringPendingSqliteStatement extends PendingSqliteStatement{
 		PendingSqliteStatement last_sc_insert;
 		public NeighboringPendingSqliteStatement(ContentValues values, PendingSqliteStatement last_sc_insert) {
@@ -1513,6 +1526,12 @@ public class MsdService extends Service{
 		}
 	}
 
+	/**
+ 	 * This is using a very dirty and deprecated HttpClient Library
+	 * TODO: Rewrite and look in build.gradle for links to alternative HttpClient libraries
+	 * including fixes and continued support of the Apache ones...
+	 *
+ 	 */
 	class DownloadDataJsThread extends Thread{
 
 		private GSMmap gsmmap;
@@ -1604,11 +1623,12 @@ public class MsdService extends Service{
 			}
 		}
 	}
+
 	/**
-	 * Sets up the parser
-	 * * Launch parser binary
-	 * * Wait for handshake
-	 * * starts parserErrorThread, fromParserThread and toParserThread
+	 * Sets up the parser:
+	 * - Launch parser binary
+	 * - Wait for handshake
+	 * - starts parserErrorThread, fromParserThread and toParserThread
 	 * @throws IOException
 	 */
 	private void launchParser() throws IOException {
