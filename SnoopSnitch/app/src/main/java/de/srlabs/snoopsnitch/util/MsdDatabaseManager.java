@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
 
 // Class for concurrent database access.
-// Cf. http://dmytrodanylyk.com/pages/blog/concurrent-database.html
+// https://web.archive.org/web/20160112020818/http://www.dmytrodanylyk.com/pages/blog/concurrent-database.html
 public class MsdDatabaseManager {
 
     private AtomicInteger mOpenCounter = new AtomicInteger();

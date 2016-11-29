@@ -1,5 +1,7 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -32,17 +34,20 @@
             android:layout_height="wrap_content"
             android:text="Network" />
     </LinearLayout>
-<ScrollView
-android:layout_width="fill_parent"
-android:layout_height="0dp"
-android:layout_weight="1"
-android:fillViewport="true"
-android:scrollbars="vertical"    >
-    <WebView
-        android:id="@+id/activeTestWebView"
+
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
-</ScrollView>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:scrollbars="vertical" >
+
+        <WebView
+            android:id="@+id/activeTestWebView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
     <!--  <TextView
         android:id="@+id/activeTestLogView"
         android:layout_width="fill_parent"

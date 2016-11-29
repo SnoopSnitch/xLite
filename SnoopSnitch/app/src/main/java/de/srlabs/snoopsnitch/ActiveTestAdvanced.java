@@ -11,6 +11,7 @@ import android.view.WindowManager.LayoutParams;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+
 import de.srlabs.snoopsnitch.active_test.ActiveTestCallback;
 import de.srlabs.snoopsnitch.active_test.ActiveTestHelper;
 import de.srlabs.snoopsnitch.active_test.ActiveTestResults;
@@ -162,7 +163,12 @@ public class ActiveTestAdvanced extends BaseActivity{
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// lint (ClickableViewAccessibility) require performClick
-				return (event.getAction() == MotionEvent.ACTION_MOVE);
+				if (event.getAction() == MotionEvent.ACTION_MOVE) {
+					v.performClick();
+					return (true);
+				} else {
+					return (false);
+				}
 			}
 		});
 		activeTestWebView.setWebViewClient(new WebViewClient(){

@@ -58,7 +58,7 @@ public class EnableAutoUploadModeActivity extends BaseActivity
 	private void enableAutoUploadMode() {
 		// ToDo: Fix deprecated use: See MsdConfig.java
 		//SharedPreferences sharedPrefs = this.getSharedPreferences("de.srlabs.snoopsnitch_preferences", Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);;
-		SharedPreferences sharedPrefs = this.getSharedPreferences("de.srlabs.snoopsnitch_preferences", Context.MODE_PRIVATE);;
+		SharedPreferences sharedPrefs = this.getSharedPreferences("de.srlabs.snoopsnitch_preferences", Context.MODE_PRIVATE);
 		Editor editor = sharedPrefs.edit();
 		editor.putBoolean("settings_auto_upload_mode", true);
 		editor.commit();
@@ -77,7 +77,9 @@ public class EnableAutoUploadModeActivity extends BaseActivity
 			if(imsi.getUploadState() == FileState.STATE_AVAILABLE)
 				try {
 					imsi.upload();
-				} catch (Exception e){}
+				} catch (Exception e){
+					// nothing
+				}
 		}
 		getMsdServiceHelperCreator().getMsdServiceHelper().triggerUploading();
 	}

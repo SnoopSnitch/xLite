@@ -3,6 +3,7 @@ package de.srlabs.snoopsnitch.active_test;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import de.srlabs.snoopsnitch.util.Constants;
@@ -13,6 +14,7 @@ import de.srlabs.snoopsnitch.util.MsdLog;
  */
 public abstract class SmsReceiver extends BroadcastReceiver {
 	private static final String TAG = "msd-active-test-service-sms-receiver";
+	private SmsMessage sms;
 
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
@@ -26,7 +28,16 @@ public abstract class SmsReceiver extends BroadcastReceiver {
 
 			for (final Object pdu : pdus) {
 
-				final SmsMessage sms = SmsMessage.createFromPdu((byte[]) pdu);
+				// Deprecated from API 23:
+				//   final SmsMessage sms = SmsMessage.createFromPdu((byte[]) pdu);
+				// Instead use:
+				//   createFromPdu (byte[] pdu, String format)
+				if (Build.VERSION.SDK_INT >= 23) {
+					String format = extras.getString("format");
+					sms = SmsMessage.createFromPdu((byte[]) pdu, format);
+				} else {
+					sms = SmsMessage.createFromPdu((byte[]) pdu);
+				}
 
 				String originatingAddress = sms.getOriginatingAddress();
 				if(!originatingAddress.startsWith("+"))

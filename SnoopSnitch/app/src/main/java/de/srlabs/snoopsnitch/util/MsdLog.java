@@ -10,11 +10,12 @@ import android.util.Log;
 
 import de.srlabs.snoopsnitch.BuildConfig;
 import de.srlabs.snoopsnitch.EncryptedFileWriterError;
-import de.srlabs.snoopsnitch.R;
 import de.srlabs.snoopsnitch.qdmon.MsdService;
 import de.srlabs.snoopsnitch.qdmon.MsdServiceHelper;
 
 public class MsdLog {
+	// We should use .getApplicationContext() when something points to a context
+	//private static MsdServiceHelper msdServiceHelper;
 	private static MsdServiceHelper msdServiceHelper;
 	private static MsdService msd;
 
@@ -79,6 +80,7 @@ public class MsdLog {
 			throw new IllegalStateException("Please use MsdLog.init(context) before logging anything");
 		}
 	}
+
 	/**
 	 * Gets some information about phone model, Android version etc.
 	 */

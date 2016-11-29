@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
 import de.srlabs.snoopsnitch.EncryptedFileWriterError;
 import de.srlabs.snoopsnitch.R;
 import de.srlabs.snoopsnitch.DetailChartActivity;
@@ -51,8 +52,7 @@ public class ListViewImsiCatcherAdapter extends ArrayAdapter<ImsiCatcher>
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) 
 	{
-		LayoutInflater inflater = (LayoutInflater) context
-			.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final View rowView = inflater.inflate(R.layout.custom_row_layout_imsicatcher, parent, false);
 		
 		// Set score

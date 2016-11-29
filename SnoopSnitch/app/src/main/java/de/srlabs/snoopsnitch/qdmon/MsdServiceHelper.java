@@ -1,7 +1,5 @@
 package de.srlabs.snoopsnitch.qdmon;
 
-import de.srlabs.snoopsnitch.qdmon.IMsdService;
-import de.srlabs.snoopsnitch.qdmon.IMsdServiceCallback;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +23,7 @@ public class MsdServiceHelper{
 				@Override
 				public void run() {
 					callback.stateChanged(StateChangedReason.valueOf(reason));
-				};
+				}
 			});
 		}
 
@@ -123,7 +121,7 @@ public class MsdServiceHelper{
 			// Service connection was lost, so let's call recordingStopped
 			callback.stateChanged(StateChangedReason.RECORDING_STATE_CHANGED);
 		}
-	};
+	}
 
 	private void handleFatalError(String errorMsg, Exception e){
 		String msg = errorMsg;
