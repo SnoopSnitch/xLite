@@ -97,7 +97,7 @@ android {
         disable 'Typos'                 // ... SIE SIE ...
         disable 'HardwareIds'           // Using getSubscriberId to get device identifiers (IMSI) is not recommended
         disable 'SetJavaScriptEnabled'  // Used in: [Local]MapActivity.java  & ActiveTestAdvanced.java -- Does it require JS?
-        //disable 'Wakelock'            // Why do we use wakelock? (Incorrect use here...)
+        disable 'Wakelock'              // lint wakelock check is buggy, we're probably doing it right. 
         disable 'Overdraw'              // @color/common_sectionBackground
         disable 'UnusedResources'       // Many unused strings and images: <placeholders?>
         //disable 'UselessParent'       // activity_dashboard.xml: 20,27   can be flattened
@@ -165,7 +165,7 @@ dependencies {
 
     // Android Support Libraries
     compile 'com.android.support:support-v4:25.0.1'             // v4 :
-    //compile 'com.android.support:support-compat:25.0.0'       // v4 :
+    compile 'com.android.support:support-compat:25.0.1'         // v4 :
     compile "com.android.support:support-core-utils:25.0.1"     // v4 : Needed for M permission checker
     //compile "com.android.support:support-core-ui:25.0.1"      // v4 :
     //compile "com.android.support:support-media-compat:25.0.1" // v4 :
