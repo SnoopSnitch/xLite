@@ -149,7 +149,7 @@ public class ListViewEventAdapter extends ArrayAdapter<Event> implements Filtera
 				// ToDo: Fix this! What is it supposed to do?
 				// In addition, this gives an [unchecked] cast warning.
 				//if (results.count == 0) {
-					//notifyDataSetInvalidated();
+				//	//notifyDataSetInvalidated();
 					values = (Vector<Event>) results.values;
 					notifyDataSetChanged();
 				//} else {

@@ -2342,7 +2342,7 @@ public class MsdService extends Service{
 			}
 			info("cleanupIncompleteOldFiles took " + (System.currentTimeMillis() - cleanupStartTime) + "ms, CPU time: " + ((android.os.Debug.threadCpuTimeNanos()-cleanupStartCpuTimeNanos)/1000000) + "ms");
 		} catch(Exception e){
-			Log.e(TAG, "Exception during cleanup",e);
+			Log.e(TAG, "Exception during cleanup: ",e);
 		} finally{
 			MsdDatabaseManager.getInstance().closeDatabase();
 			wl.release();
@@ -2365,7 +2365,7 @@ public class MsdService extends Service{
 				cleanupDatabase(db);
 				info("Cleanup took " + (System.currentTimeMillis() - cleanupStartTime) + "ms, CPU time: " + ((android.os.Debug.threadCpuTimeNanos()-cleanupStartCpuTimeNanos)/1000000) + "ms");
 			} catch(Exception e){
-				Log.e(TAG, "Exception during cleanup:" + e.getMessage());
+				Log.e(TAG, "Exception during cleanup: " + e.getMessage());
 			} finally{
 				MsdDatabaseManager.getInstance().closeDatabase();
 				wl.release();
@@ -2401,7 +2401,7 @@ public class MsdService extends Service{
 					keepDurationHours = MsdConfig.getBasebandLogKeepDurationHours(this);
 					if(df != null && (df.isSms() || df.isImsi_catcher()))
 						containsEvent = true;
-				} else if(meta){
+				} else {  // if(meta) {
 					keepDurationHours = MsdConfig.getMetadataKeepDurationHours(this);
 					if(df != null && (df.isImsi_catcher()))
 						containsEvent = true;

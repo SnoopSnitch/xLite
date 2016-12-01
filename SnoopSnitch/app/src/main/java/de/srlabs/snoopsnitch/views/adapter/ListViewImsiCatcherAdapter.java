@@ -24,25 +24,21 @@ import de.srlabs.snoopsnitch.DetailChartActivity;
 import de.srlabs.snoopsnitch.analysis.ImsiCatcher;
 import de.srlabs.snoopsnitch.util.MsdDialog;
 
-public class ListViewImsiCatcherAdapter extends ArrayAdapter<ImsiCatcher>
-{
+public class ListViewImsiCatcherAdapter extends ArrayAdapter<ImsiCatcher> {
 	// Attributes
 	private final Context context;
 	private final Vector<ImsiCatcher> values;
 	private DetailChartActivity host;
-	
-	public ListViewImsiCatcherAdapter (Context context, Vector<ImsiCatcher> values) 
-	{
+
+	public ListViewImsiCatcherAdapter(Context context, Vector<ImsiCatcher> values) {
 		super(context, R.layout.custom_row_layout_sms, values);
-	    this.context = context;
-	    this.values = values;
-	    this.host = (DetailChartActivity) context;
+		this.context = context;
+		this.values = values;
+		this.host = (DetailChartActivity) context;
 	}
-	
-	private String addScore(String text, String scoreName, double score)
-	{
-		if (score > 0.0)
-		{
+
+	private String addScore(String text, String scoreName, double score) {
+		if (score > 0.0) {
 			String scoreText = String.format(Locale.US, "%.1f", score);
 			return text + ", " + scoreName + "=" + scoreText;
 		}
@@ -50,14 +46,15 @@ public class ListViewImsiCatcherAdapter extends ArrayAdapter<ImsiCatcher>
 	}
 	
 	@Override
-	public View getView(final int position, View convertView, ViewGroup parent) 
-	{
+	public View getView(final int position, View convertView, ViewGroup parent) {
+
+        // Do we need a ViewHolder to recycle and check for refresh conditions?
+        // (This is a lint performance issue.)
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final View rowView = inflater.inflate(R.layout.custom_row_layout_imsicatcher, parent, false);
 		
 		// Set score
 		ImsiCatcher catcher = values.get(position);
-
 		String scoreText = String.format(Locale.US, "%.2f", catcher.getScore());
 		scoreText = addScore(scoreText, "a1", catcher.getA1());
 		scoreText = addScore(scoreText, "a2", catcher.getA2());
@@ -76,24 +73,22 @@ public class ListViewImsiCatcherAdapter extends ArrayAdapter<ImsiCatcher>
 		scoreText = addScore(scoreText, "r1", catcher.getR1());
 		scoreText = addScore(scoreText, "r2", catcher.getR2());
 		scoreText = addScore(scoreText, "f1", catcher.getF1());
-
 		((TextView) rowView.findViewById(R.id.txtImsiRowScoreValue)).setText(scoreText);
-		
+
 		// Set time
 		Timestamp stamp = new Timestamp(values.get(position).getStartTime());
 		((TextView) rowView.findViewById(R.id.txtImsiRowTimeValue)).setText(DateFormat.getDateTimeInstance().format(stamp.getTime()));
-		
+
 		// Set position
 		((TextView) rowView.findViewById(R.id.txtImsiRowPositionValue)).setText(values.get(position).getLocation());
-		
+
 		// Set cell id
 		((TextView) rowView.findViewById(R.id.txtImsiRowCellIdValue)).setText(String.valueOf(values.get(position).getFullCellID()));
 		
 		// Check upload state and set button
 		final Button btnUpload = (Button) rowView.findViewById(R.id.btnUploadImsi);
 		
-		switch (values.get(position).getUploadState()) 
-		{
+		switch (values.get(position).getUploadState()) {
 		case STATE_UPLOADED:
 			btnUpload.setBackgroundResource(R.drawable.ic_content_checkmark);
 			btnUpload.setText("");
@@ -106,16 +101,16 @@ public class ListViewImsiCatcherAdapter extends ArrayAdapter<ImsiCatcher>
 			btnUpload.setText(context.getResources().getString(R.string.common_button_upload));
 			btnUpload.setEnabled(true);
 			btnUpload.setVisibility(View.VISIBLE);
-			btnUpload.setOnClickListener(new View.OnClickListener() 
-			{		
+			btnUpload.setOnClickListener(new View.OnClickListener()
+			{
 				@Override
-				public void onClick(View v) 
+				public void onClick(View v)
 				{
-					MsdDialog.makeConfirmationDialog(host, host.getResources().getString(R.string.alert_upload_message), 
-							new OnClickListener() 
-					{			
+					MsdDialog.makeConfirmationDialog(host, host.getResources().getString(R.string.alert_upload_message),
+							new OnClickListener()
+					{
 						@Override
-						public void onClick(DialogInterface dialog, int which) 
+						public void onClick(DialogInterface dialog, int which)
 						{
 							try {
 								values.get(position).upload();
@@ -159,7 +154,7 @@ public class ListViewImsiCatcherAdapter extends ArrayAdapter<ImsiCatcher>
 			btnUpload.setVisibility(View.GONE);
 			break;
 		}
-	
+
 		return rowView;
 	 }
 }
