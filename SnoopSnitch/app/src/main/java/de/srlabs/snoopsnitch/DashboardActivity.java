@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -202,7 +203,9 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 			updateInterseptionImpersonation();
 		} else if (reason.equals(StateChangedReason.NO_BASEBAND_DATA)) {
 			txtLastAnalysisTime.setText(getString(R.string.compat_no_baseband_messages));
-			txtLastAnalysisTime.setTextColor(getResources().getColor(R.color.common_chartRed));
+			// New API compat uses: ContextCompat.getColor(context, <color>)
+			//xtLastAnalysisTime.setTextColor(getResources().getColor(R.color.common_chartRed));
+			txtLastAnalysisTime.setTextColor(ContextCompat.getColor(this, R.color.common_chartRed));
 			txtDashboardLastAnalysis.setVisibility(View.GONE);
 		}
 		super.stateChanged(reason);
@@ -247,17 +250,18 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 		// Set text color of threat counts
 		for (TextView tv : threatSmsCounts) {
 			if (Integer.valueOf(tv.getText().toString()) > 0) {
-				tv.setTextColor(getResources().getColor(R.color.common_chartYellow));
+				//tv.setTextColor(getResources().getColor(R.color.common_chartYellow));
+				tv.setTextColor(ContextCompat.getColor(this, R.color.common_chartYellow));
 			} else {
-				tv.setTextColor(getResources().getColor(R.color.common_chartGreen));
+				tv.setTextColor(ContextCompat.getColor(this, R.color.common_chartGreen));
 			}
 		}
 		
 		for (TextView tv : threatImsiCounts) {
 			if (Integer.valueOf(tv.getText().toString()) > 0) {
-				tv.setTextColor(getResources().getColor(R.color.common_chartRed));
+				tv.setTextColor(ContextCompat.getColor(this, R.color.common_chartRed));
 			} else {
-				tv.setTextColor(getResources().getColor(R.color.common_chartGreen));
+				tv.setTextColor(ContextCompat.getColor(this, R.color.common_chartGreen));
 			}
 		}
 	}
@@ -298,7 +302,8 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 			Calendar c = Calendar.getInstance();
 			c.setTimeInMillis(lastAnalysisTime);
 			txtLastAnalysisTime.setText(String.valueOf(DateFormat.getDateTimeInstance().format(c.getTime())));
-			txtLastAnalysisTime.setTextColor(getResources().getColor(R.color.common_text));
+			//txtLastAnalysisTime.setTextColor(getResources().getColor(R.color.common_text));
+			txtLastAnalysisTime.setTextColor(ContextCompat.getColor(this,R.color.common_text));
 			txtDashboardLastAnalysis.setVisibility(View.VISIBLE);
 		} else {
 			txtDashboardLastAnalysis.setVisibility(View.GONE);
