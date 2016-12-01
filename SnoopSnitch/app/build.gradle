@@ -23,7 +23,18 @@ android {
 //            }
 //        }
 
+        // For Java 1.8 compile compatibility
+        /*jackOptions {
+            enabled true
+        }*/
     }
+
+    // To use this, you also need to enable "jack", above.
+    /*compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }*/
+
 
     // This is for automatic code-signing of the resulting APK
     // Keys should be stored in:  build.gradle  (and obviously excluded from any VCS)
@@ -63,13 +74,6 @@ android {
 //            path "CMakeLists.txt"
 //        }
 //    }
-
-    // compileOptions {...}
-    /*compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }*/
-
 
     //compileJava {
     //    options.encoding = 'UTF-8'
