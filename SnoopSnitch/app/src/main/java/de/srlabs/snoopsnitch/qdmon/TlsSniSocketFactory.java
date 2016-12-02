@@ -23,16 +23,18 @@ import android.util.Log;
  * This class provides a workaround for the missing SNI support of the HttpClient library included in Android.
  * Copied from http://blog.dev001.net/post/67082904181/android-using-sni-and-tlsv1-2-with-apache
  *
+ * Apache is also deprecated for API 23+, so consider using legacy version:
+ * http://stackoverflow.com/questions/30556605/org-apache-http-httpentity-is-deprecated-how-to-solve-this-error-in-android-s
+ *
+ * The @ TargetApi tells us that we can use the code on any API <= 16 (JELLY_BEAN_MR1)
  */
-
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class TlsSniSocketFactory implements LayeredSocketFactory {
-    //private static final String TAG = "davdroid.SNISocketFactory";
+    // Previous tag was too long:  TAG = "davdroid.SNISocketFactory";
     private static final String TAG = "Snoop.SNISocketFactory";
 
     final static HostnameVerifier hostnameVerifier = new StrictHostnameVerifier();
-
 
     // Plain TCP/IP (layer below TLS)
 
@@ -53,11 +55,10 @@ public class TlsSniSocketFactory implements LayeredSocketFactory {
             return false;
     }
 
-
     // TLS layer
 
     @Override
-    public Socket createSocket(Socket plainSocket, String host, int port, boolean autoClose) throws IOException, UnknownHostException {
+    public Socket createSocket(Socket plainSocket, String host, int port, boolean autoClose) throws IOException {
             if (autoClose) {
                     // we don't need the plainSocket
                     plainSocket.close();
@@ -81,7 +82,7 @@ public class TlsSniSocketFactory implements LayeredSocketFactory {
                          java.lang.reflect.Method setHostnameMethod = ssl.getClass().getMethod("setHostname", String.class);
                          setHostnameMethod.invoke(ssl, host);
                     } catch (Exception e) {
-                            Log.w(TAG, "SNI not useable", e);
+                            Log.w(TAG, "SNI not usable", e);
                     }
             }
 
@@ -90,8 +91,9 @@ public class TlsSniSocketFactory implements LayeredSocketFactory {
             if (!hostnameVerifier.verify(host, session))
                     throw new SSLPeerUnverifiedException("Cannot verify hostname: " + host);
 
-            Log.i(TAG, "Established " + session.getProtocol() + " connection with " + session.getPeerHost() +
-                            " using " + session.getCipherSuite());
+            Log.i(TAG, "Established "       + session.getProtocol() +
+                        " connection with " + session.getPeerHost() +
+                        " using "           + session.getCipherSuite());
 
             return ssl;
     }

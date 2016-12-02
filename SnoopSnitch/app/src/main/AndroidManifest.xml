@@ -18,6 +18,27 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <!-- Emi:
+        New permission scheme applies differently before and between AOS 5.1 (API 22) to 6.0 (API 23)
+        and after! -->
+
+    <!-- In anticipation for 1.1.0 bug fix: permission crash:
+           "DatabaseUtils(  834): java.lang.SecurityException: Permission Denial"
+         also see:
+           http://stackoverflow.com/questions/28134128/android-permission-interact-across-users-full
+         -->
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
+                     android:protectionLevel="signature" />
+
+    <!-- For available groups see:
+         https://developer.android.com/guide/topics/security/permissions.html
+         
+                    android:permissionGroup="android.permission-group.LOCATION"
+                    android:permissionGroup="android.permission-group.PHONE"
+                    android:permissionGroup="android.permission-group.SMS"
+                    android:permissionGroup="android.permission-group.STORAGE"
+    / -->
+
     <!-- Emi: In anticipation for 1.1.1 automatic network changes etc.-->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -158,8 +179,11 @@
             android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity" >
         </activity>
 
-        <service android:name="de.srlabs.snoopsnitch.qdmon.MsdService" android:exported="false" android:process=".snoopsnitch_service" />
-    	<service android:name="de.srlabs.snoopsnitch.active_test.ActiveTestService" android:exported="false" />
+        <service android:name="de.srlabs.snoopsnitch.qdmon.MsdService"
+                 android:exported="false"
+                 android:process=".snoopsnitch_service" />
+    	<service android:name="de.srlabs.snoopsnitch.active_test.ActiveTestService"
+                 android:exported="false" />
     </application>
 
 </manifest>
