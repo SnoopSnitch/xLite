@@ -13,5 +13,4 @@
               android:layout_height="wrap_content"
               android:textColor="@color/common_custom_toast_message_foreground"
               />
-    
 </LinearLayout>
