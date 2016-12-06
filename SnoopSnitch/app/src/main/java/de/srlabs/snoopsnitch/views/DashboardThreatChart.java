@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -161,13 +162,16 @@ public class DashboardThreatChart extends View {
 	private void setColor() {
 		switch (_threatType) {
 			case 0:
-				this._color = getResources().getColor(R.color.common_chartYellow);
-				//this._color = ContextCompat.getColor(this, R.color.common_chartYellow);
-				this._color_uploaded = getResources().getColor(R.color.common_chartYellow_uploaded);
+				//this._color = getResources().getColor(R.color.common_chartYellow);
+				//this._color_uploaded = getResources().getColor(R.color.common_chartYellow_uploaded);
+				this._color = ResourcesCompat.getColor(getResources(), R.color.common_chartYellow, null);
+				this._color_uploaded = ResourcesCompat.getColor(getResources(), R.color.common_chartYellow_uploaded, null);
 				break;
 			case 1:
-				this._color = getResources().getColor(R.color.common_chartRed);
-				this._color_uploaded = getResources().getColor(R.color.common_chartRed_uploaded);
+				//this._color = getResources().getColor(R.color.common_chartRed);
+				//this._color_uploaded = getResources().getColor(R.color.common_chartRed_uploaded);
+				this._color = ResourcesCompat.getColor(getResources(), R.color.common_chartRed, null);
+				this._color_uploaded = ResourcesCompat.getColor(getResources(), R.color.common_chartRed_uploaded, null);
 				break;
 			default:
 				break;

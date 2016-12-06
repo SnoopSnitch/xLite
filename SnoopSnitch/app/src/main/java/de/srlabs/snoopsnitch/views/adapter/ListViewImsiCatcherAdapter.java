@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.database.SQLException;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,7 +95,8 @@ public class ListViewImsiCatcherAdapter extends ArrayAdapter<ImsiCatcher> {
 			btnUpload.setText("");
 			btnUpload.setEnabled(false);
 			btnUpload.setVisibility(View.VISIBLE);
-			rowView.setBackgroundColor(context.getResources().getColor(R.color.common_custom_row_background_disabled));
+			//rowView.setBackgroundColor(context.getResources().getColor(R.color.common_custom_row_background_disabled));
+            rowView.setBackgroundColor(ContextCompat.getColor(context, R.color.common_custom_row_background_disabled));
 			break;
 		case STATE_AVAILABLE:
 			btnUpload.setBackgroundResource(R.drawable.bt_content_contributedata_enable);
@@ -118,7 +120,8 @@ public class ListViewImsiCatcherAdapter extends ArrayAdapter<ImsiCatcher> {
 								btnUpload.setText("");
 								btnUpload.setEnabled(false);
 								btnUpload.setVisibility(View.VISIBLE);
-								rowView.setBackgroundColor(context.getResources().getColor(R.color.common_custom_row_background_disabled));
+								//rowView.setBackgroundColor(context.getResources().getColor(R.color.common_custom_row_background_disabled));
+                                rowView.setBackgroundColor(ContextCompat.getColor(context, R.color.common_custom_row_background_disabled));
 							} catch (EncryptedFileWriterError e) {
 								// FIXME: Error dialog
 								Log.i("MSD", "Upload for IMSI catcher event failed: " + e.getMessage(),e);
@@ -140,14 +143,14 @@ public class ListViewImsiCatcherAdapter extends ArrayAdapter<ImsiCatcher> {
 			btnUpload.setText(context.getResources().getString(R.string.common_button_nodata));
 			btnUpload.setEnabled(false);
 			btnUpload.setVisibility(View.VISIBLE);
-			rowView.setBackgroundColor(context.getResources().getColor(R.color.common_custom_row_background_disabled));
+			rowView.setBackgroundColor(ContextCompat.getColor(context, R.color.common_custom_row_background_disabled));
 			break;
 		case STATE_INVALID:
 			btnUpload.setBackgroundResource(R.drawable.bt_content_contributedata_disable);
 			btnUpload.setText(context.getResources().getString(R.string.common_button_nodata));
 			btnUpload.setEnabled(false);
 			btnUpload.setVisibility(View.VISIBLE);
-			rowView.setBackgroundColor(context.getResources().getColor(R.color.common_custom_row_background_disabled));
+			rowView.setBackgroundColor(ContextCompat.getColor(context, R.color.common_custom_row_background_disabled));
 			break;
 		default:
 			btnUpload.setEnabled(false);

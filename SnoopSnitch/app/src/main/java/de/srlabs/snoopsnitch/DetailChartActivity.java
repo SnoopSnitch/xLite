@@ -1,8 +1,10 @@
 package de.srlabs.snoopsnitch;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import de.srlabs.snoopsnitch.R;
 import de.srlabs.snoopsnitch.analysis.Event;
 import de.srlabs.snoopsnitch.analysis.Event.Type;
 import de.srlabs.snoopsnitch.qdmon.StateChangedReason;
@@ -90,8 +93,7 @@ public class DetailChartActivity extends BaseActivity
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-				if (_threatType != R.id.IMSICatcherCharts)
-				{
+				if (_threatType != R.id.IMSICatcherCharts) {
 					switch (position) {
 					case 0:
 						((ListViewEventAdapter) listView.getAdapter()).getFilter().filter("ALL");
@@ -188,11 +190,16 @@ public class DetailChartActivity extends BaseActivity
 	
 	private void setThreatTypeImageText () {
 		if (_threatType == R.id.IMSICatcherCharts) {
-			_imgThreatType.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_content_imsi_event, null));
+			// Deprecated since API 21: getDrawable(int)
+			//_imgThreatType.setBackground(getResources().getDrawable(R.drawable.ic_content_imsi_event));
+			//_imgThreatType.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_content_imsi_event, null));
+			_imgThreatType.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_content_imsi_event));
 			_llThreatTypeImsiCatcher.setVisibility(View.VISIBLE);
 			_llThreatTypeSms.setVisibility(View.GONE);
 		} else {
-			_imgThreatType.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_content_sms_event, null));
+			//_imgThreatType.setBackground(getResources().getDrawable(R.drawable.ic_content_sms_event));
+			//_imgThreatType.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_content_sms_event, null));
+			_imgThreatType.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_content_sms_event));
 			_llThreatTypeSms.setVisibility(View.VISIBLE);
 			_llThreatTypeImsiCatcher.setVisibility(View.GONE);
 		}

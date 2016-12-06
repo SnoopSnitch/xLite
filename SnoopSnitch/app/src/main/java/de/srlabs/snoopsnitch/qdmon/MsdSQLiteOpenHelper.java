@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.PowerManager;
 import android.util.Log;
+
 import de.srlabs.snoopsnitch.util.Utils;
 
 public class MsdSQLiteOpenHelper extends SQLiteOpenHelper {
@@ -15,6 +16,7 @@ public class MsdSQLiteOpenHelper extends SQLiteOpenHelper {
 	private static final int DATABASE_VERSION = 22;
 	private static final boolean verbose = false;
 	private Context context;
+
 	public MsdSQLiteOpenHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		this.context = context;
@@ -25,24 +27,27 @@ public class MsdSQLiteOpenHelper extends SQLiteOpenHelper {
 		PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, file);
 
 		Long tmp = System.currentTimeMillis();
-
 		Log.i(MsdService.TAG,"MsdSQLiteOpenHelper.readSQLAsset(" + file + ") called");
 
 		try {
 			wl.acquire();
 			db.beginTransaction();
 			String sql = Utils.readFromAssets(context, file);
-			if (verbose){
+			if (verbose) {
 				Log.i(MsdService.TAG,"MsdSQLiteOpenHelper.readSQLAsset(" + file + "): " + sql);
 			}
-			for(String statement:sql.split(";")){
-				if(statement.trim().length() > 0 && !statement.trim().startsWith("/*!")) {
-					if (verbose){
+			for(String statement:sql.split(";")) {
+				if (statement.trim().length() > 0 && !statement.trim().startsWith("/*!")) {
+					if (verbose) {
 						Log.i(MsdService.TAG,"MsdSQLiteOpenHelper.readSQLAsset(" + file + "): statement=" + statement);
 					}
 					long startTime = System.currentTimeMillis();
-					db.execSQL(statement);
-					if(verbose){
+					try {
+						db.execSQL(statement);
+					} catch (SQLException ee) {
+						Log.e(MsdService.TAG, "SQLException in MsdSQLiteOpenHelper.readSQLAsset:\n"+ ee.toString());
+					}
+					if (verbose) {
 						long durationMs = System.currentTimeMillis() - startTime;
 						Log.i(MsdService.TAG,"MsdSQLiteOpenHelper.readSQLAsset(" + file + "): statement took " + durationMs);
 					}

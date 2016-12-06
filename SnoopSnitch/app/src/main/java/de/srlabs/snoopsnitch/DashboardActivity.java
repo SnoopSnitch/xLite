@@ -134,8 +134,10 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 	    inflater.inflate(R.menu.main, menu);
 	    
 		if (msdServiceHelperCreator.getMsdServiceHelper().isRecording()) {
+			//menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.ic_menu_record_disable));
 			menu.getItem(0).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu_record_disable, null));
 		} else {
+			//menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.ic_menu_notrecord_disable));
 			menu.getItem(0).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu_notrecord_disable, null));
 		}
 		

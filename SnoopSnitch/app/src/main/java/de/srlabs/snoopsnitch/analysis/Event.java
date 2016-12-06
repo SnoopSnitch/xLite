@@ -4,6 +4,8 @@ import java.util.Vector;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
 import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
 import de.srlabs.snoopsnitch.upload.DumpFile;
 import de.srlabs.snoopsnitch.upload.FileState;
@@ -11,6 +13,9 @@ import de.srlabs.snoopsnitch.util.MsdDatabaseManager;
 
 
 public class Event implements AnalysisEvent{
+	private static final String TAG = "SNOOP";
+	private static final String mTAG = "Analysis/Event";
+
 	private long timestamp;
 	private long id;
 	private int mcc;
@@ -46,8 +51,13 @@ public class Event implements AnalysisEvent{
 		this.sender = sender;
 		this.smsc = smsc;
 		this.type = type;
+
 		MsdDatabaseManager.initializeInstance(new MsdSQLiteOpenHelper(context));
-		db = MsdDatabaseManager.getInstance().openDatabase();
+		try {
+			db = MsdDatabaseManager.getInstance().openDatabase();
+		} catch (Exception ee) {
+			Log.e(TAG, mTAG + ": DB Exception:\n"+ ee.toString());
+		}
 	}
 
 	/**

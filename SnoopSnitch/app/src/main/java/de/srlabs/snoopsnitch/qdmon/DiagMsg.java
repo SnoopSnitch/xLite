@@ -11,7 +11,6 @@ public class DiagMsg {
     final static byte ESC_MASK     = 0x20;
     final static byte ESC_CHAR     = 0x7d;
     final static byte CONTROL_CHAR = 0x7e;
-
     byte[]            data;
 
     DiagMsg(byte[] data) {
@@ -19,7 +18,7 @@ public class DiagMsg {
     }
 
     public static List<ByteBuffer> fromBytes(ByteBuffer buf) {
-        List<ByteBuffer> result = new ArrayList<ByteBuffer>();
+        List<ByteBuffer> result = new ArrayList<>();
         ByteBuffer de_escaped = ByteBuffer.allocate(buf.remaining()).order(ByteOrder.LITTLE_ENDIAN);
 
         while (buf.hasRemaining()) {
@@ -97,7 +96,6 @@ public class DiagMsg {
 class Crc16 {
     final static int INITIAL = 0x84cf;
     final static int POLY    = 0x1021;
-
     int              crc     = INITIAL;
 
     static public int crc16(byte[] ary) {

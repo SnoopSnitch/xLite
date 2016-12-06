@@ -44,15 +44,20 @@ import de.srlabs.snoopsnitch.util.MsdLog;
 import de.srlabs.snoopsnitch.util.Utils;
 
 public class ActiveTestService extends Service{
+
+	//private static final String TAG = "msd-active-test-service";
 	private static final String TAG = "msd-active-test-service";
+	private static final String mTAG = "ActiveTestService";
+
+	private final static String ACTION_SMS_SENT = "msd-active-test-service_SMS_SENT";
+
 	private boolean uploadDisabled = false;
 	private final MyActiveTestServiceStub mBinder = new MyActiveTestServiceStub();
 	private ActiveTestResults results = new ActiveTestResults();
 	private ProgressTickRunnable progressTickRunnable = new ProgressTickRunnable();
 	private Handler handler = new Handler();
-	private Vector<IActiveTestCallback> callbacks = new Vector<IActiveTestCallback>();
+	private Vector<IActiveTestCallback> callbacks = new Vector<>();
 	private TelephonyManager telephonyManager;
-	private final static String ACTION_SMS_SENT = "msd-active-test-service_SMS_SENT";
 	private String ownNumber;
 	private StateMachine stateMachine;
 	private MyPhoneStateListener phoneStateListener = new MyPhoneStateListener() ;
@@ -86,7 +91,7 @@ public class ActiveTestService extends Service{
 				MsdLog.d(TAG, "unhandled call state: " + phoneState);
 
 		}
-	};
+	}
 	class MySmsReceiver extends SmsReceiver{
 		@Override
 		protected void onReceiveSms(final SmsMessage sms) {
@@ -241,7 +246,7 @@ public class ActiveTestService extends Service{
 					// The device is most likely incompatible.
 					ActiveTestService.this.stopTest();
 					MsdConfig.setDeviceIncompatible(ActiveTestService.this, true);
-					Vector<IActiveTestCallback> callbacksToRemove = new Vector<IActiveTestCallback>();
+					Vector<IActiveTestCallback> callbacksToRemove = new Vector<>();
 					for(IActiveTestCallback callback:callbacks){
 						try {
 							callback.deviceIncompatibleDetected();
@@ -410,7 +415,7 @@ public class ActiveTestService extends Service{
 		 */
 		void progressTick(){
 			if(continiousMode && state == State.PAUSE){
-				// Continious mode can be reimplemented here later.
+				// ToDo: Continuous mode can be re-implemented here later.
 			} else{
 				if(nextTimeoutMillis > 0 && System.currentTimeMillis() > nextTimeoutMillis){
 					nextTimeoutMillis = 0; // Only do the same timeout once
@@ -711,7 +716,9 @@ public class ActiveTestService extends Service{
 		testRunning = false;
 		try{
 			unregisterReceiver(smsReceiver);
-		} catch(Exception e){} // unregisterReceiver throws an Exception if it isn't registered, so let's just ignore it.
+		} catch (Exception e) {
+			Log.w(TAG, mTAG + ": Receiver not registered.");
+		} // unregisterReceiver throws an Exception if it isn't registered, so let's just ignore it.
 		if(currentExtraRecordingFilename != null){
 			if(numSuccessfulTests > 0)
 				endExtraFileRecording(true);
@@ -832,7 +839,7 @@ public class ActiveTestService extends Service{
 			return;
 		Bundle b = new Bundle();
 		b.putSerializable("results", results);
-		Vector<IActiveTestCallback> callbacksToRemove = new Vector<IActiveTestCallback>();
+		Vector<IActiveTestCallback> callbacksToRemove = new Vector<>();
 		for(IActiveTestCallback callback:callbacks){
 			try {
 				callback.testResultsChanged(b);
@@ -855,7 +862,7 @@ public class ActiveTestService extends Service{
 	private void broadcastTestStateChanged() {
 		if(callbacks.size() == 0)
 			return;
-		Vector<IActiveTestCallback> callbacksToRemove = new Vector<IActiveTestCallback>();
+		Vector<IActiveTestCallback> callbacksToRemove = new Vector<>();
 		for(IActiveTestCallback callback:callbacks){
 			try {
 				callback.testStateChanged();

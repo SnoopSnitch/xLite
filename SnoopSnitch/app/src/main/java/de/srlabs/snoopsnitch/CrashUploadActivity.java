@@ -10,6 +10,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+
 import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
 import de.srlabs.snoopsnitch.qdmon.MsdServiceCallback;
 import de.srlabs.snoopsnitch.qdmon.MsdServiceHelper;

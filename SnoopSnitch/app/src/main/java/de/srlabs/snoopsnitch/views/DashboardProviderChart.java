@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Vector;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.Shader.TileMode;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -37,7 +39,8 @@ public class DashboardProviderChart extends View {
 	private double maxScore = 0;
 	private int interImper;
 	private Vector<Risk> providerData;
-	
+
+    //private Context context;
 	
 	public DashboardProviderChart(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -76,12 +79,12 @@ public class DashboardProviderChart extends View {
 		
 		// Set colors
 		int colors[] = {
-				getResources().getColor(R.color.common_chartGreen),
-				getResources().getColor(R.color.common_chartYellow),
-				getResources().getColor(R.color.common_chartRed)
-				/*ContextCompat.getColor(context, R.color.common_chartGreen),
+				/*getResources().getColor(R.color.common_chartGreen),
 				getResources().getColor(R.color.common_chartYellow),
 				getResources().getColor(R.color.common_chartRed)*/
+				ResourcesCompat.getColor(getResources(), R.color.common_chartGreen, null),
+				ResourcesCompat.getColor(getResources(), R.color.common_chartYellow, null),
+				ResourcesCompat.getColor(getResources(), R.color.common_chartRed, null)
 		};
 		
 		Shader shader = new LinearGradient(0, chartOffsetTopBottom, 0, getHeight() - chartOffsetTopBottom, colors, null, TileMode.CLAMP);
@@ -89,69 +92,68 @@ public class DashboardProviderChart extends View {
 		paint.setShader(shader); 
 		canvas.drawRect(new RectF(getWidth()/2-chartWidth, chartOffsetTopBottom, getWidth()/2+chartWidth, getHeight() - chartOffsetTopBottom), paint);
 	}
-	
-	private void drawProvider () {
-		
+
+	private void drawProvider() {
+
 		Risk risk = MSDServiceHelperCreator.getInstance().getMsdServiceHelper().getData().getScores();
 		providerData.addElement(risk);
-		
-		if (risk.getOperatorName() == null) { return; }
 
-        for (Risk op : providerData) {
-        	int color = Color.parseColor(op.getOperatorColor());
+		if (risk.getOperatorName() == null) {
+			return;
+		}
 
-        	if (providerData.lastElement().equals(op)) {
-        		if (interImper == 0) {
-            		if (!op.getInter3G().isEmpty()) {
-            			drawProviderScore(op.getInter3G().lastElement().getScore(), color,
-                				false, getOffset(op, true, true), true, op.getOperatorName().equals(risk.getOperatorName()));
-            		}
-            		
-            		if (!op.getInter().isEmpty()) {
-            			drawProviderScore(op.getInter().lastElement().getScore(), color,
-            					true, getOffset(op, true, false), true, op.getOperatorName().equals(risk.getOperatorName()));
-            		}
-            	} else {
-            		if (!op.getImper3G().isEmpty()) {
-            			drawProviderScore(op.getImper3G().lastElement().getScore(), color,
-            					false, getOffset(op, false, true),  true, op.getOperatorName().equals(risk.getOperatorName()));	
-            		}
-            		
-            		if (!op.getImper().isEmpty()) {
-            			drawProviderScore(op.getImper().lastElement().getScore(), color,
-            					 true, getOffset(op, false, false),  true, op.getOperatorName().equals(risk.getOperatorName()));
-            		}
-            	}
-        	} else {
-        		if (interImper == 0)  {
-            		if (!op.getInter3G().isEmpty())  {
-            			drawProviderScore(op.getInter3G().lastElement().getScore(), color,
-                				false, getOffset(op, true, true), false, op.getOperatorName().equals(risk.getOperatorName()));
-            		}
-            		
-            		if (!op.getInter().isEmpty()) {
-            			drawProviderScore(op.getInter().lastElement().getScore(), color,
-            					true, getOffset(op, true, false), false, op.getOperatorName().equals(risk.getOperatorName()));
-            		}
-            	} else {
-            		if (!op.getImper3G().isEmpty())
-            		{
-            			drawProviderScore(op.getImper3G().lastElement().getScore(), color,
-            					false, getOffset(op, false, true),  false, op.getOperatorName().equals(risk.getOperatorName()));	
-            		}
-            		
-            		if (!op.getImper().isEmpty())
-            		{
-            			drawProviderScore(op.getImper().lastElement().getScore(), color,
-            					 true, getOffset(op, false, false),  false, op.getOperatorName().equals(risk.getOperatorName()));
-            		}
-            	}	
-        	}
-        }
+		for (Risk op : providerData) {
+			int color = Color.parseColor(op.getOperatorColor());
+
+			if (providerData.lastElement().equals(op)) {
+				if (interImper == 0) {
+					if (!op.getInter3G().isEmpty()) {
+						drawProviderScore(op.getInter3G().lastElement().getScore(), color,
+								false, getOffset(op, true, true), true, op.getOperatorName().equals(risk.getOperatorName()));
+					}
+
+					if (!op.getInter().isEmpty()) {
+						drawProviderScore(op.getInter().lastElement().getScore(), color,
+								true, getOffset(op, true, false), true, op.getOperatorName().equals(risk.getOperatorName()));
+					}
+				} else {
+					if (!op.getImper3G().isEmpty()) {
+						drawProviderScore(op.getImper3G().lastElement().getScore(), color,
+								false, getOffset(op, false, true), true, op.getOperatorName().equals(risk.getOperatorName()));
+					}
+
+					if (!op.getImper().isEmpty()) {
+						drawProviderScore(op.getImper().lastElement().getScore(), color,
+								true, getOffset(op, false, false), true, op.getOperatorName().equals(risk.getOperatorName()));
+					}
+				}
+			} else {
+				if (interImper == 0) {
+					if (!op.getInter3G().isEmpty()) {
+						drawProviderScore(op.getInter3G().lastElement().getScore(), color,
+								false, getOffset(op, true, true), false, op.getOperatorName().equals(risk.getOperatorName()));
+					}
+
+					if (!op.getInter().isEmpty()) {
+						drawProviderScore(op.getInter().lastElement().getScore(), color,
+								true, getOffset(op, true, false), false, op.getOperatorName().equals(risk.getOperatorName()));
+					}
+				} else {
+					if (!op.getImper3G().isEmpty()) {
+						drawProviderScore(op.getImper3G().lastElement().getScore(), color,
+								false, getOffset(op, false, true), false, op.getOperatorName().equals(risk.getOperatorName()));
+					}
+
+					if (!op.getImper().isEmpty()) {
+						drawProviderScore(op.getImper().lastElement().getScore(), color,
+								true, getOffset(op, false, false), false, op.getOperatorName().equals(risk.getOperatorName()));
+					}
+				}
+			}
+		}
 	}
 	
-	private void drawProviderScore (double score, int color, Boolean is2G, float offset, Boolean isResult, Boolean isOwnProvider)
-	{
+	private void drawProviderScore ( double score, int color, Boolean is2G, float offset, Boolean isResult, Boolean isOwnProvider) {
 		// Calculations
 		int top = (int) ((getHeight() - chartOffsetTopBottom) - ((getHeight() - (chartOffsetTopBottom * 2)) * score));
 		int bottom = (int) (top + itemHeight);
@@ -163,27 +165,24 @@ public class DashboardProviderChart extends View {
 		/**
 		 * Draw the line
 		 */
-		if (!is2G)
-		{
+		if (!is2G) {
 			// Calculations
 			int left = (int) ((getWidth() / 2) - itemWidth);
 			int right = getWidth() / 2;
-			
 			r = new Rect(left, top, right, bottom);
-		}
-		else
-		{
+		} else {
 			// Calculations
 			int left = getWidth() / 2;
 			int right = (int) ((getWidth() / 2) + itemWidth);
-			
 			r = new Rect(left, top, right, bottom);
 		}
 		
 	    // fill
 	    paint.setStyle(Paint.Style.FILL);
     	paint.setAntiAlias(true);
-	    paint.setColor(getResources().getColor(R.color.common_text)); 
+        //paint.setColor(getResources().getColor(R.color.common_text));
+	    //paint.setColor(ContextCompat.getColor(getContext(), R.color.common_text));
+		paint.setColor(ResourcesCompat.getColor(getResources(), R.color.common_text, null));
 	    canvas.drawRect(r, paint);
 
 	    // border
@@ -197,11 +196,15 @@ public class DashboardProviderChart extends View {
 	     */
 	    if (isResult) {
 			paint.setStyle(Paint.Style.FILL);
-			paint.setColor(getResources().getColor(R.color.provider_circle_result_fill));
+			//paint.setColor(getResources().getColor(R.color.provider_circle_result_fill));
+            //paint.setColor(ContextCompat.getColor(getContext(), R.color.provider_circle_result_fill));
+			paint.setColor(ResourcesCompat.getColor(getResources(),R.color.provider_circle_result_fill, null));
 			drawProviderCircle(top, bottom, circleRadius, paint, is2G, offset, isResult, isOwnProvider);
 			paint.setStyle(Paint.Style.STROKE);
 			paint.setStrokeWidth(2);
-			paint.setColor(getResources().getColor(R.color.common_text));
+			//paint.setColor(getResources().getColor(R.color.common_text));
+            //paint.setColor(ContextCompat.getColor(getContext(), R.color.common_text));
+			paint.setColor(ResourcesCompat.getColor(getResources(), R.color.common_text, null));
 			drawProviderCircle(top, bottom, circleRadius - paint.getStrokeWidth() / 2, paint, is2G, offset, isResult, isOwnProvider);
 	    } else if (isOwnProvider) {
 			paint.setStyle(Paint.Style.FILL);
@@ -216,160 +219,115 @@ public class DashboardProviderChart extends View {
 			drawProviderCircle(top, bottom, circleRadius, paint, is2G, offset, isResult, isOwnProvider);
 	    }  
 	}
-	
-	private void drawProviderCircle (int top, int bottom, float radius, Paint paint, Boolean is2G, float offset, Boolean isResult, Boolean isOwnProvider)
-	{
-	    if (!is2G)
-		{
+
+	private void drawProviderCircle(int top, int bottom, float radius, Paint paint, Boolean is2G, float offset, Boolean isResult, Boolean isOwnProvider) {
+		if (!is2G) {
 			// Calculations
-	    	int positionX = (int) ((getWidth() / 2) - itemWidth - offset);
-	    	canvas.drawCircle(positionX - circleLineSpace, top + (itemHeight / 2), radius, paint);
+			int positionX = (int) ((getWidth() / 2) - itemWidth - offset);
+			canvas.drawCircle(positionX - circleLineSpace, top + (itemHeight / 2), radius, paint);
+		} else {
+			// Calculations
+			int positionX = (int) ((getWidth() / 2) + itemWidth + offset);
+			canvas.drawCircle(positionX + circleLineSpace, top + (itemHeight / 2), radius, paint);
 		}
-		else
-		{
-			// Calculations
-	    	int positionX = (int) ((getWidth() / 2) + itemWidth + offset);
-	    	canvas.drawCircle(positionX + circleLineSpace, top + (itemHeight / 2), radius, paint);
-		}    
 	}
-	
-	private void drawMinMaxBackground ()
-	{
+
+	private void drawMinMaxBackground() {
 		setMinMaxScore();
-		
+
 		Paint p = new Paint();
-	    p.setStyle(Paint.Style.FILL);
-	    new Color();
+		p.setStyle(Paint.Style.FILL);
+		new Color();
 		int c = Color.argb(150, 255, 255, 255);
-	    p.setColor(c);
-	    
+		p.setColor(c);
+
 		// Draw max space
-	    canvas.drawRect(new Rect((int) (getWidth()/2-chartWidth),(int) chartOffsetTopBottom,(int) (getWidth()/2+chartWidth),
-	    		(int) ((getHeight() - chartOffsetTopBottom) - ((getHeight() - (chartOffsetTopBottom * 2)) * maxScore) + itemHeight / 2)), p);
-	    
-	    // Draw min space
-	    canvas.drawRect(new Rect((int) (getWidth()/2-chartWidth),
-	    		(int) ((getHeight() - chartOffsetTopBottom) - ((getHeight() - (chartOffsetTopBottom * 2)) * minScore) + itemHeight / 2),
-	    		(int) (getWidth()/2+chartWidth),(int) (getHeight() - chartOffsetTopBottom)), p); 
+		canvas.drawRect(new Rect((int) (getWidth() / 2 - chartWidth), (int) chartOffsetTopBottom, (int) (getWidth() / 2 + chartWidth),
+				(int) ((getHeight() - chartOffsetTopBottom) - ((getHeight() - (chartOffsetTopBottom * 2)) * maxScore) + itemHeight / 2)), p);
+
+		// Draw min space
+		canvas.drawRect(new Rect((int) (getWidth() / 2 - chartWidth),
+				(int) ((getHeight() - chartOffsetTopBottom) - ((getHeight() - (chartOffsetTopBottom * 2)) * minScore) + itemHeight / 2),
+				(int) (getWidth() / 2 + chartWidth), (int) (getHeight() - chartOffsetTopBottom)), p);
 	}
-	
-	private void setMinMaxScore ()
-	{		
-		if (interImper == 0)
-		{
-			for (Risk r : providerData) 
-			{
-				if (!r.getInter().isEmpty())
-				{
-					if (r.getInter().lastElement().getScore() > maxScore)
-					{
+
+	private void setMinMaxScore() {
+		if (interImper == 0) {
+			for (Risk r : providerData) {
+				if (!r.getInter().isEmpty()) {
+					if (r.getInter().lastElement().getScore() > maxScore) {
 						maxScore = r.getInter().lastElement().getScore();
-					}
-					else if (r.getInter().lastElement().getScore() < minScore)
-					{
+					} else if (r.getInter().lastElement().getScore() < minScore) {
 						minScore = r.getInter().lastElement().getScore();
 					}
 				}
-				
-				if (!r.getInter3G().isEmpty())
-				{
-					if (r.getInter3G().lastElement().getScore() > maxScore)
-					{
+
+				if (!r.getInter3G().isEmpty()) {
+					if (r.getInter3G().lastElement().getScore() > maxScore) {
 						maxScore = r.getInter3G().lastElement().getScore();
-					}
-					else if (r.getInter3G().lastElement().getScore() < minScore)
-					{
+					} else if (r.getInter3G().lastElement().getScore() < minScore) {
 						minScore = r.getInter3G().lastElement().getScore();
 					}
 				}
 			}
-		}
-		else
-		{
-			for (Risk r : providerData) 
-			{
-				if (!r.getImper().isEmpty())
-				{
-					if (r.getImper().lastElement().getScore() > maxScore)
-					{
+		} else {
+			for (Risk r : providerData) {
+				if (!r.getImper().isEmpty()) {
+					if (r.getImper().lastElement().getScore() > maxScore) {
 						maxScore = r.getImper().lastElement().getScore();
-					}
-					else if (r.getImper().lastElement().getScore() < minScore)
-					{
+					} else if (r.getImper().lastElement().getScore() < minScore) {
 						minScore = r.getImper().lastElement().getScore();
 					}
 				}
-				
-				if (!r.getImper3G().isEmpty())
-				{
-					if (r.getImper3G().lastElement().getScore() > maxScore)
-					{
+
+				if (!r.getImper3G().isEmpty()) {
+					if (r.getImper3G().lastElement().getScore() > maxScore) {
 						maxScore = r.getImper3G().lastElement().getScore();
-					}
-					else if (r.getImper3G().lastElement().getScore() < minScore)
-					{
+					} else if (r.getImper3G().lastElement().getScore() < minScore) {
 						minScore = r.getImper3G().lastElement().getScore();
 					}
 				}
 			}
 		}
 	}
-	
-	private void sortProviderData ()
-	{
+
+	private void sortProviderData() {
 		Risk risk = MSDServiceHelperCreator.getInstance().getMsdServiceHelper().getData().getScores();
-		
-		for (Risk r : providerData) 
-		{
-			if (providerData.elementAt(providerData.indexOf(r)).getOperatorName().equals(risk.getOperatorName()))
-			{
-				Collections.swap(providerData, providerData.size()-1, providerData.indexOf(r));
+
+		for (Risk r : providerData) {
+			if (providerData.elementAt(providerData.indexOf(r)).getOperatorName().equals(risk.getOperatorName())) {
+				Collections.swap(providerData, providerData.size() - 1, providerData.indexOf(r));
 			}
 		}
 	}
-	
-	private float getOffset (Risk risk, Boolean interception, Boolean is3g)
-	{
-    	float offset = 0;
-    	
-    	for (int i=providerData.indexOf(risk)+1; i<providerData.size(); i++)
-    	{
-    		if (interception)
-    		{
-    			if (is3g)
-    			{
-    	    		if (providerData.get(i).getInter3G().equals(risk.getInter3G()))
-    	    		{
-    	    			offset += circleOffset;
-    	    		}
-    			}
-    			else
-    			{
-    	    		if (providerData.get(i).getInter().equals(risk.getInter()))
-    	    		{
-    	    			offset += circleOffset;
-    	    		}
-    			}
-    		}
-    		else
-    		{
-    			if  (is3g)
-    			{
-    	    		if (providerData.get(i).getImper3G().equals(risk.getImper3G()))
-    	    		{
-    	    			offset += circleOffset;
-    	    		}
-    			}
-    			else
-    			{
-    	    		if (providerData.get(i).getImper().equals(risk.getImper()))
-    	    		{
-    	    			offset += circleOffset;
-    	    		}
-    			}
-    		}
-    	}
-    	
-    	return offset;
+
+	private float getOffset(Risk risk, Boolean interception, Boolean is3g) {
+		float offset = 0;
+
+		for (int i = providerData.indexOf(risk) + 1; i < providerData.size(); i++) {
+			if (interception) {
+				if (is3g) {
+					if (providerData.get(i).getInter3G().equals(risk.getInter3G())) {
+						offset += circleOffset;
+					}
+				} else {
+					if (providerData.get(i).getInter().equals(risk.getInter())) {
+						offset += circleOffset;
+					}
+				}
+			} else {
+				if (is3g) {
+					if (providerData.get(i).getImper3G().equals(risk.getImper3G())) {
+						offset += circleOffset;
+					}
+				} else {
+					if (providerData.get(i).getImper().equals(risk.getImper())) {
+						offset += circleOffset;
+					}
+				}
+			}
+		}
+
+		return offset;
 	}
 }
