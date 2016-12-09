@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.srlabs.snoopsnitch">
+    package="de.srlabs.snoopsnitch"
+    android:installLocation="auto" >
 
     <uses-sdk />
 
@@ -28,11 +29,11 @@
            http://stackoverflow.com/questions/28134128/android-permission-interact-across-users-full
          -->
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
-                     android:protectionLevel="signature" />
+                     android:protectionLevel="dangerous" />
 
     <!-- For available groups see:
          https://developer.android.com/guide/topics/security/permissions.html
-         
+
                     android:permissionGroup="android.permission-group.LOCATION"
                     android:permissionGroup="android.permission-group.PHONE"
                     android:permissionGroup="android.permission-group.SMS"
