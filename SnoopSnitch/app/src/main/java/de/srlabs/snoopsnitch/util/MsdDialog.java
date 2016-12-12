@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
+
 import de.srlabs.snoopsnitch.R;
 
 public class MsdDialog extends DialogFragment
@@ -14,12 +15,14 @@ public class MsdDialog extends DialogFragment
 			OnClickListener positiveOnClickListener, OnClickListener negativeOnClickListener, Boolean backButtonActive){
 		return makeConfirmationDialog(activity, message, positiveOnClickListener, negativeOnClickListener,null, backButtonActive);
 	}
+
 	public static Dialog makeConfirmationDialog (Activity activity, String message, 
 			OnClickListener positiveOnClickListener, OnClickListener negativeOnClickListener,
 			OnCancelListener onCancelListener, Boolean backButtonActive){
 		return makeConfirmationDialog(activity, message, positiveOnClickListener, negativeOnClickListener,null, 
 				activity.getResources().getString(R.string.alert_button_ok), activity.getString(R.string.alert_button_cancel), backButtonActive);	
 	}
+
 	public static Dialog makeConfirmationDialog (Activity activity, String message, 
 			OnClickListener positiveOnClickListener, OnClickListener negativeOnClickListener,
 			OnCancelListener onCancelListener, String positiveButtonText, String negativeButtonText, Boolean backButtonActive)
@@ -30,17 +33,17 @@ public class MsdDialog extends DialogFragment
 		builder.setPositiveButton(positiveButtonText, positiveOnClickListener);
 		builder.setNegativeButton(negativeButtonText, negativeOnClickListener);
 		builder.setOnCancelListener(onCancelListener);
-
 		builder.setIcon(android.R.drawable.ic_dialog_info);
-		
 		builder.setCancelable(backButtonActive);
 		
 		return builder.create();
 	}
+
 	public static Dialog makeFatalConditionDialog (Activity activity, String message, 
 			OnClickListener positiveOnClickListener, String detailText, Boolean backButtonActive){
 		return makeFatalConditionDialog(activity, message, positiveOnClickListener, detailText, null, backButtonActive);
 	}
+
 	public static Dialog makeFatalConditionDialog (Activity activity, String message, 
 			OnClickListener positiveOnClickListener, String detailText, OnCancelListener onCancelListener, Boolean backButtonActive)
 	{
@@ -49,10 +52,8 @@ public class MsdDialog extends DialogFragment
 				activity.getResources().getString(R.string.alert_fatal_condition_title), message);
 		
 		builder.setIcon(android.R.drawable.ic_dialog_alert);
-		
 		builder.setPositiveButton(activity.getString(R.string.alert_button_quit), positiveOnClickListener);
 		builder.setOnCancelListener(onCancelListener);
-		
 		builder.setCancelable(backButtonActive);
 		
 		return builder.create();
@@ -66,10 +67,8 @@ public class MsdDialog extends DialogFragment
 				activity.getResources().getString(R.string.alert_fatal_condition_title), message);
 
 		builder.setIcon(android.R.drawable.ic_dialog_alert);
-		
 		builder.setPositiveButton(activity.getString(R.string.alert_button_quit), positiveOnClickListener);
 		builder.setNegativeButton(activity.getString(R.string.alert_button_quit), positiveOnClickListener);
-		
 		builder.setCancelable(backButtonActive);
 		
 		return builder.create();
@@ -80,9 +79,8 @@ public class MsdDialog extends DialogFragment
 	{
 		AlertDialog.Builder builder = getAlertDialogBuilder(activity, 
 				activity.getResources().getString(R.string.alert_notification_title), message);
-		
+
 		builder.setPositiveButton(activity.getString(R.string.alert_button_ok), positiveOnClickListener);
-		
 		builder.setCancelable(backButtonActive);
 		
 		return builder.create();
@@ -91,7 +89,6 @@ public class MsdDialog extends DialogFragment
 	private static AlertDialog.Builder getAlertDialogBuilder (Activity activity, String title, String message)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder (activity);
-		
 		builder.setTitle(title);
 		builder.setMessage(message);
 		

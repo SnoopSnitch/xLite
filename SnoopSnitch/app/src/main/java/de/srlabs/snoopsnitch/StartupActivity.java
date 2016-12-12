@@ -6,11 +6,10 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
-import de.srlabs.snoopsnitch.R;
+
 import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
 import de.srlabs.snoopsnitch.util.DeviceCompatibilityChecker;
 import de.srlabs.snoopsnitch.util.MsdConfig;
@@ -25,10 +24,12 @@ import de.srlabs.snoopsnitch.util.Utils;
  * DashboardActivity.
  * 
  */
-public class StartupActivity extends Activity{
+public class StartupActivity extends Activity {
+
     private MsdSQLiteOpenHelper helper;
 	private boolean alreadyClicked = false;
 	private ProgressDialog progressDialog;
+
 	@Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
@@ -44,7 +45,7 @@ public class StartupActivity extends Activity{
         }
     }
 
-    private void showDeviceIncompatibleDialog(String incompatibilityReason){
+    private void showDeviceIncompatibleDialog(String incompatibilityReason) {
     	Utils.showDeviceIncompatibleDialog(this, incompatibilityReason, new Runnable() {
 			@Override
 			public void run() {
@@ -88,11 +89,12 @@ public class StartupActivity extends Activity{
 				}, false
 				).show();
 	}
-	protected void quitApplication ()
-	{
+
+	protected void quitApplication () {
 		finish();
 		System.exit(0);
 	}
+
 	private void createDatabaseAndStartDashboard() {
 		progressDialog = ProgressDialog.show(this, "Initializing database", "Please wait...", true);
 		progressDialog.show();
@@ -116,7 +118,8 @@ public class StartupActivity extends Activity{
 		};
 		t.start();
 	}
-	private void startDashboard(){
+
+	private void startDashboard() {
         Intent i = new Intent(StartupActivity.this, DashboardActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         StartupActivity.this.startActivity(i);

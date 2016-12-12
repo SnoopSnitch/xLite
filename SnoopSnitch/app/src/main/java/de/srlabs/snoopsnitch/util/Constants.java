@@ -22,11 +22,13 @@ public class Constants {
 	public static final String API_URL = "https://brest.srlabs.de:4443/clientCommandReceiver.php?Password=gdsajsdgkgdsalkgfdsgsdrw43435swds";
 	public static final String CALL_NUMBER = "+14046206543"; // use '+' notation
 	public static final String CALLBACK_NUMBER = "+14046206545";
-	
+
+	// All times in [ms]
 	public static final long CALL_MT_TIMEOUT = 30000;
 	public static final long CALL_MT_ACTIVE_TIMEOUT = 30000;
 	public static final long CALL_MO_TIMEOUT = 20000;
 	public static final long CALL_MO_ACTIVE_TIMEOUT = 10000;
+	// US originated SMS can take a long time and some EU providers never get them at all.
 	public static final long SMS_MT_TIMEOUT = 30000;
 	public static final long API_TIMEOUT = 30000;
 	public static final long SMS_MO_TIMEOUT = 10000;

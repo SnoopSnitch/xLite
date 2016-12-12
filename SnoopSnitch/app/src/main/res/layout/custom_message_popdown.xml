@@ -5,12 +5,10 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:padding="8dp"
-              android:background="@color/common_custom_toast_message_background"
-              >
+              android:background="@color/common_custom_toast_message_background" >
               
     <TextView android:id="@+id/text"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:textColor="@color/common_custom_toast_message_foreground"
-              />
+              android:textColor="@color/common_custom_toast_message_foreground" />
 </LinearLayout>

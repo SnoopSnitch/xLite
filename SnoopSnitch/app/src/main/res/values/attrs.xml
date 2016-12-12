@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <!-- Custom view of Dashboard -->
 	<declare-styleable name="DashboardThreatChart">
     	<attr name="timePeriodDashboard" format="enum">
@@ -29,7 +29,7 @@
        	</attr>
 	</declare-styleable>
 	
-	<!-- Timespace Position (Fragemnt Hour) -->
+	<!-- Timespace Position (Fragment Hour) -->
 	<declare-styleable name="DetailThreatChartHour">
 	    <attr name="TimeSpacePositionHour" format="enum">
 	        <enum name="One" value="0"/>
@@ -47,7 +47,7 @@
 	    </attr>
 	</declare-styleable>
 	
-	<!-- Timespace Position (Fragemnt Day) -->
+	<!-- Timespace Position (Fragment Day) -->
 	<declare-styleable name="DetailThreatChartDay">
 	    <attr name="TimeSpacePositionDay" format="enum">
 	        <enum name="One" value="0"/>
@@ -59,7 +59,7 @@
 	    </attr>
 	</declare-styleable>
 	
-	<!-- Timespace Position (Fragemnt Week) -->
+	<!-- Timespace Position (Fragment Week) -->
 	<declare-styleable name="DetailThreatChartWeek">
 	    <attr name="TimeSpacePositionWeek" format="enum">
 	        <enum name="One" value="0"/>
@@ -72,7 +72,7 @@
 	    </attr>
 	</declare-styleable>
 	
-	<!-- Timespace Position (Fragemnt Month) -->
+	<!-- Timespace Position (Fragment Month) -->
 	<declare-styleable name="DetailThreatChartMonth">
 	    <attr name="TimeSpacePositionMonth" format="enum">
 	        <enum name="One" value="0"/>
@@ -89,5 +89,5 @@
            	<enum name="impersonation" value="1"/>
        	</attr>
    	</declare-styleable>
-	
+
 </resources>
