@@ -83,14 +83,15 @@ import de.srlabs.snoopsnitch.util.MsdDatabaseManager;
 import de.srlabs.snoopsnitch.util.MsdLog;
 import de.srlabs.snoopsnitch.util.Utils;
 
-public class MsdService extends Service{
+public class MsdService extends Service {
 	public static final String    TAG = "msd-service";
+	private static final String  mTAG = "MsdService";
 
 	// TODO: Watch storage utilisation and stop recording if limits are exceeded
 	// TODO: Watch battery level and stop recording if battery level goes below configured limit
 
 	private final MyMsdServiceStub mBinder = new MyMsdServiceStub();
-	private  long activeTestTimestamp = 0;
+	private long activeTestTimestamp = 0;
 	private boolean recordingStartedForActiveTest = false;
 	public long lastAnalysisTimeMs = 0;
 
@@ -1646,7 +1647,7 @@ public class MsdService extends Service{
 				"-s", "" + nextSessionInfoId,
 				"-c", "" + nextCellInfoId,
 				"-a", "" + "0x" + appID};
-		Vector<String> vCmd = new Vector<String>();
+		Vector<String> vCmd = new Vector<>();
 		vCmd.addAll(Arrays.asList(cmd));
 		if(MsdConfig.getPcapRecordingEnabled(this) && MsdConfig.getPcapFilenamePrefix(this).length() > 0){
 			String pcapBaseFileName = MsdConfig.getPcapFilenamePrefix(this);
@@ -1825,7 +1826,7 @@ public class MsdService extends Service{
 
 	private static List<byte[]> fromDev(byte[] data, int offset, int length) throws IllegalStateException {
 		ByteBuffer in = ByteBuffer.wrap(data, 0, length).order(ByteOrder.nativeOrder());
-		List<byte[]> msgs = new ArrayList<byte[]>();
+		List<byte[]> msgs = new ArrayList<>();
 		int type = in.getInt();
 		if (type == USER_SPACE_LOG_TYPE) {
 			int nelem = in.getInt();
@@ -1859,7 +1860,7 @@ public class MsdService extends Service{
 		msdServiceNotifications.showInternalErrorNotification(msg, debugLogFileId);
 	}
 	private void sendStateChanged(StateChangedReason reason){
-		Vector<IMsdServiceCallback> callbacksToRemove = new Vector<IMsdServiceCallback>();
+		Vector<IMsdServiceCallback> callbacksToRemove = new Vector<>();
 		for(IMsdServiceCallback callback:mBinder.callbacks){
 			try {
 				callback.stateChanged(reason.name());
@@ -1872,6 +1873,7 @@ public class MsdService extends Service{
 		}
 		mBinder.callbacks.removeAll(callbacksToRemove);
 	}
+
 	void handleFatalError(String msg, final Throwable e){
 		boolean doShutdown = false;
 		if(recording && shuttingDown.compareAndSet(false, true)){
@@ -1910,6 +1912,7 @@ public class MsdService extends Service{
 			fatalErrorOccured = true;
 		}
 	}
+
 	void handleFatalError(String msg){
 		handleFatalError(msg,null);
 	}
@@ -1947,7 +1950,7 @@ public class MsdService extends Service{
 		if(recording)
 			shutdown(false);
 		MsdLog.e(TAG, "Sending internalError() to all callbacks");
-		Vector<IMsdServiceCallback> callbacksToRemove = new Vector<IMsdServiceCallback>();
+		Vector<IMsdServiceCallback> callbacksToRemove = new Vector<>();
 		for(IMsdServiceCallback callback:mBinder.callbacks){
 			try {
 				callback.internalError();
@@ -1963,6 +1966,7 @@ public class MsdService extends Service{
 		MsdLog.e(TAG, "Terminating MsdService after shutting down due to an expected error");
 		System.exit(1);
 	}
+
 	/**
 	 * Checks whether all threads are still running and no message queue contains a huge number of messages
 	 */
@@ -2053,7 +2057,8 @@ public class MsdService extends Service{
 		// data like the process id). However, the actual class of the
 		// process does contain a pid field (declared as private), which can be
 		// accessed via reflection.
-		if(parser.getClass().getName().equals("java.lang.ProcessManager$ProcessImpl")) {
+		if( parser.getClass().getName().equals("java.lang.ProcessManager$ProcessImpl") ||
+				parser.getClass().getName().equals("java.lang.UNIXProcess")) {
 			try {
 				Field f = parser.getClass().getDeclaredField("pid");
 				f.setAccessible(true);
@@ -2110,7 +2115,8 @@ public class MsdService extends Service{
 				ok = false;
 			}
 		} else{
-			handleFatalError("Failed to get parser pid, parser class name is " + parser.getClass().getName() + " instead of java.lang.ProcessManager$ProcessImpl");
+			//handleFatalError("Failed to get parser pid, parser class name is " + parser.getClass().getName() + " instead of java.lang.ProcessManager$ProcessImpl");
+			handleFatalError("Failed to get parser pid, parser class name is " + parser.getClass().getName() + " instead of java.lang.ProcessManager$ProcessImpl or java.lang.UNIXProcess");
 			ok = false;
 		}
 		// TODO: Maybe check memory usage of this Service process as well.
@@ -2128,6 +2134,7 @@ public class MsdService extends Service{
 			}
 		}
 	}
+
 	private void openOrReopenRawWriter() throws EncryptedFileWriterError {
 		// Create a new dump file every 10 minutes, name it with the
 		// UTC time so that it does not reuse the same filename if
@@ -2137,9 +2144,13 @@ public class MsdService extends Service{
 		c.setTimeInMillis(timestamp);
 
 		// Calendar.MONTH starts counting with 0
-		String baseFilename = String.format(Locale.US, "qdmon_%04d-%02d-%02d_%02d-%02dUTC",c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH),c.get(Calendar.HOUR_OF_DAY), 10*(c.get(Calendar.MINUTE) / 10));
+		String baseFilename = String.format(Locale.US, "qdmon_%04d-%02d-%02d_%02d-%02dUTC",
+				c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH),
+				c.get(Calendar.HOUR_OF_DAY), 10*(c.get(Calendar.MINUTE) / 10));
+
 		if(rawWriter != null && currentRawWriterBaseFilename != null && currentRawWriterBaseFilename.equals(baseFilename))
 			return; // No reopen needed
+
 		MsdDatabaseManager.initializeInstance(new MsdSQLiteOpenHelper(this));
 		SQLiteDatabase db = MsdDatabaseManager.getInstance().openDatabase();
 
@@ -2165,7 +2176,7 @@ public class MsdService extends Service{
 					(new File(getFilesDir().toString() + "/" + encryptedFilename)).exists() ){
 				plaintextFilename = null;
 				encryptedFilename = null;
-			} else{
+			} else {
 				break;
 			}
 		}
@@ -2174,8 +2185,8 @@ public class MsdService extends Service{
 			return;
 		}
 
-		rawWriter = new EncryptedFileWriter(this, encryptedFilename, true, MsdConfig.recordUnencryptedDumpfiles(this) ? plaintextFilename : null,
-				true);
+		rawWriter = new EncryptedFileWriter(this, encryptedFilename, true,
+				MsdConfig.recordUnencryptedDumpfiles(this) ? plaintextFilename : null, true);
 
 		// Register the file in database
 		// Set calendar to start of 10 minute interval
@@ -2183,6 +2194,7 @@ public class MsdService extends Service{
 		c.set(Calendar.MILLISECOND, 0);
 		c.set(Calendar.SECOND,0);
 		c.set(Calendar.MINUTE,10*(c.get(Calendar.MINUTE)/10));
+
 		DumpFile df = new DumpFile(encryptedFilename,DumpFile.TYPE_ENCRYPTED_QDMON,timestamp,c.getTimeInMillis() + 10*60*1000);
 		df.insert(db);
 		rawLogFileId = df.getId();
@@ -2195,6 +2207,7 @@ public class MsdService extends Service{
 		MsdDatabaseManager.getInstance().closeDatabase();
 		triggerUploading();
 	}
+
 	private void closeRawWriter(){
 		if(rawWriter == null)
 			return;
@@ -2245,7 +2258,11 @@ public class MsdService extends Service{
 		if(crash){
 			df.updateCrash(db, true);
 		}
-		MsdDatabaseManager.getInstance().closeDatabase();
+		try {
+			MsdDatabaseManager.getInstance().closeDatabase();
+		} catch (Exception ee) {
+			Log.e(TAG, mTAG + ": closeDebugLog(): Error when closing DB:\n"+ ee.toString());
+		}
 	}
 
 	/**
@@ -2312,6 +2329,7 @@ public class MsdService extends Service{
 		MsdDatabaseManager.getInstance().closeDatabase();
 		return oldDebugLogId;
 	}
+
 	private void restartRecording(){
 		if(!shutdown(false)){
 			return;
