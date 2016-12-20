@@ -1,11 +1,16 @@
 package de.srlabs.snoopsnitch.util;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 import android.content.Context;
 import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
 
 import de.srlabs.snoopsnitch.BuildConfig;
@@ -14,6 +19,10 @@ import de.srlabs.snoopsnitch.qdmon.MsdService;
 import de.srlabs.snoopsnitch.qdmon.MsdServiceHelper;
 
 public class MsdLog {
+
+	private static final String TAG = "SNSN";
+	private static final String mTAG = "MsdLog";
+
 	// We should use .getApplicationContext() when something points to a context
 	//private static MsdServiceHelper msdServiceHelper;
 	private static MsdServiceHelper msdServiceHelper;
@@ -82,20 +91,65 @@ public class MsdLog {
 	}
 
 	/**
+	 * Getting system properties using OS command getprop, instead of using reflection.
+	 *
+	 * Reflection would require:
+	 * import com.android.internal.telephony.TelephonyProperties;
+	 * import android.os.SystemProperties;
+	 * 	//public static final String USER = Settings.System.getString("ro.build.user");
+	 *
+	 * @param key
+	 * @return property
+     */
+	public static String osgetprop(String key) {
+		Process process = null;
+		String property = null;
+		try {
+			//ifc = Runtime.getRuntime().exec("getprop ro.hardware");
+			process = new ProcessBuilder().command("/system/bin/getprop" + key).redirectErrorStream(true).start();
+			BufferedReader bis = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			property = bis.readLine();
+		} catch (IOException ee) {
+			Log.e(TAG, mTAG + ": osgetprop(): Error executing getprop:\n" + ee.toString());
+		}
+		process.destroy();
+		return property;
+	}
+
+	/**
 	 * Gets some information about phone model, Android version etc.
+	 * ToDo: We need more details from getprop
+	 *
+	 * see:  https://team.srlabs.de/issues/2039
+	 *
+	 * 	[gsm.version.baseband]: [T815XXU1AOH1]		x	android.os.SystemProperties.PROPERTY_BASEBAND_VERSION
+	 * 	[gsm.version.ril-impl]: [Samsung RIL v3.0]	x	android.os.SystemProperties.PROPERTY_RIL_IMPL
+	 * 	[ril.hw_ver]:           [MP 0.500]
+	 * 	[ril.modem.board]:      [SHANNON333]
+	 * 	[ro.arch]:              [exynos5433]
+	 * 	[ro.baseband]:          [unknown]
+	 * 	[ro.board.platform]:    [exynos5]
+	 *
+	 *  NOTE: We probably also need to know the Kernel Version (as diag build is dependent on that.)
 	 */
 	public static String getLogStartInfo(Context context) {
 		StringBuffer result = new StringBuffer();
 		result.append("Log opened " + Utils.formatTimestamp(System.currentTimeMillis()) + "\n");
 		//result.append("SnoopSnitch Version: " + context.getString(R.string.app_version) + "\n");
 		result.append("SnoopSnitch Version: " + BuildConfig.VERSION_NAME + "\n");
-		result.append("Android version: " + Build.VERSION.RELEASE + "\n");
-		result.append("Manufacturer: " + Build.MANUFACTURER + "\n");
-		result.append("Board: "        + Build.BOARD + "\n");
-		result.append("Brand: "        + Build.BRAND + "\n");
-		result.append("Product: "      + Build.PRODUCT + "\n");
-		result.append("Model: "        + Build.MODEL + "\n");
-		result.append("Baseband: "     + Build.getRadioVersion() + "\n");
+		result.append("Android version: "     + Build.VERSION.RELEASE + "\n");
+		result.append("Manufacturer: "        + Build.MANUFACTURER + "\n");
+		result.append("Board: "               + Build.BOARD + "\n");
+		result.append("Brand: "               + Build.BRAND + "\n");
+		result.append("Product: "             + Build.PRODUCT + "\n");
+		result.append("Model: "               + Build.MODEL + "\n");
+		result.append("Baseband: "            + Build.getRadioVersion() + "\n");
+		// result.append("gsm.version.baseband:  " + osgetprop("gsm.version.baseband") + "\n");
+		// result.append("gsm.version.ril-impl:  " + osgetprop("gsm.version.ril-impl") + "\n");
+		// result.append("ril.hw_ver:            " + osgetprop("ril.hw_ver") + "\n");
+		// result.append("ril.modem.board:       " + osgetprop("ril.modem.board") + "\n");
+		// result.append("ro.arch:               " + osgetprop("ro.arch") + "\n");
+		// result.append("ro.board.platform:     " + osgetprop("ro.board.platform") + "\n");
 		return result.toString();
 	}
 }

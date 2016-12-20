@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Environment;
+//import android.util.Log;
 //import android.preference.PreferenceManager;
 
 
@@ -12,7 +13,10 @@ import android.os.Environment;
  * 
  */
 public class MsdConfig {
-	
+
+	private static final String TAG = "SNSN";
+	private static final String mTAG = "MsdConfig";
+
 	// The version suffix should be counted up when there is a solution for the
 	// "No baseband messages" problem (so that phones detected to be
 	// incompatible with a previous version can used again)
@@ -92,8 +96,7 @@ public class MsdConfig {
 		editor.commit();
 	}
 
-	public static String getOwnNumber(Context context)
-	{
+	public static String getOwnNumber(Context context) {
 		return sharedPrefs(context).getString("own_number", "");
 	}
 
@@ -109,8 +112,7 @@ public class MsdConfig {
 		return sharedPrefs(context).getString("settings_active_test_sms_mo_number", "*4*");
 	}
 
-	public static long getDataJSLastCheckTime(Context context)
-	{
+	public static long getDataJSLastCheckTime(Context context) {
 			return sharedPrefs(context).getLong("data_js_last_check_time", 0);
 	}
 
@@ -156,8 +158,7 @@ public class MsdConfig {
 		return sharedPrefs(context).getBoolean("settings_active_test_disable_upload", false);
 	}
 
-	public static boolean getCrash(Context context)
-	{
+	public static boolean getCrash(Context context)	{
 		return sharedPrefs(context).getBoolean("settings_crash", false);
 	}
 
@@ -167,8 +168,7 @@ public class MsdConfig {
 		edit.commit();
 	}
 
-	public static long getLastCleanupTime(Context context)
-	{
+	public static long getLastCleanupTime(Context context) {
 		return sharedPrefs(context).getLong("last_cleanup_time", 0);
 	}
 
@@ -178,13 +178,11 @@ public class MsdConfig {
 		edit.commit();
 	}
 
-	public static void setLastCleanupTime(Context context, long time)
-	{
+	public static void setLastCleanupTime(Context context, long time) {
 		setLastCleanupTime(sharedPrefs(context), time);
 	}
 
-	public static boolean getFirstRun(Context context)
-	{
+	public static boolean getFirstRun(Context context) {
 		return sharedPrefs(context).getBoolean("app_first_run", true);
 	}
 
@@ -195,7 +193,6 @@ public class MsdConfig {
 	}
 
 	public static boolean getStartOnBoot(Context context) {
-
         return sharedPrefs(context).getBoolean("settings_start_on_boot", true);
 	}
 
@@ -217,12 +214,27 @@ public class MsdConfig {
 		return sharedPrefs(context).getBoolean("settings_enable_pcap_recording", false);
 	}
 
+	/**
+	 * This is used in MsdService.launchParser() as:
+	 * 		String pcapBaseFileName = MsdConfig.getPcapFilenamePrefix(this);
+	 * .	String filename = pcapBaseFileName + "_" + String.format(Locale.US, ....) + ".pcap";
+	 *
+	 * @param context
+	 * @return
+     */
     public static String getPcapFilenamePrefix(Context context) {
+		// The default storage location is/was: 	/sdcard/snoopsnitch/ ?
+		// The default storage location should be: 	/.../snoopsnitch/ ?
+		// The default strings for this are in: 	strings.xml
+		// The default preference for this are in: 	preferences.xml
+		//
 		//return sharedPrefs(context).getString("settings_pcap_filename_prefix", "/sdcard/snoopsnitch");
         // getExternalStorageDirectory : requires WRITE_EXTERNAL_STORAGE permission
         // getExternalFilesDir(String) : requires no permissions
         // getExternalCacheDir()       : requires no permissions
         // getExternalMediaDirs        : requires no permissions
-        return sharedPrefs(context).getString("settings_pcap_filename_prefix", Environment.getExternalStorageDirectory().getPath() + "/snoopsnitch");
+        return sharedPrefs(context).getString("settings_pcap_filename_prefix",
+				//Environment.getExternalStorageDirectory().getPath() + "/sdcard/snoopsnitch");
+				Environment.getExternalStorageDirectory().getPath() + "/snoopsnitch");
 	}
 }

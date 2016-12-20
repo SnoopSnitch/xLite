@@ -10,9 +10,9 @@ import android.content.Context;
 import android.preference.PreferenceManager;
 
 import de.srlabs.snoopsnitch.R;
+
 public class DeviceCompatibilityChecker {
 	private static String su_binary = null;
-
 	private static int suFailReason = 0;
 	private static final int SU_ROOT_DENIED = 1;
 	private static final int SU_NOT_PRESENT = 2;
@@ -69,7 +69,6 @@ public class DeviceCompatibilityChecker {
 	private static boolean testRunOK(Context context, String suBinary) {
 
 		Process helper;
-
 		String libdir = context.getApplicationInfo().nativeLibraryDir;
 		String diag_helper = libdir + "/libdiag-helper.so";
 		String cmd[] = { suBinary, "-c", "exec " + diag_helper + " test"};
@@ -98,6 +97,7 @@ public class DeviceCompatibilityChecker {
 			su_binary = findSuBinary();
 		return su_binary;
 	}
+
 	private static String findSuBinary(){
 
 		// Iterate over all PATH entries to find su binary

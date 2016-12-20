@@ -11,6 +11,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
 import de.srlabs.snoopsnitch.util.MsdLog;
 import de.srlabs.snoopsnitch.util.Utils;
 
@@ -19,20 +20,27 @@ import de.srlabs.snoopsnitch.util.Utils;
  *
  */
 public class DumpFile {
+
+	private static final String TAG = "SNSN";
+	private static final String mTAG = "DumpFile";
+
 	private long id = -1;
-	private String filename;
 	private long start_time;
 	private long end_time;
+	private String filename;
 	private int file_type;
+	private int state;
+
+	private boolean sms = false;
+	private boolean imsi_catcher = false;
+	private boolean crash = false;
+
 	public static final int TYPE_DEBUG_LOG = 1;
 	public static final int TYPE_ENCRYPTED_QDMON = 2;
 	public static final int TYPE_METADATA = 3;
 	public static final int TYPE_LOCATION_INFO = 4;
 	public static final int TYPE_BUG_REPORT = 5;
-	private boolean sms = false;
-	private boolean imsi_catcher = false;
-	private boolean crash = false;
-	private int state;
+
 	public static final int STATE_RECORDING = 1;
 	public static final int STATE_AVAILABLE = 2;
 	public static final int STATE_PENDING = 3;
@@ -54,15 +62,15 @@ public class DumpFile {
 	}
 
 	public DumpFile(Cursor c) {
-		id = c.getLong(c.getColumnIndex("_id"));
-		filename = c.getString(c.getColumnIndex("filename"));
-		start_time = Timestamp.valueOf(c.getString(c.getColumnIndex("start_time"))).getTime();
-		end_time = Timestamp.valueOf(c.getString(c.getColumnIndex("end_time"))).getTime();
-		file_type = c.getInt(c.getColumnIndex("file_type"));
-		sms = c.getInt(c.getColumnIndex("sms")) != 0;
+		id           = c.getLong(c.getColumnIndex("_id"));
+		filename     = c.getString(c.getColumnIndex("filename"));
+		start_time   = Timestamp.valueOf(c.getString(c.getColumnIndex("start_time"))).getTime();
+		end_time     = Timestamp.valueOf(c.getString(c.getColumnIndex("end_time"))).getTime();
+		file_type    = c.getInt(c.getColumnIndex("file_type"));
+		sms          = c.getInt(c.getColumnIndex("sms")) != 0;
 		imsi_catcher = c.getInt(c.getColumnIndex("imsi_catcher")) != 0;
-		crash = c.getInt(c.getColumnIndex("crash")) != 0;
-		state = c.getInt(c.getColumnIndex("state"));
+		crash        = c.getInt(c.getColumnIndex("crash")) != 0;
+		state        = c.getInt(c.getColumnIndex("state"));
 	}
 
 	public static DumpFile get(SQLiteDatabase db, long id){
@@ -71,6 +79,7 @@ public class DumpFile {
 			return null;
 		return files.firstElement();
 	}
+
 	/**
 	 * Gets all files between time1 and time2 from the database. time2 can be null to get only files containing time1.
 	 * @param db An SQLiteDatabase object to get the files from
@@ -98,7 +107,7 @@ public class DumpFile {
 		return getFiles(db, selection);
 	}
 	public static Vector<DumpFile> getFiles(SQLiteDatabase db, String selection){
-		Vector<DumpFile> result = new Vector<DumpFile>();
+		Vector<DumpFile> result = new Vector<>();
 		Cursor c = db.query("files", null, selection, null, null, null, "_id");
 		while(c.moveToNext()){
 			DumpFile entry = new DumpFile(c);
@@ -107,6 +116,7 @@ public class DumpFile {
 		c.close();
 		return result;
 	}
+
 	@Override
 	public String toString() {
 		StringBuffer result = new StringBuffer("DumpFile ID=" + id + "  filename=" + filename);
@@ -146,6 +156,7 @@ public class DumpFile {
 		else
 			return "Invalid state " + state;
 	}
+
 	public void recordingStopped(){
 		if(state == STATE_RECORDING){
 			state = STATE_AVAILABLE;
@@ -156,6 +167,7 @@ public class DumpFile {
 		}
 		end_time = System.currentTimeMillis();
 	}
+
 	/**
 	 * Inserts this object to the database
 	 * @param db
@@ -168,6 +180,7 @@ public class DumpFile {
 		if( id == -1)
 			throw new IllegalStateException("Failed to insert file " + filename + " into database");
 	}
+
 	private ContentValues makeContentValues() {
 		ContentValues result = new ContentValues();
 		result.put("filename",filename);
@@ -180,6 +193,7 @@ public class DumpFile {
 		result.put("state", state);
 		return result;
 	}
+
 //	TODO
 //	/**
 //	 * Updates an existing object (identified by the id field) in the database
@@ -191,6 +205,7 @@ public class DumpFile {
 //		if(numRows != 1)
 //			throw new IllegalStateException("Update statement failed, id " + id + " in table files not found");
 //	}
+
 	public long getEnd_time() {
 		return end_time;
 	}
@@ -239,7 +254,9 @@ public class DumpFile {
 	}
 
 	/**
-	 * Gets combined upload state of all files between time1 and time2 from the database. time2 can be null to get only files containing time1.
+	 * Gets combined upload state of all files between time1 and time2 from the database.
+	 * time2 can be null to get only files containing time1.
+	 *
 	 * @param db An SQLiteDatabase object to get the files from
 	 * @param type Optional, get files of a specific type only
 	 * @param time1 Start time
@@ -298,6 +315,7 @@ public class DumpFile {
 		//  Should not happen
 		return FileState.STATE_INVALID;
 	}
+
 	public void endRecording(SQLiteDatabase db, Context ctx){
 		endRecording(db, ctx, null);
 	}
@@ -325,8 +343,9 @@ public class DumpFile {
 			return;
 		throw new IllegalStateException("Can't change state of file " + getFilename() + " id=" + getId());
 	}
+
 	public void markForUpload(SQLiteDatabase db) {
-		Log.i("DumpFile", "markForUpload: " + this);
+		Log.i(TAG, mTAG + ":markForUpload(): " + this);
 		if(state == STATE_AVAILABLE){
 			if(updateState(db, STATE_AVAILABLE, STATE_PENDING, null))
 				return;
@@ -339,7 +358,7 @@ public class DumpFile {
 			if(updateState(db, STATE_AVAILABLE, STATE_PENDING, null))
 				return;
 		}
-		Log.e("DumpFile", "markForUpload failed: " + this);
+		Log.e(TAG, mTAG + ":markForUpload() FAILED:\n" + this);
 	}
 
 	/**

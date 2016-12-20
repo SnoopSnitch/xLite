@@ -46,6 +46,8 @@ import de.srlabs.snoopsnitch.util.Utils;
 public class ActiveTestService extends Service{
 
 	//private static final String TAG = "msd-active-test-service";
+	// ToDo: We keep this for now asit is used in some external parsers...
+	// Need to change to "SNSN"
 	private static final String TAG = "msd-active-test-service";
 	private static final String mTAG = "ActiveTestService";
 
@@ -314,6 +316,7 @@ public class ActiveTestService extends Service{
 				setState(State.CALL_MO_ACTIVE, "handleTelDialing()", Constants.CALL_MO_ACTIVE_TIMEOUT);
 			}
 		}
+
 		/**
 		 * Chooses and starts a new test
 		 */
@@ -410,6 +413,7 @@ public class ActiveTestService extends Service{
 				broadcastTestResults();
 			}
 		}
+
 		/**
 		 * Called once per second, sends state updates to UI and aborts tests after timeout
 		 */
@@ -536,6 +540,7 @@ public class ActiveTestService extends Service{
 			}
 			broadcastTestResults();
 		}
+
 		public void handleSmsSent() {
 			stateInfo("handleSmsSent() received in state " + state.name());
 			if(state == State.SMS_MO){
@@ -552,6 +557,7 @@ public class ActiveTestService extends Service{
 		public void postIterateRunnable(int delayMillis) {
 			handler.postDelayed(this.iterateRunnable , delayMillis);
 		}
+
 		public void stopTest(){
 			handler.removeCallbacks(this.iterateRunnable);
 			testStopped = true;
@@ -561,6 +567,7 @@ public class ActiveTestService extends Service{
 			if(currentTest != null)
 				currentTest.fail("Test aborted with stopTest()");
 		}
+
 		public void triggerApiCallback() {
 			if(this.api != null)
 				handleFatalError("triggerApiCallback called but api != null");
@@ -579,6 +586,7 @@ public class ActiveTestService extends Service{
 			};
 			this.api.start();
 		}
+
 		public void triggerApiSmsback() {
 			if(this.api != null)
 				handleFatalError("triggerApiCallback called but api != null");
@@ -598,6 +606,7 @@ public class ActiveTestService extends Service{
 			this.api.start();
 		}
 	}
+
 	// http://stackoverflow.com/questions/4238921/detect-whether-there-is-an-internet-connection-available-on-android
 	private boolean isNetworkAvailable() {
 		ConnectivityManager connectivityManager 
@@ -605,6 +614,7 @@ public class ActiveTestService extends Service{
 		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
+
 	private void applySettings(boolean switchToOnline){
 		if(switchToOnline && isNetworkAvailable())
 			results.setOnlineMode(true);
@@ -618,6 +628,7 @@ public class ActiveTestService extends Service{
 		stateInfo("applySettings(): numIterations= " + numIterations);
 		results.setNumIterations(numIterations);
 	}
+
 	@Override
 	public IBinder onBind(Intent intent) {
 		MsdLog.i(TAG,"ActiveTestService.onBind() called");
@@ -647,6 +658,7 @@ public class ActiveTestService extends Service{
 			networkGeneration = fallbackNetworkGeneration;
 		return networkGeneration;
 	}
+
 	private void updateNetworkOperatorAndRat() {
 		// If the phone was in LTE mode when starting test, all tests will be
 		// counted for LTE even if the phone switches back to 2G/3G during the
@@ -711,6 +723,7 @@ public class ActiveTestService extends Service{
 		broadcastTestResults();
 		return true;
 	}
+
 	private void stopTest(){
 		stateInfo("ActiveTestService.stopTest() called");
 		testRunning = false;
@@ -734,6 +747,7 @@ public class ActiveTestService extends Service{
 		broadcastTestStateChanged();
 		broadcastTestResults();
 	}
+
 	private void startExtraFileRecording(){
 		if(this.currentExtraRecordingFilename != null){
 			handleFatalError("startExtraFileRecording() called but this.currentExtraRecordingFilename != null, this shouldn't happen");
@@ -785,6 +799,7 @@ public class ActiveTestService extends Service{
 			msdServiceHelper.startExtraRecording(filename);
 		}
 	}
+
 	private void endExtraFileRecording(boolean upload){
 		if(uploadDisabled){
 			if(upload){
@@ -806,6 +821,7 @@ public class ActiveTestService extends Service{
 			currentExtraRecordingFilename = null;
 		}
 	}
+
 	private void triggerCallMo(final boolean online) {
 		final Uri telUri = Uri.parse("tel:" + (online ? Constants.CALL_NUMBER : Constants.CALLBACK_NUMBER));
 		MsdLog.i(TAG, "calling out to " + telUri);
@@ -818,6 +834,7 @@ public class ActiveTestService extends Service{
 			Log.w(TAG, "Callout blocked due to failed app/user permission:" + e );
 		}
 	}
+
 	private void triggerSmsMo() {
 		final PendingIntent sentIntent = PendingIntent.getService(this, 0, new Intent(ACTION_SMS_SENT,
 				null,
@@ -834,6 +851,7 @@ public class ActiveTestService extends Service{
 			ActiveTestService.this.stopTest();
 		}
 	}
+
 	private void broadcastTestResults() {
 		if(callbacks.size() == 0)
 			return;
@@ -853,12 +871,14 @@ public class ActiveTestService extends Service{
 			stopTestNoCallbacks();
 		}
 	}
+
 	private void stopTestNoCallbacks(){
 		stateInfo("Terminating active test since all callbacks have disappeared");
 		stopTest();
 		handler.removeCallbacks(progressTickRunnable);
 		stopSelf();		
 	}
+
 	private void broadcastTestStateChanged() {
 		if(callbacks.size() == 0)
 			return;
@@ -876,6 +896,7 @@ public class ActiveTestService extends Service{
 			stopTestNoCallbacks();
 		}
 	}
+
 	private void handleFatalError(String msg){
 		handleFatalError(msg,null);
 	}
