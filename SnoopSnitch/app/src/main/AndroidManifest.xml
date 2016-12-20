@@ -3,8 +3,31 @@
     package="de.srlabs.snoopsnitch"
     android:installLocation="auto" >
 
+    <!-- For detailed info on the Manifest layout, please consult:
+         https://developer.android.com/guide/topics/manifest/manifest-intro.html -->
+
     <uses-sdk />
 
+    <!-- The permission scheme is different before,between and after AOS 5.1 (API 22) to 6.0 (API 23) -->
+
+    <!-- For available groups see: https://developer.android.com/guide/topics/security/permissions.html -->
+    <!-- We may need to consider:
+         android:permissionGroup="android.permission-group.LOCATION"
+         android:permissionGroup="android.permission-group.PHONE"
+         android:permissionGroup="android.permission-group.SMS"
+         android:permissionGroup="android.permission-group.STORAGE" -->
+
+
+    <!-- In anticipation for 1.1.0 bug fix: permission crash:
+           "DatabaseUtils(  834): java.lang.SecurityException: Permission Denial"
+         also see:
+           http://stackoverflow.com/questions/28134128/android-permission-interact-across-users-full
+         -->
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
+                     android:permissionGroup="android.permission-group.STORAGE"
+                     android:protectionLevel="dangerous" />
+
+    <!-- Basic (and original) permissions -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -19,27 +42,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <!-- Emi:
-        New permission scheme applies differently before and between AOS 5.1 (API 22) to 6.0 (API 23)
-        and after! -->
-
-    <!-- In anticipation for 1.1.0 bug fix: permission crash:
-           "DatabaseUtils(  834): java.lang.SecurityException: Permission Denial"
-         also see:
-           http://stackoverflow.com/questions/28134128/android-permission-interact-across-users-full
-         -->
-    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
-                     android:protectionLevel="dangerous" />
-
-    <!-- For available groups see:
-         https://developer.android.com/guide/topics/security/permissions.html
-
-                    android:permissionGroup="android.permission-group.LOCATION"
-                    android:permissionGroup="android.permission-group.PHONE"
-                    android:permissionGroup="android.permission-group.SMS"
-                    android:permissionGroup="android.permission-group.STORAGE"
-    / -->
-
     <!-- Emi: In anticipation for 1.1.1 automatic network changes etc.-->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -52,7 +54,8 @@
     <!-- Google non-3rd party:  Let's try this, since GET_TASKS is deprecated.. -->
     <uses-permission android:name="android.permission.REAL_GET_TASKS" />
 
-    <!-- Emi: If we want to make this a system app: -->
+    <!-- If we want to make this a system app see:
+         https://developer.android.com/reference/android/Manifest.permission.html -->
     <!--
     <uses-permission android:name="android.permission.CONTROL_LOCATION_UPDATES" />
     <uses-permission android:name="android.permission.DIAGNOSTIC" />
@@ -60,22 +63,44 @@
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     / -->
 
+
+    <!-- None of these tags are required to run app, but recommended... -->
+    <uses-feature android:name="android.hardware.location" android:required="false" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+    <uses-feature android:name="android.hardware.location.network" android:required="false" />
+    <uses-feature android:name="android.hardware.telephony" android:required="true" />
+    <uses-feature android:name="android.hardware.telephony.cdma" android:required="false" />
+    <uses-feature android:name="android.hardware.telephony.gsm" android:required="false" />
+    <uses-feature android:name="android.software.sip.voip" android:required="false" />
+
     <supports-screens android:xlargeScreens="false"/>
 
+    <!-- NOTE:
+         allowBackup        - If false, no backup or restore of the application will ever be performed, even by a full-system backup
+         fullBackupContent  - This attribute points to an XML file that contains full backup rules for Auto Backup.
+         android:fullBackupOnly     - API >20  [false]
+         android:extractNativeLibs  - API >22  [true]
+         -->
     <application
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:fullBackupContent="false"
+        android:fullBackupOnly="false"
+        android:restoreAnyVersion="false"
         android:supportsRtl="false"
+        android:extractNativeLibs="true"
         android:icon="@drawable/ic_content_imsi_event"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
-        <receiver android:name="de.srlabs.snoopsnitch.BootCompletedIntentReceiver">
+        <receiver
+            android:name="de.srlabs.snoopsnitch.BootCompletedIntentReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
+
+        <!-- Launch Activity ??  -->
         <activity
             android:name="de.srlabs.snoopsnitch.StartupActivity"
             android:label="@string/app_name"
@@ -86,7 +111,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+
+        <!-- Main/Dashboard Activity (?) -->
         <activity
             android:name="de.srlabs.snoopsnitch.DashboardActivity"
             android:label="@string/app_name"
@@ -94,7 +120,7 @@
             android:launchMode="singleTop" >
         </activity>
         
-        <!-- Detail Chart Activity -->
+        <!-- Detailed Chart Activity -->
         <activity
              android:name="de.srlabs.snoopsnitch.DetailChartActivity"
              android:screenOrientation="portrait"
@@ -114,7 +140,7 @@
              android:screenOrientation="portrait"
              android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity">     
         </activity>
-        
+
         <!-- Test Activity -->
         <activity
             android:name="de.srlabs.snoopsnitch.MsdServiceHelperTest"
@@ -122,7 +148,16 @@
             android:screenOrientation="portrait" 
             android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity">
         </activity>
-        
+
+        <!-- Active Test Advanced Mode -->
+        <activity
+            android:name="de.srlabs.snoopsnitch.ActiveTestAdvanced"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity" >
+        </activity>
+
+
         <!-- Settings Activity -->
         <activity
             android:name="de.srlabs.snoopsnitch.SettingsActivity"
@@ -154,24 +189,6 @@
             android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity" >
         </activity>
 
-        <!-- Crash Upload Activity-->
-        <activity
-            android:name="de.srlabs.snoopsnitch.CrashUploadActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"
-    		android:taskAffinity=""
-    		android:excludeFromRecents="true">
-        </activity>
-              
-        <!-- Active Test Advanced Mode -->
-        <activity
-            android:name="de.srlabs.snoopsnitch.ActiveTestAdvanced"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity" >
-        </activity>
-
         <!-- Dialog for enabling Auto-Upload Mode from Notification -->
         <activity
             android:name="de.srlabs.snoopsnitch.EnableAutoUploadModeActivity"
@@ -180,11 +197,29 @@
             android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity" >
         </activity>
 
-        <service android:name="de.srlabs.snoopsnitch.qdmon.MsdService"
-                 android:exported="false"
-                 android:process=".snoopsnitch_service" />
-    	<service android:name="de.srlabs.snoopsnitch.active_test.ActiveTestService"
-                 android:exported="false" />
+        <!-- Crash Upload Activity -->
+        <activity
+            android:name="de.srlabs.snoopsnitch.CrashUploadActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true">
+        </activity>
+
+
+        <!-- diag-helper Service  ?? -->
+        <!-- android:description="This service" -->
+        <service
+            android:name="de.srlabs.snoopsnitch.qdmon.MsdService"
+            android:exported="false"
+            android:process=".snoopsnitch_service" />
+
+        <!-- ?? -->
+        <service
+            android:name="de.srlabs.snoopsnitch.active_test.ActiveTestService"
+            android:exported="false" />
+
     </application>
 
 </manifest>
