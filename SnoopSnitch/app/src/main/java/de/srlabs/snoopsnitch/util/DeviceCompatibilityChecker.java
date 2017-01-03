@@ -8,10 +8,16 @@ import java.util.HashSet;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import de.srlabs.snoopsnitch.R;
 
 public class DeviceCompatibilityChecker {
+
+	//Add TAG and mTAG
+	private static final String TAG = "SNSN";
+	private static final String mTAG = "DeviceCompatibilityChecker";
+
 	private static String su_binary = null;
 	private static int suFailReason = 0;
 	private static final int SU_ROOT_DENIED = 1;
@@ -33,8 +39,10 @@ public class DeviceCompatibilityChecker {
 	 */
 	public static String checkDeviceCompatibility(Context context){
 		boolean deviceIncompatibleDetected = MsdConfig.getDeviceIncompatible(context);
+		// check previous/saved incompatibility set by: ActiveTestService:currentTestSuccess()
 		if(deviceIncompatibleDetected){
-			return context.getResources().getString(R.string.compat_no_baseband_messages_in_active_test);
+			//return context.getResources().getString(R.string.compat_no_baseband_messages_in_active_test);
+			return context.getResources().getString(R.string.compat_no_marked);
 		}
 		
 		String suBinary;
@@ -61,7 +69,6 @@ public class DeviceCompatibilityChecker {
 		if(!testRunOK(context,suBinary)) {
 			return context.getResources().getString(R.string.compat_broken_diag);
 		}
-		
 		// Everything OK
 		return null;
 	}
@@ -75,7 +82,8 @@ public class DeviceCompatibilityChecker {
 
 		try {
 			helper = Runtime.getRuntime().exec(cmd);
-		} catch (IOException e) {
+		} catch (IOException ee) {
+			Log.e(TAG, mTAG + ": testRunOK(): IOException:\n"+ ee.toString());
 			return false;
 		}
 
@@ -102,7 +110,7 @@ public class DeviceCompatibilityChecker {
 
 		// Iterate over all PATH entries to find su binary
 		String path = System.getenv("PATH");
-		HashSet<String> pathDirs = new HashSet<String>();
+		HashSet<String> pathDirs = new HashSet<>();
 
 		// Always consider the default paths /system/bin/ and /system/xbin/ in case $PATH is incomplete
 		pathDirs.add("/system/bin/");
@@ -135,10 +143,9 @@ public class DeviceCompatibilityChecker {
 				if(id_line.startsWith("uid=0")){
 					return pathDir + "/su";
 				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (InterruptedException | IOException e) {
+				//e.printStackTrace();
+				Log.e(TAG, mTAG + ": Exception in findSuBinary():\n" + e );
 			}
 		}
 		if (suBinariesTried > 0) {

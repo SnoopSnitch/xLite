@@ -226,6 +226,7 @@
      
     <string name="compat_no_baseband_messages_in_active_test">Error, no baseband messages received during active test.</string>
     <string name="compat_no_baseband_messages">Error, no baseband messages.</string>
+    <string name="compat_no_marked">Error, your device has been marked incompatible.</string>
 
     <!-- Settings-->
     <string name="no_service_running">service running</string>
@@ -350,6 +351,7 @@
     <string name="upload_debug_confirm_no_contact">Are you sure you want to send the report without contact information?</string>
     <string name="upload_debug_confirm_no_description">Are you sure you want to send the report without a description of the problem?</string>
     <string name="upload_debug_confirmation_msg">Your report ID is %s. Feel free to send additional information to snoopsnitch@srlabs.de</string>
+    <string name="upload_debug_failure_msg">Failed to upload report, please check your connections.</string>
 
     <!-- ToDo: Current implementation of text views does not recognize <b>,<i> and <u> XML tags! -->
 
@@ -419,6 +421,11 @@
     for outgoing sms even if sent to an invalid destination!
 
     \n\nONLY ENTER YOUR OWN PHONE NUMBER in the next dialog.\n
+    Also make sure to enter your number in international format prefixed by your
+    country code as follows:\n
+    +[country-code][your-number]\n
+    For example, a German (+49) number of 12345678 would be written:\n
+    +4912345678\n
     </string>
 
     <string name="alert_networktest_privacy_disclaimer">
