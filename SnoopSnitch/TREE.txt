@@ -1,0 +1,116 @@
+
+Date: 2016-12-12
+
+#-------------------------------------------------
+# The Java files
+#-------------------------------------------------
+
+./app/src/main/java/de/srlabs/snoopsnitch/
+├── active_test
+│   ├── ActiveTestCallback.java 		
+│   ├── ActiveTestHelper.java
+│   ├── ActiveTestResults.java
+│   ├── ActiveTestService.java
+│   ├── ApiCall.java
+│   ├── SmsReceiver.java
+│   └── TestType.java
+├── analysis
+│   ├── AnalysisEvent.java
+│   ├── Event.java
+│   ├── GSMmap.java
+│   ├── ImsiCatcher.java
+│   ├── RAT.java
+│   ├── Risk.java
+│   └── Score.java
+├── qdmon
+│   ├── AnalysisEventDataInterface.java
+│   ├── AnalysisEventData.java
+│   ├── DiagMsg.java
+│   ├── DisableLoggingCmds.java
+│   ├── EncryptedFileWriter.java
+│   ├── MsdServiceAnalysis.java
+│   ├── MsdServiceCallback.java
+│   ├── MsdServiceHelper.java
+│   ├── MsdService.java					- 
+│   ├── MsdServiceNotifications.java
+│   ├── MsdSQLiteOpenHelper.java
+│   ├── Operator.java
+│   ├── SetupLoggingCmds.java
+│   ├── StateChangedReason.java
+│   └── TlsSniSocketFactory.java
+├── upload
+│   ├── DumpFile.java
+│   ├── FileState.java
+│   ├── MsdServiceUploadThread.java
+│   └── UploadState.java
+├── util
+│   ├── Constants.java
+│   ├── DeviceCompatibilityChecker.java
+│   ├── ForceTLSSocketFactory.java
+│   ├── MsdConfig.java
+│   ├── MsdDatabaseManager.java
+│   ├── MsdDialog.java
+│   ├── MsdLog.java
+│   ├── MSDServiceHelperCreator.java
+│   ├── TimeSpace.java
+│   └── Utils.java						- HttpsURLConnection, network detection, generateAppId, createDiagDevice, uploadMetadata, dumpDatabase, read files/assets
+├── views
+│   ├── adapter
+│   │   ├── DetailChartGalleryAdapter.java
+│   │   ├── ListViewEventAdapter.java
+│   │   ├── ListViewImsiCatcherAdapter.java
+│   │   └── ListViewProviderAdapter.java
+│   ├── ChartSlidePageFragment.java
+│   ├── DashboardProviderChart.java
+│   ├── DashboardProviderList.java
+│   ├── DashboardThreatChart.java
+│   ├── DetailThreatChartDay.java
+│   ├── DetailThreatChartHour.java
+│   ├── DetailThreatChart.java
+│   ├── DetailThreatChartMonth.java
+│   └── DetailThreatChartWeek.java
+├── AboutActivity.java
+├── ActiveTestAdvanced.java
+├── BaseActivity.java
+├── BootCompletedIntentReceiver.java
+├── CrashUploadActivity.java
+├── DashboardActivity.java
+├── DetailChartActivity.java
+├── EnableAutoUploadModeActivity.java
+├── EncryptedFileWriterError.java
+├── LocalMapActivity.java
+├── MapActivity.java
+├── MsdServiceHelperTest.java
+├── NetworkInfoActivity.java
+├── SettingsActivity.java
+├── SettingsFragment.java
+├── StartupActivity.java
+└── UploadDebugActivity.java
+
+#-------------------------------------------------
+# The XML layout files
+#-------------------------------------------------
+
+7 directories, 73 files
+./app/src/main/res/layout/
+├── activity_about.xml
+├── activity_active_test_advanced.xml
+├── activity_chart_detail.xml
+├── activity_dashboard.xml
+├── activity_local_map.xml
+├── activity_main.xml
+├── activity_map.xml
+├── activity_msd_service_helper_test.xml
+├── activity_network_info.xml
+├── activity_upload_debug.xml
+├── custom_message_popdown.xml
+├── custom_row_layout_imsicatcher.xml
+├── custom_row_layout_own_provider.xml
+├── custom_row_layout_provider.xml
+├── custom_row_layout_sms.xml
+├── fragment_chart_slide_page_day.xml
+├── fragment_chart_slide_page_hour.xml
+├── fragment_chart_slide_page_month.xml
+└── fragment_chart_slide_page_week.xml
+
+0 directories, 19 files
