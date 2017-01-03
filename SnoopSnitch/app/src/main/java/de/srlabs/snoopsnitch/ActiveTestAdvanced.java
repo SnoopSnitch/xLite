@@ -19,10 +19,13 @@ import de.srlabs.snoopsnitch.util.MsdLog;
 import de.srlabs.snoopsnitch.util.Utils;
 
 public class ActiveTestAdvanced extends BaseActivity{
+
 	private static final String TAG = "ActiveTestAdvanced";
-	private Button btnStartStop;
-	private Button btnMode;
-	private Button btnNetwork;
+
+	private Button btnStartStop;    // "Start" the test (or "Stop" if already started)
+	private Button btnMode;         // "Mode"    go to settings: for Wireless and Network
+	private Button btnNetwork;      // "Network" go to settings: for Mobile network selection (search)
+
 	//private TextView activeTestLogView;
 	private ActiveTestHelper activeTestHelper;
 	private MyActiveTestCallback activeTestCallback = new MyActiveTestCallback();
@@ -126,11 +129,13 @@ public class ActiveTestAdvanced extends BaseActivity{
 		updateButtons();
 		getWindow().addFlags(LayoutParams.FLAG_KEEP_SCREEN_ON);
 	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 		activeTestHelper.applySettings();
 	}
+
 	protected void updateButtons() {
 		Log.i("ActiveTestAdvanced", "updateButtons()");
 		boolean testRunning = activeTestHelper.isActiveTestRunning();

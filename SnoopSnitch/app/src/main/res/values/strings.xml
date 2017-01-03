@@ -409,19 +409,20 @@
     <string name="alert_networktest_message">
     VERY IMPORTANT!
 
+    \n\nDO NOT ANSWER the phone and DO NOT REJECT THE CALL when the server calls.
+    If you do so, your number will get blacklisted and BANNED from our service.
+
     \n\nThe active network test collects security information about your current
     mobile network by sending and receiving a number of SMS and by placing and
     receiving a number of automatic test calls.
-
-    \n\nDO NOT ANSWER the phone and DO NOT REJECT THE CALL when the server calls.
-    If you do so, your number will get blacklisted and BANNED from our service.
 
     \n\nIt is normal to receive an error status SMS from your operator during that
     test. The test should be free of charge. However, your operator may charge you
     for outgoing sms even if sent to an invalid destination!
 
-    \n\nONLY ENTER YOUR OWN PHONE NUMBER in the next dialog.\n
-    Also make sure to enter your number in international format prefixed by your
+    \n\nONLY ENTER YOUR OWN PHONE NUMBER in the next dialog.
+
+    \n\nAlso make sure to enter your number in international format prefixed by your
     country code as follows:\n
     +[country-code][your-number]\n
     For example, a German (+49) number of 12345678 would be written:\n

@@ -46,33 +46,34 @@ import de.srlabs.snoopsnitch.util.Utils;
 public class ActiveTestService extends Service{
 
 	//private static final String TAG = "msd-active-test-service";
-	// ToDo: We keep this for now asit is used in some external parsers...
+	// ToDo: We keep this for now as it may be used in some external parsers...
 	// Need to change to "SNSN"
 	private static final String TAG = "msd-active-test-service";
 	private static final String mTAG = "ActiveTestService";
 
+	// Perhaps rename this to "SNSN_TEST_SMS_SENT"?
 	private final static String ACTION_SMS_SENT = "msd-active-test-service_SMS_SENT";
 
-	private boolean uploadDisabled = false;
 	private final MyActiveTestServiceStub mBinder = new MyActiveTestServiceStub();
 	private ActiveTestResults results = new ActiveTestResults();
-	private ProgressTickRunnable progressTickRunnable = new ProgressTickRunnable();
 	private Handler handler = new Handler();
-	private Vector<IActiveTestCallback> callbacks = new Vector<>();
-	private TelephonyManager telephonyManager;
-	private String ownNumber;
-	private StateMachine stateMachine;
+	private ITelephony telephonyService;
+	private MsdServiceHelper msdServiceHelper;
 	private MyPhoneStateListener phoneStateListener = new MyPhoneStateListener() ;
 	private MySmsReceiver smsReceiver = new MySmsReceiver();
-	private String currentExtraRecordingFilename;
-	private boolean testRunning = false;
-	private MsdServiceHelper msdServiceHelper;
-	private ITelephony telephonyService;
-	private int currentExtraRecordingStartDiagMsgCount;
+	private ProgressTickRunnable progressTickRunnable = new ProgressTickRunnable();
+	private StateMachine stateMachine;
+	private TelephonyManager telephonyManager;
+	private Vector<IActiveTestCallback> callbacks = new Vector<>();
 	private boolean smsMoDisabled = false;
-	private String smsMoNumber = null;
+	private boolean testRunning = false;
+	private boolean uploadDisabled = false;
+	private int currentExtraRecordingStartDiagMsgCount;
 	private int networkGenerationAtTestStart = 0;
 	private int numSuccessfulTests;
+	private String currentExtraRecordingFilename;
+	private String ownNumber;
+	private String smsMoNumber = null;
 
 	class MyPhoneStateListener extends PhoneStateListener{
 		@Override
@@ -91,7 +92,6 @@ public class ActiveTestService extends Service{
 				stateMachine.handleTelRinging();
 			} else
 				MsdLog.d(TAG, "unhandled call state: " + phoneState);
-
 		}
 	}
 	class MySmsReceiver extends SmsReceiver{
@@ -407,7 +407,7 @@ public class ActiveTestService extends Service{
 						}
 					}, 500);
 					// No further actions to start
-				} else{
+				} else {
 					handleFatalError("Invalid nextState in StateMachine.iterate()");
 				}
 				broadcastTestResults();
@@ -650,7 +650,7 @@ public class ActiveTestService extends Service{
 
 	private int getCurrentNetworkRatGeneration(){
 		int fallbackNetworkGeneration = 3; // Default to 3G for now if we can't determine the network generation
-		// Some combinations of phone and network operator do not return a valid newtork type in telephonyManager.getNetworkType().
+		// Some combinations of phone and network operator do not return a valid network type in telephonyManager.getNetworkType().
 		if(msdServiceHelper != null && msdServiceHelper.isConnected() && msdServiceHelper.getParserNetworkGeneration()>0)
 			fallbackNetworkGeneration = msdServiceHelper.getParserNetworkGeneration();
 		int networkGeneration = Utils.networkTypeToNetworkGeneration(telephonyManager.getNetworkType());
@@ -667,6 +667,7 @@ public class ActiveTestService extends Service{
 		results.setNetworkOperatorAndRat(telephonyManager, networkGeneration);
 	}
 
+	// Consider replace and remove this
 	public void debugInfo(String msg) {
 		MsdLog.i(TAG,msg);
 	}
@@ -897,6 +898,7 @@ public class ActiveTestService extends Service{
 		}
 	}
 
+	// MdsLog.e := Log.e(tag,msg); printlnToLog(getTimePrefix() + tag + ": ERROR: " + msg);
 	private void handleFatalError(String msg){
 		handleFatalError(msg,null);
 	}

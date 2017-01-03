@@ -23,8 +23,11 @@ import de.srlabs.snoopsnitch.util.MsdDialog;
 import de.srlabs.snoopsnitch.util.MsdLog;
 import de.srlabs.snoopsnitch.util.Utils;
 
-public class UploadDebugActivity extends BaseActivity
-{
+public class UploadDebugActivity extends BaseActivity {
+
+	private static final String TAG = "SNSN";
+	private static final String mTAG = "UploadDebugActivity";
+
 	private Button btnDebugUpload;
 	private Button btnDebugCancel;
 	private CheckBox checkDebugUploadDatabaseMetadata;
@@ -36,8 +39,7 @@ public class UploadDebugActivity extends BaseActivity
 	private boolean noReportTextConfirmed = false;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_upload_debug);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -70,6 +72,7 @@ public class UploadDebugActivity extends BaseActivity
 			MsdDialog.makeNotificationDialog(this, getString(R.string.upload_debug_please_select), null, true).show();
 			return;
 		}
+
 		String whatToReport = this.editTextUploadDebugWhatToReport.getText().toString().trim();
 		String contactInfo = this.editTextUploadDebugContactInfo.getText().toString().trim();
 		if(!noContactInfoConfirmed && (contactInfo.length() < 5 || !contactInfo.contains("@"))){
@@ -82,6 +85,7 @@ public class UploadDebugActivity extends BaseActivity
 			}, null, true).show();
 			return;
 		}
+
 		if(!noReportTextConfirmed  && whatToReport.length() < 10){
 			MsdDialog.makeConfirmationDialog(this, getString(R.string.upload_debug_confirm_no_description), new DialogInterface.OnClickListener() {
 				@Override
@@ -92,7 +96,8 @@ public class UploadDebugActivity extends BaseActivity
 			}, null, true).show();
 			return;
 		}
-		Vector<DumpFile> files = new Vector<DumpFile>();
+
+		Vector<DumpFile> files = new Vector<>();
 		try{
 			SQLiteDatabase db = MsdDatabaseManager.getInstance().openDatabase();
 			if(uploadRadioTraces){
@@ -117,6 +122,7 @@ public class UploadDebugActivity extends BaseActivity
 			//json += "\"SNOOPSNITCH_VERSION\":" + escape(getString(R.string.app_version)) + ",\n";
 			json += "\"SNOOPSNITCH_VERSION\":" + escape(BuildConfig.VERSION_NAME) + ",\n";
 			json += "\"REPORT_FILES\": [ ";
+
 			for(int i=0;i<files.size();i++){
 				DumpFile df = files.get(i);
 				df.markForUpload(db);
@@ -128,7 +134,9 @@ public class UploadDebugActivity extends BaseActivity
 			json += " ]\n}";
 			Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 			// Calendar.MONTH starts counting with 0
-			String fileName = String.format(Locale.US, "bugreport_%04d-%02d-%02d_%02d-%02d-%02dUTC.gz",c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH),c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND));
+			String fileName = String.format(Locale.US, "bugreport_%04d-%02d-%02d_%02d-%02d-%02dUTC.gz",
+					c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH),
+					c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND));
 			EncryptedFileWriter outputFile = new EncryptedFileWriter(this, fileName + ".smime", true, fileName, false);
 
 			outputFile.write(json);
@@ -140,15 +148,28 @@ public class UploadDebugActivity extends BaseActivity
 			df.markForUpload(db);
 			getMsdServiceHelperCreator().getMsdServiceHelper().triggerUploading();
 			String reportId = df.getReportId();
+
+			// UI: Upload Success message
 			MsdDialog.makeNotificationDialog(this, String.format(getString(R.string.upload_debug_confirmation_msg),reportId), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					finish();
 				}
 			}, false).show();
+			MsdDialog.makeNotificationDialog(this, "Upload OK. Change in UploadDebugActivity if you se this!: " + reportId, null, true).show();
+
 		} catch(Exception e){
 			MsdLog.e("UploadDebugActivity","Exception while preparing debug logs to upload",e);
+			// UI: Upload Failure message
+			// consider replacing first one of these with the second, if it works...
 			MsdDialog.makeNotificationDialog(this, "Exception while preparing debug logs to upload: " + e.getMessage(), null, true).show();
+			MsdDialog.makeNotificationDialog(this, getString(R.string.upload_debug_failure_msg), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					finish();
+				}
+			}, false).show();
+
 		} finally{
 			MsdDatabaseManager.getInstance().closeDatabase();
 		}

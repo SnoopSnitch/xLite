@@ -12,6 +12,9 @@ import android.util.Log;
 
 public class MsdServiceHelper{
 	private static String TAG = "msd-service-helper";
+    private static final String  aTAG = "SNSN";
+    private static final String  mTAG = "MsdServiceHelper";
+
 	private Context context;
 	private MyServiceConnection serviceConnection = new MyServiceConnection();
 	private MsdServiceCallback callback;
@@ -127,7 +130,8 @@ public class MsdServiceHelper{
 		String msg = errorMsg;
 		if(e != null)
 			msg += e.getClass().getCanonicalName() + ": " + e.getMessage();
-		Log.e(TAG, msg, e);
+		//Log.e(TAG, msg, e);
+        Log.e(aTAG, mTAG + msg + "\n", e);
 		callback.internalError(msg);
 	}
 	public AnalysisEventDataInterface getData(){

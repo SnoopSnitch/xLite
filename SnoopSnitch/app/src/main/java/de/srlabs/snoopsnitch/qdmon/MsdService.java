@@ -85,6 +85,7 @@ import de.srlabs.snoopsnitch.util.Utils;
 
 public class MsdService extends Service {
 	public static final String    TAG = "msd-service";
+	//public static final String  TAG = "SNSN";
 	private static final String  mTAG = "MsdService";
 
 	// TODO: Watch storage utilisation and stop recording if limits are exceeded
@@ -1653,8 +1654,11 @@ public class MsdService extends Service {
 			String pcapBaseFileName = MsdConfig.getPcapFilenamePrefix(this);
 			vCmd.add("-g");
 			Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-			// Calendar.MONTH starts counting with 0
-			String filename = pcapBaseFileName + "_" + String.format(Locale.US, "%04d-%02d-%02d_%02d-%02d-%02dUTC",c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH),c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND)) + ".pcap";
+			// Note: (1) Calendar.MONTH starts counting with 0
+			//       (2) pcap file prefix is in settings and should be unique: snoopsnitch_...
+			String filename = pcapBaseFileName + "_" + String.format(Locale.US, "%04d-%02d-%02d_%02d-%02d-%02dUTC",
+					c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH),
+					c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND)) + ".pcap";
 			vCmd.add(filename);
 		}
 		vCmd.add("-");
