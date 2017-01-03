@@ -97,6 +97,8 @@ public class MsdConfig {
 	}
 
 	public static String getOwnNumber(Context context) {
+		// ToDo: Need smarter way to get number here!
+		//
 		return sharedPrefs(context).getString("own_number", "");
 	}
 

@@ -7,14 +7,12 @@ import java.io.InputStreamReader;
 import java.util.HashSet;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import de.srlabs.snoopsnitch.R;
 
 public class DeviceCompatibilityChecker {
 
-	//Add TAG and mTAG
 	private static final String TAG = "SNSN";
 	private static final String mTAG = "DeviceCompatibilityChecker";
 
