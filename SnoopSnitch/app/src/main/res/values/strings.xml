@@ -7,8 +7,8 @@
     <string name="common_silent_sms">Silent SMS</string>
     <string name="common_binary_sms">Binary SMS</string>
     <string name="common_imsi_catcher">IMSI Catcher</string>
-    <string name="common_3g_title">3G</string>
     <string name="common_2g_title">2G</string>
+    <string name="common_3g_title">3G</string>
     
     <!-- Action Bar Titles -->
     <string name="actionBar_title">SnoopSnitch</string>
@@ -19,7 +19,8 @@
     <string name="action_map">Map</string>
     <string name="action_info">Info</string>
     <string name="action_upload_pending_files">Upload pending files</string>
-    <string name="action_active_test_advanced">Active test (advanced mode)</string>
+    <!--string name="action_active_test_advanced">Active test (advanced mode)</string-->
+    <string name="action_active_test_advanced">Detailed Test</string>
     <string name="action_upload_suspicious_dumps">Upload suspicious activity</string>
     <string name="action_upload_debug_logs">Submit feedback/questions</string>
     <string name="action_network_info">Network Info</string>
@@ -89,7 +90,7 @@
     <string name="settings_basebandlogkeepduration_title">Baseband log clean interval</string>
     <string name="settings_basebandlogkeepduration_summary">Radio traces are purged from the phone that often</string>
     <string name="settings_basebandlogkeepduration_dialogtitle">Select interval:</string>
-    
+
     <string name="settings_locationlogkeepduration_title">Location log clean interval</string>
     <string name="settings_locationlogkeepduration_summary">Information about your location is purged from the phone that often</string>
     <string name="settings_locationlogkeepduration_dialogtitle">Select interval:</string>
@@ -105,7 +106,8 @@
     <string name="settings_metadatakeepduration_title">Metadata clean interval</string>
     <string name="settings_metadatakeepduration_summary">Catcher and event metadata is purged from the phone that often</string>
     <string name="settings_metadatakeepduration_dialogtitle">Select interval:</string>
-    
+
+
     <string name="settings_gpsrecording_title">Record GPS location</string>
     <string name="settings_gpsrecording_summary">Use fine-grained GPS-based location recording to get location information for IMSI catcher and security events</string>
     
@@ -126,9 +128,11 @@
     
     <string name="settings_applicationid_title">App ID</string>
     <string name="settings_applicationid_summary">Your can use your app ID to hint us at the files you uploaded. Refresh it anytime by tapping here.</string>
-    
-    <string name="settings_active_test_force_offline_title">Force offline test</string>
-    <string name="settings_active_test_force_offline_summary">Force using offline mode in active test. No data connection is used in this case.</string>
+
+
+    <!-- string name="settings_active_test_force_offline_title">Force offline test</string -->
+    <string name="settings_active_test_force_offline_title">Offline Test Mode</string>
+    <string name="settings_active_test_force_offline_summary">Force using offline mode in Detailed Test. No data connection is used in this case.</string>
 
     <string name="settings_active_test_sms_mo_disabled_title">Disable outgoing SMS</string>
     <string name="settings_active_test_sms_mo_disabled_summary">Sending SMS to an invalid destination can still cost money for some providers.</string>
@@ -136,18 +140,19 @@
     <string name="settings_active_test_sms_mo_number_title">Outgoing SMS number</string>
     <string name="settings_active_test_sms_mo_number_summary">Please enter a number to which you can send SMS for free. The default \"*4*\" is an invalid number and most providers don\'t charge for SMS sent to this number.</string>
     
-    <string name="settings_active_test_num_iterations_title">Active test iterations</string>
-    <string name="settings_active_test_num_iterations_dialogtitle">Number of iterations for each active test.</string>
-    
-    <string name="settings_active_test_disable_upload_title">Don\'t upload test results</string>
-    <string name="settings_active_test_disable_upload_summary">Evaluate active test results on the phone only. No radio data is uploaded to our servers in this case.</string>
+    <string name="settings_active_test_num_iterations_title">Detailed Test repetitions</string>
+    <string name="settings_active_test_num_iterations_dialogtitle">The number of iterations each test will be performed in the Detailed Test.</string>
+
+    <!-- string name="settings_active_test_disable_upload_title">Don\'t upload test results</string -->
+    <string name="settings_active_test_disable_upload_title">Disable automatic upload</string>
+    <string name="settings_active_test_disable_upload_summary">Evaluate Detailed Test results on the phone only. No radio data or test results are uploaded to our servers in this case.</string>
 
     <!-- Settings categories -->
     <string name="settings_cat_location">Location Recording</string>
     <string name="settings_cat_cleanup">Log file cleanup</string>
     <string name="settings_cat_log_encryption">Log file encryption</string>
     <string name="settings_cat_privacy">Privacy</string>
-    <string name="settings_cat_active_test">Active test parameters</string>
+    <string name="settings_cat_active_test">Detailed Test parameters</string>
     
     <!-- List view row -->
     <string name="listview_sms_item_type">Type:</string>
@@ -179,7 +184,7 @@
      <string name="operator_not_found">
          Your current network operator or country is not in our database.
          You can still run the network test and contribute data.\n\n
-         Please email to snoopsnitch@srlabs.de telling us your current country
+         Please send an email to snoopsnitch@srlabs.de telling us your current country
          name, your current operator name and the MCC/MNC.
      </string>
 
@@ -294,16 +299,23 @@
     <string name="settings_debugging_dump_analysis_stacktraces_summary">Periodically dump start traces of catcher, security metrics and event analysis</string>
     <string name="settings_debugging_parser_logging">Extended parser logging</string>
     <string name="settings_debugging_parser_logging_summary">Output additional state information, RAT changes and SQL statements from parser. Warning: This option will create a lot of logs!</string>
-    <string name="settings_auto_upload_mode">Auto upload mode</string>
-    <string name="settings_auto_upload_mode_summary">Automatically upload detected events (and the corresponding GPS coordinates).</string>
-    <string name="settings_upload_daily_ping">Daily ping</string>
-    <string name="settings_upload_daily_ping_summary">Daily upload of a database dump and the current GPS coordinates.</string>
 
-    <string name="settings_enable_pcap_recording">PCAP Recording</string>
-    <string name="settings_enable_pcap_recording_summary">Sniff radio packets to pcap file (for analysis with Wireshark)</string>
+    <!-- string name="settings_auto_upload_mode">Auto upload mode</string -->
+    <string name="settings_auto_upload_mode">Auto upload PCAP traces</string>
+    <string name="settings_auto_upload_mode_summary">Automatically upload raw PCAP traces, detected events and their GPS coordinates.</string>
+    <string name="settings_upload_daily_ping">Enable daily DB upload</string>
+    <string name="settings_upload_daily_ping_summary">Daily upload of a database dump and the current (?) GPS coordinates.</string>
 
-    <string name="settings_pcap_filename_prefix">PCAP file location</string>
-    <string name="settings_pcap_filename_prefix_summary">Path and filename prefix for sniffing pcap files, SnoopSnitch will append a timestamp to the prefix. Defaults to: /sdcard/snoopsnitch</string>
+    <string name="settings_enable_pcap_recording">Enable PCAP Recording</string>
+    <string name="settings_enable_pcap_recording_summary">Enable sniffing of raw radio packets and save to pcap file (for analysis with Wireshark)</string>
+
+    <string name="settings_pcap_filename_prefix">PCAP file prefix</string>
+    <string name="settings_pcap_filename_prefix_summary">The .pcap filename prefix to use for your pcap files, SnoopSnitch will also append a timestamp to the prefix. Default: snoopsnitch_&lt;timestamp&lt;.pcap</string>
+
+    <!-- ToDo: We need to separate the pcap file prefix and the PATH to be saved...
+    <string name="settings_pcap_file_path">PCAP file PATH</string>
+    <string name="settings_pcap_file_path_summary">The directory (PATH) used to save your *.pcap trace files. Default: [?] </string -->
+
 
     <string name="alert_button_ok">@android:string/ok</string>
     <string name="alert_button_cancel">@android:string/cancel</string>
@@ -387,8 +399,9 @@
 
     \n\nIf you have questions or want to contribute to SnoopSnitch, please send an email to
     our mailing list https://lists.srlabs.de/cgi-bin/mailman/listinfo/gsmmap. For a
-    private conversion with the SnoopSnitch team, please contact snoopsnitch@srlabs.de .
-    \nPGP fingerprint: 9728 A7F9 D457 1FBB 746F 5381 D52C AC10 634A 9561.
+    private conversion with the SnoopSnitch team, please contact snoopsnitch@srlabs.de.
+    \nPGP fingerprint:
+    \n9728 A7F9 D457 1FBB 746F 5381 D52C AC10 634A 9561
 
     \n\nVisit our project website for source code and further information:
     \nhttps://opensource.srlabs.de/projects/snoopsnitch\n
@@ -407,10 +420,12 @@
     </string>
 
     <string name="alert_networktest_message">
-    VERY IMPORTANT!
+    WARNING!
 
     \n\nDO NOT ANSWER the phone and DO NOT REJECT THE CALL when the server calls.
     If you do so, your number will get blacklisted and BANNED from our service.
+
+    \n\nONLY ENTER YOUR OWN PHONE NUMBER in the next dialog.
 
     \n\nThe active network test collects security information about your current
     mobile network by sending and receiving a number of SMS and by placing and
@@ -420,13 +435,11 @@
     test. The test should be free of charge. However, your operator may charge you
     for outgoing sms even if sent to an invalid destination!
 
-    \n\nONLY ENTER YOUR OWN PHONE NUMBER in the next dialog.
-
-    \n\nAlso make sure to enter your number in international format prefixed by your
-    country code as follows:\n
-    +[country-code][your-number]\n
-    For example, a German (+49) number of 12345678 would be written:\n
-    +4912345678\n
+    \n\nAlso make sure to enter your number in international format, prefixed by your
+    country code as follows:
+    \n\n+&lt;country-code&gt;&lt;your-number&gt;
+    \n\nFor example, a German (+49) number of 12345678 would be written:
+    \n\n+4912345678\n
     </string>
 
     <string name="alert_networktest_privacy_disclaimer">

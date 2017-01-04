@@ -25,8 +25,7 @@ import de.srlabs.snoopsnitch.util.MsdDialog;
 import de.srlabs.snoopsnitch.util.MsdLog;
 import de.srlabs.snoopsnitch.util.Utils;
 
-public class BaseActivity extends FragmentActivity
-{	
+public class BaseActivity extends FragmentActivity {
 	// Attributes
 	protected MSDServiceHelperCreator msdServiceHelperCreator;
 	protected TextView messageText;
@@ -40,8 +39,7 @@ public class BaseActivity extends FragmentActivity
 	private static boolean exitFlag = false;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) 
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		LayoutInflater inflater = getLayoutInflater();
 		messageLayout = inflater.inflate(R.layout.custom_message_popdown,
@@ -58,19 +56,16 @@ public class BaseActivity extends FragmentActivity
 	}
 
 	@Override
-	protected void onResume() 
-	{
+	protected void onResume() {
 		if(exitFlag ){
 			finish();
 			System.exit(0);
 			return;
 		}
 		msdServiceHelperCreator.setCurrentActivity(this);
-
 		isInForeground = true;
 		// Set title/subtitle of the action bar...
 		ActionBar ab = getActionBar();
-
 		ab.setTitle(R.string.actionBar_title);
 		ab.setSubtitle(setAppId ());
 		handler.postDelayed(runnable, refresh_intervall);
@@ -135,7 +130,7 @@ public class BaseActivity extends FragmentActivity
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_action_scan:
-				toggleRecording ();
+				toggleRecording();
 				break;
 			case R.id.menu_action_map:
 				showMap();
@@ -143,6 +138,7 @@ public class BaseActivity extends FragmentActivity
 			case R.id.menu_action_info:
 				showTestScreen();
 				break;
+			// "Active test (advanced mode)" has been renamed to "Detailed Test" (2017-01-04)
 			case R.id.menu_action_active_test_advanced:
 				Intent intent = new Intent(this, ActiveTestAdvanced.class);
 				startActivity(intent);
@@ -155,16 +151,16 @@ public class BaseActivity extends FragmentActivity
 				startActivity(intent2);
 				break;
 			case R.id.menu_action_settings:
-				showSettings ();
+				showSettings();
 				break;
 			case R.id.menu_action_about:
-				showAbout ();
+				showAbout();
 				break;
 			case R.id.menu_action_exit:
 				quitApplication();
 				break;
 			case R.id.menu_action_network_info:
-				showNetworkInfo ();
+				showNetworkInfo();
 				break;
 			case android.R.id.home:
 				NavUtils.navigateUpFromSameTask(this);
@@ -187,7 +183,7 @@ public class BaseActivity extends FragmentActivity
 	}
 
 	public void internalError(String errorMsg) {
-		MsdDialog.makeFatalConditionDialog(this, "A fatal error occured!", new OnClickListener() 
+		MsdDialog.makeFatalConditionDialog(this, "A fatal error occurred!", new OnClickListener()
 		{
 			@Override
 			public void onClick(DialogInterface dialog, int which) 
@@ -212,7 +208,7 @@ public class BaseActivity extends FragmentActivity
 	}
 
 	private String setAppId () {
-		if (MsdConfig.getAppId(this).equals(""))	{
+		if (MsdConfig.getAppId(this).equals("")) {
 			MsdConfig.setAppId(this, Utils.generateAppId());
 		}
 		return getResources().getText(R.string.actionBar_subTitle) + " " + MsdConfig.getAppId(this);
