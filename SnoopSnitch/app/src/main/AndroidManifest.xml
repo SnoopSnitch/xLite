@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.srlabs.snoopsnitch"
     android:installLocation="auto" >
 
@@ -41,13 +42,15 @@
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <!--uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /-->
+    
     <!-- Emi: In anticipation for 1.1.1 automatic network changes etc.-->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.RECEIVE_WAP_PUSH" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission." />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_CELL_BROADCASTS" />
 
@@ -59,27 +62,36 @@
     <!--
     <uses-permission android:name="android.permission.CONTROL_LOCATION_UPDATES" />
     <uses-permission android:name="android.permission.DIAGNOSTIC" />
+    <uses-permission android:name="android.permission.FACTORY_TEST" />
     <uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     / -->
 
 
-    <!-- None of these tags are required to run app, but recommended... -->
-    <uses-feature android:name="android.hardware.location" android:required="false" />
-    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
-    <uses-feature android:name="android.hardware.location.network" android:required="false" />
+    <!-- HARDWARE:  None of these tags are required to run app, but recommended... -->
+    <uses-feature android:name="android.hardware.location" android:required="true" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="true" />
+    <uses-feature android:name="android.hardware.location.network" android:required="true" />
     <uses-feature android:name="android.hardware.telephony" android:required="true" />
-    <uses-feature android:name="android.hardware.telephony.cdma" android:required="false" />
-    <uses-feature android:name="android.hardware.telephony.gsm" android:required="false" />
-    <uses-feature android:name="android.software.sip.voip" android:required="false" />
+    <uses-feature android:name="android.hardware.telephony.cdma" android:required="true" />
+    <uses-feature android:name="android.hardware.telephony.gsm" android:required="true" />
 
+    <!-- This app currently only works in portrait mode -->
+    <uses-feature android:name="android.hardware.screen.portrait" />
+
+    <!-- SOFTWARE:  These have possibly become required in later APIs. -->
+    <uses-feature android:name="android.software.sip.voip" android:required="false" />
+    <uses-feature android:name="android.software.webview" android:required="true" />
+
+    <!-- see: https://developer.android.com/guide/practices/screen-compat-mode.html -->
     <supports-screens android:xlargeScreens="false"/>
 
     <!-- NOTE:
          allowBackup        - If false, no backup or restore of the application will ever be performed, even by a full-system backup
          fullBackupContent  - This attribute points to an XML file that contains full backup rules for Auto Backup.
-         android:fullBackupOnly     - API >20  [false]
-         android:extractNativeLibs  - API >22  [true]
+            android:fullBackupOnly     - API >20  [false]
+            android:extractNativeLibs  - API >22  [true]
+         to disable lint, use:  "disable 'UnusedAttribute'" in build.gradle
          -->
     <application
         android:allowBackup="true"
@@ -163,6 +175,7 @@
             android:name="de.srlabs.snoopsnitch.SettingsActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
+            <!-- android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity" -->
         </activity>
         
         <!-- About Activity -->
@@ -209,7 +222,15 @@
 
 
         <!-- diag-helper Service  ?? -->
-        <!-- android:description="This service" -->
+        <!-- android:description="This service"
+             android:label="@string/app_name"
+             android:singleUser         If set to true, a single instance of this component will run for all users.
+             android:stopWithTask       If set to true, this service with be automatically stopped when the user remove a task rooted in an activity owned by the application.
+             android:process            Specify a specific process that the associated code is to run in.
+             -->
+        <!-- For more info on this tag, see:
+             https://developer.android.com/reference/android/R.styleable.html#AndroidManifestService
+             -->
         <service
             android:name="de.srlabs.snoopsnitch.qdmon.MsdService"
             android:exported="false"
