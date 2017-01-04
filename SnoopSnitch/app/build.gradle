@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25                    // 25
-    buildToolsVersion "25.0.1"              // 24.0.2 Always use latest build-tools unless otherwise required by app (what's that?)
+    buildToolsVersion "25.0.2"              // Always use latest build-tools unless otherwise required by app (what's that?)
 
     // Since Android-M/23 (AOS 6.0), the original apacheHTTP is no longer supported.
     // Instead Google promote to use: HttpURLConnection. However:
@@ -14,7 +14,7 @@ android {
         applicationId "de.srlabs.snoopsnitch"
         minSdkVersion 18                    // 16 (4.1) .. 19 (4.4)
         targetSdkVersion 25                 // 25 (7.1)
-        versionCode 16                      // In GooglePlay:  Ant: < 16 ;  AS(Gradle): > 15
+        versionCode 16                      // In GooglePlay:  Ant: 15- ;  AS(Gradle): 16+
         versionName "1.1.0"                 // 1.0
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        externalNativeBuild {
@@ -103,6 +103,7 @@ android {
         disable 'SetJavaScriptEnabled'  // Used in: [Local]MapActivity.java  & ActiveTestAdvanced.java -- Does it require JS?
         disable 'Wakelock'              // lint wakelock check is buggy, we're probably doing it right. 
         disable 'Overdraw'              // @color/common_sectionBackground
+        //disable 'UnusedAttribute'     // New attributes in AndroidManifest, not supported in lower API's
         disable 'UnusedResources'       // Many unused strings and images: <placeholders?>
         //disable 'UselessParent'       // activity_dashboard.xml: 20,27   can be flattened
         //disable 'TooManyViews'        // activity_dashboard.xml & fragment_chart_slide_page_hour.xml  has > 80 views
@@ -168,13 +169,13 @@ dependencies {
     //compile group: 'cz.msebera.android', name: 'httpclient', version: '4.4.1.1'                   // API 23+
 
     // Android Support Libraries
-    compile 'com.android.support:support-v4:25.0.1'             // v4 :
-    compile 'com.android.support:support-compat:25.0.1'         // v4 :
-    compile "com.android.support:support-core-utils:25.0.1"     // v4 : Needed for M permission checker
+    compile 'com.android.support:support-v4:25.1.0'             // v4 :
+    compile 'com.android.support:support-compat:25.1.0'         // v4 :
+    compile "com.android.support:support-core-utils:25.1.0"     // v4 : Needed for M permission checker
     //compile "com.android.support:support-core-ui:25.0.1"      // v4 :
     //compile "com.android.support:support-media-compat:25.0.1" // v4 :
     //compile "com.android.support:support-fragment:25.0.1"     // v4 :
-    compile 'com.android.support:appcompat-v7:25.0.1'           // depends on v4 ?
+    compile 'com.android.support:appcompat-v7:25.1.0'           // depends on v4 ?
 
     // OpenCSV (comma-separated values) parser library
     //compile 'au.com.bytecode:opencsv:2.4'
