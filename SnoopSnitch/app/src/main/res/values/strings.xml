@@ -50,6 +50,7 @@
     <string name="alert_deviceCompatibility_title">Compatibility check failed</string>
     <string name="alert_deviceCompatibility_header">Your device is not compatible.\n\nREASON:</string>
     <string name="alert_deviceCompatibility_message">\n\nVisit the project website for details (https://opensource.srlabs.de/projects/snoopsnitch).</string>
+
     <!-- See bottom of page for multi-line strings:
             about_text
             copyright_text
@@ -81,12 +82,40 @@
     <string name="detailChart_title_day">Last 24 hours</string>
     <string name="detailChart_title_hour">Last hour</string>
     
-    <!-- Preferences Screen -->
-  	<string name="settings_actionBar_title">Settings</string>
+
+    <!-- ======================================================================================= -->
+    <!-- SETTINGS -->
+    <!-- ======================================================================================= -->
+
+    <!-- categories -->
+    <!-- NOTE: These are shown in capital letters -->
+    <!-- Settings categories (1): -->
+    <string name="settings_cat_privacy">Privacy</string>
+    <string name="settings_cat_cleanup">Log file cleanup</string>
+    <string name="settings_cat_location">Location Recording</string>
+    <string name="settings_cat_active_test">Detailed Test parameters</string>
+    <!-- ToDo: Development categories (2): -->
+    <string name="settings_cat_log_encryption">Log file encryption</string>
+    <string name="settings_cat_debug_options">Debug Options</string>
+    <string name="settings_cat_pcap_tracing">PCAP Tracing</string>
+
+    <!-- =========================================== -->
+    <!-- "Settings" screen (1)                       -->
+    <!-- =========================================== -->
+    <string name="settings_actionBar_title">Settings</string>
 
     <string name="settings_start_on_boot_title">Start on boot</string>
     <string name="settings_start_on_boot_summary">Start the SnoopSnitch background service automatically when the device is booted</string>
 
+    <!-- PRIVACY -->
+    <string name="settings_applicationid_title">App ID</string>
+    <string name="settings_applicationid_summary">Your can use your app ID to hint us at the files you uploaded. Refresh it anytime by tapping here.</string>
+
+    <!-- string name="settings_active_test_disable_upload_title">Don\'t upload test results</string -->
+    <string name="settings_active_test_disable_upload_title">Disable automatic upload</string>
+    <string name="settings_active_test_disable_upload_summary">Evaluate Detailed Test results on the phone only. No radio data or test results are uploaded to our servers in this case.</string>
+
+    <!-- LOG FILE CLEANUP -->
     <string name="settings_basebandlogkeepduration_title">Baseband log clean interval</string>
     <string name="settings_basebandlogkeepduration_summary">Radio traces are purged from the phone that often</string>
     <string name="settings_basebandlogkeepduration_dialogtitle">Select interval:</string>
@@ -94,66 +123,96 @@
     <string name="settings_locationlogkeepduration_title">Location log clean interval</string>
     <string name="settings_locationlogkeepduration_summary">Information about your location is purged from the phone that often</string>
     <string name="settings_locationlogkeepduration_dialogtitle">Select interval:</string>
-    
+
     <string name="settings_analysiskeepduration_title">Analysis data clean interval</string>
     <string name="settings_analysiskeepduration_summary">Data from catcher and event analysis is purged from the phone that often</string>
     <string name="settings_analysiskeepduration_dialogtitle">Select interval:</string>
-    
+
     <string name="settings_debuglogkeepduration_title">Debug log clean interval</string>
     <string name="settings_debuglogkeepduration_summary">Debug logs are purged from the phone that often</string>
     <string name="settings_debuglogkeepduration_dialogtitle">Select interval:</string>
-        
+
     <string name="settings_metadatakeepduration_title">Metadata clean interval</string>
     <string name="settings_metadatakeepduration_summary">Catcher and event metadata is purged from the phone that often</string>
     <string name="settings_metadatakeepduration_dialogtitle">Select interval:</string>
 
-
+    <!-- LOCATION RECORDING -->
     <string name="settings_gpsrecording_title">Record GPS location</string>
     <string name="settings_gpsrecording_summary">Use fine-grained GPS-based location recording to get location information for IMSI catcher and security events</string>
-    
+
     <string name="settings_networklocationrecording_title">Record network location</string>
     <string name="settings_networklocationrecording_summary">Use coarse-grained network-based location recording to get location information for IMSI catcher and security events</string>
-    
-    <string name="settings_unencryptedlogfilesrecording_title">Unencrypted log files</string>
-    <string name="settings_unencryptedlogfilesrecording_summary">Record log files in plaintext. Sensitive information is NOT removed from the device for you!</string>
-    
-    <string name="settings_unencrypteddumpfilesrecording_title">Unencrypted radio data</string>
-    <string name="settings_unencrypteddumpfilesrecording_summary">Record dump files in plaintext. Sensitive information is NOT removed from the device for you!</string>
-    
-    <string name="settings_encrypteddumpfilesrecording_title">Encrypted radio data</string>
-    <string name="settings_encrypteddumpfilesrecording_summary">Store radio data encrypted with our public key.</string>
-
-    <string name="settings_dumpunencryptedevents_title">Unencrypted event dumps</string>
-    <string name="settings_dumpunencryptedevents_summary">Store event dump files unencrypted on phone. Sensitive information is NOT removed from the device for you!</string>
-    
-    <string name="settings_applicationid_title">App ID</string>
-    <string name="settings_applicationid_summary">Your can use your app ID to hint us at the files you uploaded. Refresh it anytime by tapping here.</string>
 
 
-    <!-- string name="settings_active_test_force_offline_title">Force offline test</string -->
+    <!-- DETAILED TEST PARAMETERS -->
+
+    <!-- previously (2017-01-04): "Force offline test" -->
     <string name="settings_active_test_force_offline_title">Offline Test Mode</string>
     <string name="settings_active_test_force_offline_summary">Force using offline mode in Detailed Test. No data connection is used in this case.</string>
+
+    <string name="settings_active_test_num_iterations_title">Detailed Test repetitions</string>
+    <string name="settings_active_test_num_iterations_dialogtitle">The number of iterations each test will be performed in the Detailed Test.</string>
 
     <string name="settings_active_test_sms_mo_disabled_title">Disable outgoing SMS</string>
     <string name="settings_active_test_sms_mo_disabled_summary">Sending SMS to an invalid destination can still cost money for some providers.</string>
 
     <string name="settings_active_test_sms_mo_number_title">Outgoing SMS number</string>
     <string name="settings_active_test_sms_mo_number_summary">Please enter a number to which you can send SMS for free. The default \"*4*\" is an invalid number and most providers don\'t charge for SMS sent to this number.</string>
-    
-    <string name="settings_active_test_num_iterations_title">Detailed Test repetitions</string>
-    <string name="settings_active_test_num_iterations_dialogtitle">The number of iterations each test will be performed in the Detailed Test.</string>
 
-    <!-- string name="settings_active_test_disable_upload_title">Don\'t upload test results</string -->
-    <string name="settings_active_test_disable_upload_title">Disable automatic upload</string>
-    <string name="settings_active_test_disable_upload_summary">Evaluate Detailed Test results on the phone only. No radio data or test results are uploaded to our servers in this case.</string>
+    <!-- previously (2017-01-04): "Auto upload mode" -->
+    <string name="settings_auto_upload_mode">Auto upload PCAP traces</string>
+    <string name="settings_auto_upload_mode_summary">Automatically upload raw PCAP traces, detected events and their GPS coordinates.</string>
 
-    <!-- Settings categories -->
-    <string name="settings_cat_location">Location Recording</string>
-    <string name="settings_cat_cleanup">Log file cleanup</string>
-    <string name="settings_cat_log_encryption">Log file encryption</string>
-    <string name="settings_cat_privacy">Privacy</string>
-    <string name="settings_cat_active_test">Detailed Test parameters</string>
-    
+    <!-- =========================================== -->
+    <!-- "Development" screen (2) - NO translation!  -->
+    <!-- =========================================== -->
+    <string name="settings_cat_debugging">Development</string>
+
+    <string name="settings_enable_devel_options">Enable development options</string>
+    <string name="settings_cat_debugging_summary">DO NOT ENABLE THIS, unless you are a SnoopSnitch developer!</string>
+
+    <!-- LOG FILE ENCRYPTION -->
+    <string name="settings_unencryptedlogfilesrecording_title">Unencrypted log files</string>
+    <string name="settings_unencryptedlogfilesrecording_summary">Record log files in plaintext. Sensitive information is NOT removed from the device for you!</string>
+
+    <string name="settings_unencrypteddumpfilesrecording_title">Unencrypted radio data</string>
+    <string name="settings_unencrypteddumpfilesrecording_summary">Record dump files in plaintext. Sensitive information is NOT removed from the device for you!</string>
+
+    <string name="settings_encrypteddumpfilesrecording_title">Encrypted radio data</string>
+    <string name="settings_encrypteddumpfilesrecording_summary">Store radio data encrypted with our public key.</string>
+
+    <string name="settings_dumpunencryptedevents_title">Unencrypted event dumps</string>
+    <string name="settings_dumpunencryptedevents_summary">Store event dump files unencrypted on phone. Sensitive information is NOT removed from the device for you!</string>
+
+    <!-- DEBUG OPTIONS -->
+    <string name="settings_debugging_crash">Crash SnoopSnitch</string>
+    <string name="settings_debugging_crash_summary">This will crash SnoopSnitch on next start and reset this option. Used for testing crash handling. Leave this off ;-)</string>
+
+    <string name="settings_debugging_dump_analysis_stacktraces">Analysis stack traces</string>
+    <string name="settings_debugging_dump_analysis_stacktraces_summary">Periodically dump start traces of catcher, security metrics and event analysis</string>
+
+    <string name="settings_debugging_parser_logging">Extended parser logging</string>
+    <string name="settings_debugging_parser_logging_summary">Output additional state information, RAT changes and SQL statements from parser. Warning: This option will create a lot of logs!</string>
+
+    <string name="settings_upload_daily_ping">Enable daily DB upload</string>
+    <string name="settings_upload_daily_ping_summary">Daily upload of a database dump and the current (?) GPS coordinates.</string>
+
+    <!-- PCAP TRACING-->
+    <string name="settings_enable_pcap_recording">Enable PCAP Recording</string>
+    <string name="settings_enable_pcap_recording_summary">Enable sniffing of raw radio packets and save to pcap file (for analysis with Wireshark)</string>
+
+    <string name="settings_pcap_filename_prefix">PCAP file prefix</string>
+    <string name="settings_pcap_filename_prefix_summary">The filename prefix to use for saving your pcap files. A timestamp is also appended to the prefix.\nDefault: snoopsnitch_&lt;timestamp&gt;.pcap</string>
+
+    <!-- ToDo: We need to separate the pcap file prefix and the PATH to be saved... -->
+    <string name="settings_pcap_file_path">PCAP file PATH</string>
+    <string name="settings_pcap_file_path_summary">The directory (PATH) used to save your *.pcap trace files.\nDefault: [?] </string>
+
+    <!-- ======================================================================================= -->
+    <!-- END: SETTINGS -->
+    <!-- ======================================================================================= -->
+
+
     <!-- List view row -->
     <string name="listview_sms_item_type">Type:</string>
     <string name="listview_sms_item_Time">Time:</string>
@@ -203,7 +262,7 @@
     <string name="at_invalid_sms_mo_number">Invalid number for outgoing SMS</string>
     <string name="at_update">Please update SnoopSnitch</string>
     <string name="at_done">Done. Please test both 2G and 3G</string>
-    <!-- Emi: Add better test info: -->
+    <!-- ToDo: Emi: Add better test info: -->
     <!--string name="at_done_2g">2G Done - Now also test 3G</string>
     <string name="at_done_3g">3G Done - Now also test 2G</string>
     <string name="at_done_all">All Tests Done!</string-->
@@ -216,11 +275,12 @@
     <!-- Compat check -->
     <string name="compat_no_diag">Device /dev/diag does not exist, no Qualcomm chipset or unsuitable ROM</string>
     <string name="compat_broken_diag">Could not initialize DIAG interface</string>
-    <!-- Emi: Add more detailed compatibility info: -->
+    <!-- ToDo: Emi: Add more detailed compatibility info: -->
     <!-- string name="compat_no_diag">Device /dev/diag does not exist!</string>
     <string name="compat_not_qual">This is not a Qualcomm based phone!</string>
     <string name="compat_not_msm">This is not an MSM based Qualcomm processor.</string>
     <string name="compat_bad_rom">Phone is using an incompatible ROM</string>
+    <string name="compat_bad_kernel">Phone is using an incompatible kernel</string>
     <string name="compat_unknown">Unknown diagnostics device</string -->
 
 
@@ -290,38 +350,12 @@
     <string name="network_info_msisdn_text">MSISDN:</string>
     <string name="network_info_paging_text">Paging:</string>
 
-    <string name="settings_cat_debugging">Development</string>
-    <string name="settings_cat_debugging_summary">DO NOT ENABLE THIS, unless you are a SnoopSnitch developer!</string>
-    <string name="settings_debugging_crash">Crash SnoopSnitch</string>
-    <string name="settings_debugging_crash_summary">This will crash SnoopSnitch on next start and reset this option. Used for testing crash handling. Leave this off ;-)</string>
-    <string name="settings_enable_devel_options">Enable development options</string>
-    <string name="settings_debugging_dump_analysis_stacktraces">Analysis stack traces</string>
-    <string name="settings_debugging_dump_analysis_stacktraces_summary">Periodically dump start traces of catcher, security metrics and event analysis</string>
-    <string name="settings_debugging_parser_logging">Extended parser logging</string>
-    <string name="settings_debugging_parser_logging_summary">Output additional state information, RAT changes and SQL statements from parser. Warning: This option will create a lot of logs!</string>
-
-    <!-- string name="settings_auto_upload_mode">Auto upload mode</string -->
-    <string name="settings_auto_upload_mode">Auto upload PCAP traces</string>
-    <string name="settings_auto_upload_mode_summary">Automatically upload raw PCAP traces, detected events and their GPS coordinates.</string>
-    <string name="settings_upload_daily_ping">Enable daily DB upload</string>
-    <string name="settings_upload_daily_ping_summary">Daily upload of a database dump and the current (?) GPS coordinates.</string>
-
-    <string name="settings_enable_pcap_recording">Enable PCAP Recording</string>
-    <string name="settings_enable_pcap_recording_summary">Enable sniffing of raw radio packets and save to pcap file (for analysis with Wireshark)</string>
-
-    <string name="settings_pcap_filename_prefix">PCAP file prefix</string>
-    <string name="settings_pcap_filename_prefix_summary">The .pcap filename prefix to use for your pcap files, SnoopSnitch will also append a timestamp to the prefix. Default: snoopsnitch_&lt;timestamp&lt;.pcap</string>
-
-    <!-- ToDo: We need to separate the pcap file prefix and the PATH to be saved...
-    <string name="settings_pcap_file_path">PCAP file PATH</string>
-    <string name="settings_pcap_file_path_summary">The directory (PATH) used to save your *.pcap trace files. Default: [?] </string -->
-
-
     <string name="alert_button_ok">@android:string/ok</string>
     <string name="alert_button_cancel">@android:string/cancel</string>
     <string name="alert_dialog_refreshappid_button_cancel">@android:string/cancel</string>
 
     <!-- Enable Auto-Upload Mode from Catcher/Event Notification -->
+    <!-- ToDo: What setting is this related to? -->
     <string name="notification_enable_auto_upload_mode">Enable Auto-Upload mode</string>
     <string name="notification_enable_auto_upload_mode_confirm">Do you want to automatically upload all detected Events?</string>
 
