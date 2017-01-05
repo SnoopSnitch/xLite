@@ -43,7 +43,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /-->
-    
+
     <!-- Emi: In anticipation for 1.1.1 automatic network changes etc.-->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -131,7 +131,23 @@
             android:screenOrientation="portrait"
             android:launchMode="singleTop" >
         </activity>
-        
+
+        <!-- Base Activity (added 20170105) Lint!?
+             NOTE:
+                (1) "You'll only need to list activities that are entry points to your app
+                     in the manifest. That is, activities that are invoked with an Intent."
+                (2) "You should not have activities that are in fact not instantiable entry points.
+                     Make such activity classes abstract."
+                            public abstract class BaseActivity extends Activity
+             from:  http://stackoverflow.com/questions/21073674/activity-not-registered-in-the-manifest-lint-warning
+             -->
+
+        <!-- activity
+            android:name="de.srlabs.snoopsnitch.BaseActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="de.srlabs.snoopsnitch.BaseActivity">
+        </activity -->
+
         <!-- Detailed Chart Activity -->
         <activity
              android:name="de.srlabs.snoopsnitch.DetailChartActivity"

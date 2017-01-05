@@ -25,7 +25,7 @@ import de.srlabs.snoopsnitch.util.MsdDialog;
 import de.srlabs.snoopsnitch.util.MsdLog;
 import de.srlabs.snoopsnitch.util.Utils;
 
-public class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity extends FragmentActivity {
 	// Attributes
 	protected MSDServiceHelperCreator msdServiceHelperCreator;
 	protected TextView messageText;
@@ -121,8 +121,7 @@ public class BaseActivity extends FragmentActivity {
 		}
 	}
 
-	public MSDServiceHelperCreator getMsdServiceHelperCreator ()
-	{
+	public MSDServiceHelperCreator getMsdServiceHelperCreator () {
 		return msdServiceHelperCreator;
 	}
 
