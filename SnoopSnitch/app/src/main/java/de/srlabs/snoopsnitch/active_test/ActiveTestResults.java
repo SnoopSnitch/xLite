@@ -15,16 +15,24 @@ import de.srlabs.snoopsnitch.util.MsdLog;
 import de.srlabs.snoopsnitch.util.Utils;
 
 public class ActiveTestResults implements Serializable {
+
+    private static final String TAG = "SNSN";
+    private static final String mTAG = "ActiveTestResults :";
+
 	private static final long serialVersionUID = 1L;
+
 	enum State{API_RUNNING, WAITING, TEST_RUNNING, SUCCESS, FAILED_TIMEOUT, FAILED_API_ERROR, FAILED_API_TIMEOUT, FAILED};
+
+    private int numIterations = 5; //
+
 	private HashMap<String, NetworkOperatorTestResults> networkOperators = new HashMap<String, ActiveTestResults.NetworkOperatorTestResults>();
+    private SingleTestState currentTest;
 	private String currentMccMnc = null;
-	private SingleTestState currentTest;
-	private int numIterations = 5;
+    private String errorLog = "";
 	private String fatalError = null;
+
+    private boolean onlineMode = true;
 	private boolean testRoundComplete = false;
-	private String errorLog = "";
-	private boolean onlineMode = true;
 	private boolean blacklisted = false;
 	private boolean invalidNumber = false;
 	private boolean invalidSmsMoNumber = false;
@@ -130,6 +138,7 @@ public class ActiveTestResults implements Serializable {
 			tests.put(TestType.CALL_MT, new Vector<ActiveTestResults.SingleTestState>());
 		}
 	}
+
 	class SingleTestState implements Serializable{
 		private static final long serialVersionUID = 1L;
 		private long startTime = 0;
@@ -373,6 +382,12 @@ public class ActiveTestResults implements Serializable {
 		return "\"" + input.replace("\\","\\\\").replace("\"", "\\\"").replace("\n","\\n") + "\"";
 	}
 
+    /**
+     * ToDo: Explanation of how this works and where this is further handled?
+     *
+     * @param context
+     * @return
+     */
 	public String getUpdateJavascript(Context context){
 		StringBuffer result = new StringBuffer();
 		NetworkOperatorTestResults currentNetworkOperator = getCurrentNetworkOperator();
@@ -390,10 +405,10 @@ public class ActiveTestResults implements Serializable {
 			}
 		}
 		String mode = (onlineMode ? "Setting: Online, " : "Setting: Offline, ") +
-				numIterations + " x 4 tests" +
+				numIterations + " iterations of 4 tests" +
 				(smsMoDisabled ? ", " + "no SMS out" : "");
 		result.append("setTestMode(" + escape(mode) + ");\n");
-		if(currentNetworkOperator != null){
+        if(currentNetworkOperator != null){
 			result.append("updateBuckets({");
 			for(int generation = 2;generation <= 4; generation++){
 				String prefix = null;
@@ -504,6 +519,7 @@ public class ActiveTestResults implements Serializable {
 	public int getCurrentRunNumFailed(){
 		return 0;
 	}
+
 	public boolean isTestTypeCompleted(TestType type){
 		if(type == TestType.SMS_MO && smsMoDisabled)
 			return true;
@@ -512,6 +528,7 @@ public class ActiveTestResults implements Serializable {
 			return false;
 		return (results.getNumSuccess(type) + results.getNumFailures(type) >= numIterations);
 	}
+
 	public boolean isTestRoundCompleted(){
 		if(!isTestTypeCompleted(TestType.SMS_MO))
 			return false;
@@ -523,19 +540,24 @@ public class ActiveTestResults implements Serializable {
 			return false;
 		return true;
 	}
+
 	public void setFatalError(String msg) {
 		this.fatalError = msg;
 		currentTest = null;
 	}
+
 	public String getFatalError() {
 		return fatalError;
 	}
+
 	public int getNumIterations() {
 		return numIterations;
 	}
+
 	public void setNumIterations(int numIterations){
 		this.numIterations = numIterations;
 	}
+
 	public void appendErrorLog(String logMsg){
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
 		Date date = new Date(System.currentTimeMillis());
@@ -548,18 +570,23 @@ public class ActiveTestResults implements Serializable {
 	void clearCurrentResults(){
 		getCurrentNetworkOperatorRatTestResults().clearFails();
 	}
+
 	void clearCurrentFails(){
 		getCurrentNetworkOperatorRatTestResults().clearResults();		
 	}
-	public void setOnlineMode(boolean onlineMode) {
+
+    public void setOnlineMode(boolean onlineMode) {
 		this.onlineMode = onlineMode;
 	}
-	public String getErrorLog() {
+
+    public String getErrorLog() {
 		return errorLog;
 	}
+
 	public void clearErrorLog(){
 		errorLog = "";
 	}
+
 	public boolean isTestTypeContinuable(TestType type){
 		if(type == TestType.SMS_MO && smsMoDisabled)
 			return false;
