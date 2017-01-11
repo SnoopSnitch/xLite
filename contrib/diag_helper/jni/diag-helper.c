@@ -4,8 +4,6 @@
 #include <sys/stat.h>
 #include <sys/un.h>
 
-#include <android/log.h>
-
 #include <errno.h>
 #include <fcntl.h>
 #include <pthread.h>
@@ -13,6 +11,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include <android/log.h>
 
 #define BUF_SIZE 1000000
 static char from_dev_buf[BUF_SIZE];
@@ -22,15 +21,14 @@ static int to_app_fd;
 static int from_app_fd;
 static int diag_fd;
 
-
 __attribute__((__format__(__printf__, 2, 3)))
 static void
 logmsg(int prio, const char *fmt, ...)
 {
         va_list args;
-
         va_start(args, fmt);
-        __android_log_vprint(prio, "diag-helper", fmt, args);
+        // __android_log_vprint(prio, "diag-helper", fmt, args);
+        __android_log_vprint(prio, "SNSN:DIAG", fmt, args);
         va_end(args);
 }
 
@@ -62,6 +60,8 @@ open_diag_dev(void)
 
         diag_fd = open("/dev/diag", O_RDWR|O_CLOEXEC);
         if (diag_fd < 0) {
+        		// NOTE: The ‘%m’ conversion prints the string corresponding to the error code in errno.
+        		//       So that:  "%m" alone == "%s", strerror(errno).
                 logmsg(ANDROID_LOG_FATAL, "error opening diag device: %m");
                 goto exit;
         }
@@ -213,7 +213,7 @@ main(int argc, char **argv)
         logmsg(ANDROID_LOG_INFO, "starting");
 
         if (argc != 2) {
-                logmsg(ANDROID_LOG_ERROR, "not invoked with enough arguments");
+                logmsg(ANDROID_LOG_ERROR, "invoked with missing arguments");
                 exit(15);
         }
 
@@ -223,7 +223,7 @@ main(int argc, char **argv)
                 logmsg(ANDROID_LOG_INFO, "test mode invoked");
                 for_real = 0;
         } else {
-                logmsg(ANDROID_LOG_ERROR, "invalid run mode `%s': chose `run' or `test'", argv[1]);
+                logmsg(ANDROID_LOG_ERROR, "invalid run mode '%s': instead use 'run' or 'test'", argv[1]);
                 exit(15);
         }
 
