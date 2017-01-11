@@ -127,15 +127,19 @@ public class MsdLog {
 		// particular properties. In addition we need to check if if/when the
 		// global values gets zeroed by the garbage collector when app is put
 		// in background.
-		String prop;
-		prop =
-		  "Kernel version:        " + System.getProperty("os.version") + "\n"
-		+ "gsm.version.baseband:  " + osgetprop("gsm.version.baseband") + "\n"
-		+ "gsm.version.ril-impl:  " + osgetprop("gsm.version.ril-impl") + "\n"
-		+ "ril.hw_ver:            " + osgetprop("ril.hw_ver") + "\n"
-		+ "ril.modem.board:       " + osgetprop("ril.modem.board") + "\n"
-		+ "ro.arch:               " + osgetprop("ro.arch") + "\n"
-		+ "ro.board.platform:     " + osgetprop("ro.board.platform") + "\n\n";
+		String prop = "";
+		try {
+            prop =  "Kernel version:        " + System.getProperty("os.version") + "\n"
+                  + "gsm.version.baseband:  " + osgetprop("gsm.version.baseband") + "\n"
+                  + "gsm.version.ril-impl:  " + osgetprop("gsm.version.ril-impl") + "\n"
+                  + "ril.hw_ver:            " + osgetprop("ril.hw_ver") + "\n"
+                  + "ril.modem.board:       " + osgetprop("ril.modem.board") + "\n"
+                  + "ro.arch:               " + osgetprop("ro.arch") + "\n"
+                  + "ro.board.platform:     " + osgetprop("ro.board.platform") + "\n\n";
+        } catch (Exception ee) {
+            Log.e(TAG, mTAG + "Exception in getDeviceProps(): Unable to retrieve system properties: " + ee);
+            return "";
+        }
 		return prop;
 	}
 
@@ -157,8 +161,8 @@ public class MsdLog {
 	 */
 	public static String getLogStartInfo(Context context) {
 		StringBuffer result = new StringBuffer();
-		result.append("Log opened " + Utils.formatTimestamp(System.currentTimeMillis()) + "\n");
-		result.append("SnoopSnitch Version: " + BuildConfig.VERSION_NAME + "\n");
+		result.append("Log opened:          " + Utils.formatTimestamp(System.currentTimeMillis()) + "\n");
+		result.append("SnoopSnitch Version: " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")" + "\n");
 		result.append("Android version:     " + Build.VERSION.RELEASE + "\n");
 		result.append("Kernel version:      " + System.getProperty("os.version") + "\n");
 		result.append("Manufacturer:        " + Build.MANUFACTURER + "\n");
