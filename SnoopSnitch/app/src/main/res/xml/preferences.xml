@@ -4,11 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <!-- =========================================== -->
+    <!-- "Settings" screen (1)                       -->
+    <!-- =========================================== -->
+
     <CheckBoxPreference
         android:key="settings_start_on_boot"
         android:title="@string/settings_start_on_boot_title"
         android:summary="@string/settings_start_on_boot_summary"
-        android:defaultValue="true"/>
+        android:defaultValue="false"/>
 
     <PreferenceCategory
         android:key="cat_privacy"
@@ -17,12 +21,16 @@
             android:key="settings_appId"
             android:summary="@string/settings_applicationid_summary"
             android:title="@string/settings_applicationid_title" />
-
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="settings_active_test_disable_upload"
             android:summary="@string/settings_active_test_disable_upload_summary"
             android:title="@string/settings_active_test_disable_upload_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="settings_auto_upload_mode"
+            android:summary="@string/settings_auto_upload_mode_summary"
+            android:title="@string/settings_auto_upload_mode" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -88,13 +96,11 @@
     <PreferenceCategory
         android:key="cat_active_test"
         android:title="@string/settings_cat_active_test" >
-
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="settings_active_test_force_offline"
             android:summary="@string/settings_active_test_force_offline_summary"
             android:title="@string/settings_active_test_force_offline_title" />
-
         <ListPreference
             android:defaultValue="3"
             android:dialogTitle="@string/settings_active_test_num_iterations_dialogtitle"
@@ -103,30 +109,26 @@
             android:key="settings_active_test_num_iterations"
             android:summary="%s"
             android:title="@string/settings_active_test_num_iterations_title" />
-
         <CheckBoxPreference
             android:defaultValue="false"
             android:disableDependentsState="true"
             android:key="settings_active_test_sms_mo_disabled"
             android:summary="@string/settings_active_test_sms_mo_disabled_summary"
             android:title="@string/settings_active_test_sms_mo_disabled_title" />
-
         <EditTextPreference
             android:defaultValue="*4*"
             android:dependency="settings_active_test_sms_mo_disabled"
             android:key="settings_active_test_sms_mo_number"
             android:summary="@string/settings_active_test_sms_mo_number_summary"
             android:title="@string/settings_active_test_sms_mo_number_title" />
-
     </PreferenceCategory>
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="settings_auto_upload_mode"
-        android:summary="@string/settings_auto_upload_mode_summary"
-        android:title="@string/settings_auto_upload_mode" />
+    <!-- =========================================== -->
+    <!-- "Development" screen (2) - NO translation!  -->
+    <!-- =========================================== -->
+    <PreferenceScreen
+        android:title="@string/settings_cat_debugging" >
 
-    <PreferenceScreen android:title="@string/settings_cat_debugging" >
         <PreferenceCategory
             android:key="cat_debugging"
             android:selectable="false"
@@ -136,6 +138,11 @@
                 android:key="settings_enable_devel_options"
                 android:summary="@string/settings_cat_debugging_summary"
                 android:title="@string/settings_enable_devel_options" />
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:key="cat_log_encryption"
+            android:title="@string/settings_cat_log_encryption" >
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="settings_enable_devel_options"
@@ -154,6 +161,12 @@
                 android:key="settings_dumpUnencryptedEvents"
                 android:summary="@string/settings_dumpunencryptedevents_summary"
                 android:title="@string/settings_dumpunencryptedevents_title" />
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:key="settings_cat_debug_options"
+            android:title="@string/settings_cat_debug_options" >
+
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="settings_enable_devel_options"
@@ -178,20 +191,36 @@
                 android:key="settings_upload_daily_ping"
                 android:summary="@string/settings_upload_daily_ping_summary"
                 android:title="@string/settings_upload_daily_ping" />
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:key="settings_cat_pcap_tracing"
+            android:title="@string/settings_cat_pcap_tracing" >
+
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="settings_enable_devel_options"
                 android:key="settings_enable_pcap_recording"
                 android:summary="@string/settings_enable_pcap_recording_summary"
                 android:title="@string/settings_enable_pcap_recording" />
+
             <!-- was:   android:defaultValue="/sdcard/snoopsnitch"  -->
             <EditTextPreference
-	            android:defaultValue="/snoopsnitch"
+	            android:defaultValue="snoopsnitch"
 	            android:dependency="settings_enable_pcap_recording"
 	            android:key="settings_pcap_filename_prefix"
 	            android:summary="@string/settings_pcap_filename_prefix_summary"
 	            android:title="@string/settings_pcap_filename_prefix" />
+
+            <!-- ToDo: We should be able to select internal/external SDcard here... -->
+            <EditTextPreference
+                android:defaultValue="./"
+                android:dependency="settings_enable_pcap_recording"
+                android:key="settings_pcap_file_path"
+                android:summary="@string/settings_pcap_file_path_summary"
+                android:title="@string/settings_pcap_file_path" />
         </PreferenceCategory>
+
     </PreferenceScreen>
 
 </PreferenceScreen>

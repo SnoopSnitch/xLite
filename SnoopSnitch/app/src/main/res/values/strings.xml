@@ -145,7 +145,6 @@
 
 
     <!-- DETAILED TEST PARAMETERS -->
-
     <!-- previously (2017-01-04): "Force offline test" -->
     <string name="settings_active_test_force_offline_title">Offline Test Mode</string>
     <string name="settings_active_test_force_offline_summary">Force using offline mode in Detailed Test. No data connection is used in this case.</string>
@@ -202,11 +201,13 @@
     <string name="settings_enable_pcap_recording_summary">Enable sniffing of raw radio packets and save to pcap file (for analysis with Wireshark)</string>
 
     <string name="settings_pcap_filename_prefix">PCAP file prefix</string>
-    <string name="settings_pcap_filename_prefix_summary">The filename prefix to use for saving your pcap files. A timestamp is also appended to the prefix.\nDefault: snoopsnitch_&lt;timestamp&gt;.pcap</string>
+    <string name="settings_pcap_filename_prefix_summary">The filename prefix to use for saving your pcap files. A timestamp is also appended to the prefix.\nDefault:  snoopsnitch_&lt;timestamp&gt;.pcap</string>
+    <string name="settings_pcap_filename_prefix_default">snoopsnitch</string>
 
     <!-- ToDo: We need to separate the pcap file prefix and the PATH to be saved... -->
     <string name="settings_pcap_file_path">PCAP file PATH</string>
-    <string name="settings_pcap_file_path_summary">The directory (PATH) used to save your *.pcap trace files.\nDefault: [?] </string>
+    <string name="settings_pcap_file_path_summary">The directory (PATH) used to save your *.pcap trace files.\nDefault:  [./] </string>
+    <string name="settings_pcap_file_path_default">./</string>
 
     <!-- ======================================================================================= -->
     <!-- END: SETTINGS -->

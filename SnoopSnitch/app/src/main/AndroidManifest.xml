@@ -12,12 +12,11 @@
     <!-- The permission scheme is different before,between and after AOS 5.1 (API 22) to 6.0 (API 23) -->
 
     <!-- For available groups see: https://developer.android.com/guide/topics/security/permissions.html -->
-    <!-- We may need to consider:
+    <!-- We may need to consider these "dangerous" permission groups:
          android:permissionGroup="android.permission-group.LOCATION"
          android:permissionGroup="android.permission-group.PHONE"
          android:permissionGroup="android.permission-group.SMS"
          android:permissionGroup="android.permission-group.STORAGE" -->
-
 
     <!-- In anticipation for 1.1.0 bug fix: permission crash:
            "DatabaseUtils(  834): java.lang.SecurityException: Permission Denial"
@@ -27,6 +26,12 @@
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
                      android:permissionGroup="android.permission-group.STORAGE"
                      android:protectionLevel="dangerous" />
+
+    <!-- TRY some of these: -->
+    <!--uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" /-->
+    <!--uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+                     android:permissionGroup="android.permission-group.STORAGE"
+                     android:protectionLevel="dangerous" / -->
 
     <!-- Basic (and original) permissions -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -42,7 +47,6 @@
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /-->
 
     <!-- Emi: In anticipation for 1.1.1 automatic network changes etc.-->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
@@ -50,7 +54,7 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.RECEIVE_WAP_PUSH" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission." />
+    <!--uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /-->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_CELL_BROADCASTS" />
 
