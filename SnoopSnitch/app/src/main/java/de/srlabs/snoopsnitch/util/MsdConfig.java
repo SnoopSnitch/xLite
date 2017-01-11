@@ -3,7 +3,11 @@ package de.srlabs.snoopsnitch.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
+import android.util.Log;
+
+import android.telephony.TelephonyManager;
 //import android.util.Log;
 //import android.preference.PreferenceManager;
 
@@ -15,12 +19,7 @@ import android.os.Environment;
 public class MsdConfig {
 
 	private static final String TAG = "SNSN";
-	private static final String mTAG = "MsdConfig";
-
-	// The version suffix should be counted up when there is a solution for the
-	// "No baseband messages" problem (so that phones detected to be
-	// incompatible with a previous version can used again)
-	private static final String DEVICE_INCOMPATIBLE_DETECTED_FLAG = "device_incompatible_detected_2";
+	private static final String mTAG = "MsdConfig :";
 
 	private static SharedPreferences sharedPrefs(Context context) {
         // ToDo: Need better multi-process fix here. Consider:
@@ -31,6 +30,39 @@ public class MsdConfig {
         return context.getSharedPreferences("de.srlabs.snoopsnitch_preferences", Context.MODE_PRIVATE);
 	}
 
+	// ========================================================================
+	// Device Compatibility
+	// ========================================================================
+
+	public static boolean getDeviceCompatibleDetected(Context context) {
+		return sharedPrefs(context).getBoolean("device_compatible_detected", false);
+	}
+
+	public static void setDeviceCompatibleDetected(Context context, boolean compatible) {
+		Editor editor = sharedPrefs(context).edit();
+		editor.putBoolean("device_compatible_detected", compatible);
+		editor.commit();
+	}
+
+	// ToDo: Author should add a redmine issue request with the specific functionality intended or remove. (Emi: 2017-01-09)
+	// The version suffix should be counted up when there is a solution for the
+	// "No baseband messages" problem (so that phones detected to be
+	// incompatible with a previous version can used again)
+	private static final String DEVICE_INCOMPATIBLE_DETECTED_FLAG = "device_incompatible_detected_2";
+
+	public static boolean getDeviceIncompatible(Context context) {
+		return sharedPrefs(context).getBoolean(DEVICE_INCOMPATIBLE_DETECTED_FLAG, false);
+	}
+
+	public static void setDeviceIncompatible(Context context, boolean incompatible) {
+		Editor editor = sharedPrefs(context).edit();
+		editor.putBoolean(DEVICE_INCOMPATIBLE_DETECTED_FLAG, incompatible);
+		editor.commit();
+	}
+
+	// ========================================================================
+	// Settings: Logfiles & data cleanup interval
+	// ========================================================================
 	public static int getBasebandLogKeepDurationHours(Context context) {
 		return 24*Integer.parseInt(sharedPrefs(context).getString("settings_basebandLogKeepDuration", "1"));
 	}
@@ -51,6 +83,9 @@ public class MsdConfig {
 		return 24*Integer.parseInt(sharedPrefs(context).getString("settings_analysisInfoKeepDuration", "30"));
 	}
 
+	// ========================================================================
+	// Settings: privacy
+	// ========================================================================
 	public static boolean gpsRecordingEnabled(Context context) {
         return sharedPrefs(context).getBoolean("settings_gpsRecording", false);
 	}
@@ -66,7 +101,6 @@ public class MsdConfig {
 	public static boolean recordUnencryptedDumpfiles(Context context) {
 		return sharedPrefs(context).getBoolean("settings_recordUnencryptedDumpfiles", false);
 	}
-
 
 	public static boolean dumpUnencryptedEvents(Context context) {
 		return sharedPrefs(context).getBoolean("settings_dumpUnencryptedEvents", false);
@@ -86,26 +120,89 @@ public class MsdConfig {
 		return sharedPrefs(context).getBoolean("settings_active_test_force_offline", false);
 	}
 
-	public static boolean getDeviceIncompatible(Context context) {
-		return sharedPrefs(context).getBoolean(DEVICE_INCOMPATIBLE_DETECTED_FLAG, false);
+
+	// ========================================================================
+	// Own phone number Sanity check
+	// ========================================================================
+	/*
+	 * We can check these:
+	 *   1. [ ] That the number starts with a valid country code (e.g. "+49" )
+	 *   2. [ ] We can attempt to get own number from various hacks, but not SIM nor API
+	 *
+	 *   For (2) we can cross check SIM country iso with one of the following:
+	 *   	[ ] asset CSV file  					- less coding
+	 *   	[x] asset JSON file 					- more coding but better portability (?)
+	 *      [ ] our own DB table "mcc" in msd.db 	- may break multi-threading!
+	 */
+	/**
+	 *
+	 * Maybe this should be a JSON file reader instead?
+	 * @param db
+	 * @param countryIso
+     */
+	public static String getCountryCode(SQLiteDatabase db, String countryIso) {
+		String sql;
+		String country_code = null;
+		//String simIso = tm.getSimCountryIso();
+		try {
+			/*
+			db.beginTransaction();
+			sql = "SELECT UNIQUE call_code FROM mcc WHERE iso = " + simIso + ";";
+			country_code = db.execSQL(sql);
+			db.setTransactionSuccessful();
+			*/
+		} catch (Exception ee) {
+			Log.e(TAG, mTAG + "getOwnNumber: Exeception from SQL execution:", ee);
+		}finally {
+			//db.endTransaction();
+		}
+		return country_code;
 	}
 
-	public static void setDeviceIncompatible(Context context, boolean incompatible) {
-		Editor editor = sharedPrefs(context).edit();
-		editor.putBoolean(DEVICE_INCOMPATIBLE_DETECTED_FLAG, incompatible);
-		editor.commit();
-	}
-
+	/**
+	 * Get own phone number or if not possible, at least the dialling country code
+	 *
+	 * NOTE: The AOS API can't provide for getting the number as it is not something
+	 * 		 stored on the SIM, nor on the phone. The best we can do is getting the
+	 * 		 country ISO code from the API and then cross reference it with either
+	 * 		 a provided CSV, JSON or from our SQL table "mcc".
+	 *
+	 * @param context
+	 * @return
+     */
 	public static String getOwnNumber(Context context) {
 		// ToDo: Need smarter way to get number here!
 		//
-		return sharedPrefs(context).getString("own_number", "");
+		String phone_number = sharedPrefs(context).getString("own_number", "");
+		if (phone_number.equals(null)) {
+
+			// Try to get MSISDN etc
+			/**
+			 *  try to use:     getSimCountryIsoForPhone
+			 *  				getSimOperatorNumeric
+			 *                  getLine1Number
+			 * 					getLine1NumberForSubscriber
+			 *					getMsisdn
+			 *
+			 */
+
+			//TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+			//phone_number = tm.getLine1Number();
+			// still nothing?
+			/*if (phone_number.equals(null)) {
+				//
+			}*/
+			// Toast?
+		}
+		return phone_number;
 	}
 
 	public static void setOwnNumber(Context context, String ownNumber) {
 		sharedPrefs(context).edit().putString("own_number", ownNumber).commit();
 	}
-	
+
+	// ========================================================================
+
 	public static boolean getActiveTestSMSMODisabled(Context context) {
 		return sharedPrefs(context).getBoolean("settings_active_test_sms_mo_disabled", false);
 	}
@@ -142,16 +239,6 @@ public class MsdConfig {
         return sharedPrefs(context).getBoolean("settings_parser_logging", false);
 	}
 
-	public static boolean getDeviceCompatibleDetected(Context context) {
-		return sharedPrefs(context).getBoolean("device_compatible_detected", false);
-	}
-	
-	public static void setDeviceCompatibleDetected(Context context, boolean compatible) {
-		Editor editor = sharedPrefs(context).edit();
-		editor.putBoolean("device_compatible_detected", compatible);
-		editor.commit();
-	}
-	
 	public static boolean getDumpAnalysisStackTraces(Context context) {
 		return sharedPrefs(context).getBoolean("settings_debugging_dump_analysis_stacktraces", false);
 	}
@@ -218,25 +305,43 @@ public class MsdConfig {
 
 	/**
 	 * This is used in MsdService.launchParser() as:
+	 *
 	 * 		String pcapBaseFileName = MsdConfig.getPcapFilenamePrefix(this);
 	 * .	String filename = pcapBaseFileName + "_" + String.format(Locale.US, ....) + ".pcap";
+	 *
+	 * 		The default storage location is/was: 		/sdcard/snoopsnitch/
+	 * 		The default storage location should be: 	/.../snoopsnitch_pcap/
+	 * 		The default strings for this are in: 		strings.xml
+	 *  	The default preference for this are in: 	preferences.xml
 	 *
 	 * @param context
 	 * @return
      */
     public static String getPcapFilenamePrefix(Context context) {
-		// The default storage location is/was: 	/sdcard/snoopsnitch/ ?
-		// The default storage location should be: 	/.../snoopsnitch/ ?
-		// The default strings for this are in: 	strings.xml
-		// The default preference for this are in: 	preferences.xml
+		// Was:
+		//		return sharedPrefs(context).getString("settings_pcap_filename_prefix", "/sdcard/snoopsnitch");
 		//
-		//return sharedPrefs(context).getString("settings_pcap_filename_prefix", "/sdcard/snoopsnitch");
+		// New options:
         // getExternalStorageDirectory : requires WRITE_EXTERNAL_STORAGE permission
         // getExternalFilesDir(String) : requires no permissions
         // getExternalCacheDir()       : requires no permissions
         // getExternalMediaDirs        : requires no permissions
-        return sharedPrefs(context).getString("settings_pcap_filename_prefix",
-				//Environment.getExternalStorageDirectory().getPath() + "/sdcard/snoopsnitch");
-				Environment.getExternalStorageDirectory().getPath() + "/snoopsnitch");
+
+		// getDataDirectory ?
+
+		//return sharedPrefs(context).getString("settings_pcap_filename_prefix",
+		//		//Environment.getExternalStorageDirectory().getPath() + "/sdcard/snoopsnitch");
+		//		Environment.getExternalStorageDirectory().getPath() + "snoopsnitch");
+        return sharedPrefs(context).getString("settings_pcap_filename_prefix", "snoopsnitch");
+	}
+
+	public static String getPcapFilenamePath(Context context) {
+		//String prefPath = sharedPrefs(context).getString("settings_pcap_file_path",
+		//		Environment.getDataDirectory().getPath() + "/snoopsnitch_pcap/");
+				//Environment.getExternalFilesDir().getPath() + "/snoopsnitch/");
+				//Environment.getExternalStorageDirectory().getPath() + "/snoopsnitch");
+		//return 	Environment.getDataDirectory().getPath() + "/snoopsnitch_pcap/";
+		//return Environment.getExternalMediaDirs() + "/snoopsnitch_pcap/"; // API 21+
+		return Environment.getExternalStorageDirectory().getPath() + "/snoopsnitch_pcap/"; //
 	}
 }
