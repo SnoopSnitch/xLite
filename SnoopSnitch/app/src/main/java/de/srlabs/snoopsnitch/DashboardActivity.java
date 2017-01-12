@@ -4,11 +4,18 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Vector;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Typeface;
+import android.media.AudioAttributes;
+import android.media.AudioTrack;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.view.Menu;
@@ -32,8 +39,10 @@ import de.srlabs.snoopsnitch.views.DashboardProviderChart;
 import de.srlabs.snoopsnitch.views.DashboardThreatChart;
 import de.srlabs.snoopsnitch.views.adapter.ListViewProviderAdapter;
 
+import static android.media.AudioAttributes.USAGE_NOTIFICATION_EVENT;
+
 public class DashboardActivity extends BaseActivity implements ActiveTestCallback
-{	
+{
 	// Attributes
 	private DashboardThreatChart layout;
 	private ViewTreeObserver vto;
@@ -126,8 +135,7 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu _menu) 
-	{
+	public boolean onCreateOptionsMenu(Menu _menu) {
 	    // Inflate the menu items for use in the action bar
 		this.menu = _menu;
 	    MenuInflater inflater = getMenuInflater();
@@ -145,8 +153,7 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 	}
 	
 	@Override
-	protected void onStart() 
-	{
+	protected void onStart() {
 		super.onStart();
 		
 		layout = (DashboardThreatChart)findViewById(R.id.SilentSMSChartMonth);
@@ -162,17 +169,13 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 	}
 	
 	@Override
-	protected void onResume() 
-	{				
+	protected void onResume() {
 		super.onResume();
 		
 		// Get provider data
 		this.providerList = msdServiceHelperCreator.getMsdServiceHelper().getData().getScores().getServerData();
-		
 		refreshView();
-		
 		fillProviderList();
-		
 		// Update RAT
 		updateInterseptionImpersonation();
 		updateLastAnalysis();
@@ -193,10 +196,46 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 			startActivity(myIntent);
 		}
 	}
-	
+
+    public void eventNote() {
+        /**
+         * We want some notification sound: (API 21+)
+         *      USAGE_NOTIFICATION                         // Usage value to use when the usage is notification.
+         *      USAGE_NOTIFICATION_EVENT                   // for attracting the user's attention, (i.e. reminders or low battery)
+         *      USAGE_NOTIFICATION_COMMUNICATION_INSTANT   // for an "instant" communication such as a chat, or SMS.
+         *
+         *  To use those, we need to build:
+         *    AudioTrack myTrack = new AudioTrack(
+         *        new AudioAttributes.Builder()
+         *        .setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
+         *        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+         *        .build(),
+         *    myFormat, myBuffSize, AudioTrack.MODE_STREAM, mySession);
+         *
+         */
+        try {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(this, notification);
+            if (r != null)
+                r.play();
+        } catch (Exception e) {
+            //Log.e(TAG, mTAG + "Ringtone Exception: " + e);
+            e.printStackTrace();
+        }
+
+        // Vibrate() can also take: AudioAttributes...
+        // Get instance of Vibrator from current Context
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        long[] pattern = {0, 400, 500, 400}; // Vibrate 2 times with 0.5s interval
+        if (v.hasVibrator()) {
+            v.vibrate(pattern, -1);          // "-1" = vibrate exactly as pattern, no repeat
+        }
+    }
+
 	@Override
 	public void stateChanged(StateChangedReason reason) {
 		if (reason.equals(StateChangedReason.CATCHER_DETECTED) || reason.equals(StateChangedReason.SMS_DETECTED)) {
+            eventNote();
 			refreshView();
 		} else if (reason.equals(StateChangedReason.ANALYSIS_DONE))	{
 			updateLastAnalysis();
@@ -209,6 +248,8 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 			//xtLastAnalysisTime.setTextColor(getResources().getColor(R.color.common_chartRed));
 			txtLastAnalysisTime.setTextColor(ContextCompat.getColor(this, R.color.common_chartRed));
 			txtDashboardLastAnalysis.setVisibility(View.GONE);
+            // FIXME: For debugging! Remove if working:
+            eventNote();
 		}
 		super.stateChanged(reason);
 	}
@@ -216,14 +257,13 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 	@Override
 	protected void refreshView() {
 		checkOperator();
-		resetCharts(); // Redraw charts
-		resetPoviderCharts();
+		resetCharts();         // Redraw charts
+		resetProviderCharts();
 		refreshProviderList();
-		resetThreatCounts(); // Set texts
+		resetThreatCounts();   // Set texts
 	}
 
 	private void checkOperator() {
-
 		Risk risk = MSDServiceHelperCreator.getInstance().getMsdServiceHelper().getData().getScores();
 		if (!unknownOperator && risk.operatorUnknown()) {
 			String msg =
@@ -279,7 +319,7 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 		dtcImsiMonth.invalidate();
 	}
 	
-	private void resetPoviderCharts () {
+	private void resetProviderCharts () {
 		pvcProviderImpersonation.invalidate();
 		pvcProviderInterception.invalidate();
 	}
@@ -311,7 +351,8 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 			txtDashboardLastAnalysis.setVisibility(View.GONE);
 		}
 	}
-	
+
+	// ToDo: fix spelling
 	private void updateInterseptionImpersonation ()	{
 		switch (msdServiceHelperCreator.getMsdServiceHelper().getData().getCurrentRAT()) {
 			case RAT_2G:
