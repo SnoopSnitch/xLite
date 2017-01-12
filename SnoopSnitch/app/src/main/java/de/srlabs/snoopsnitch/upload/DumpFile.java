@@ -163,7 +163,7 @@ public class DumpFile {
 		} else if(state == STATE_RECORDING_PENDING){
 			state = STATE_PENDING;
 		} else{
-			throw new IllegalStateException("recordingSopped can only be called in STATE_RECORDING and STATE_RECORDING_PENDING. Current State: " + stateToString(state) + " (" + state + ")");
+			throw new IllegalStateException("recordingStopped() can only be called in STATE_RECORDING and STATE_RECORDING_PENDING. Current State: " + stateToString(state) + " (" + state + ")");
 		}
 		end_time = System.currentTimeMillis();
 	}
@@ -341,24 +341,25 @@ public class DumpFile {
 		}
 		if(updateState(db, STATE_RECORDING_PENDING, STATE_PENDING, values))
 			return;
-		throw new IllegalStateException("Can't change state of file " + getFilename() + " id=" + getId());
+		throw new IllegalStateException("endRecording(): Can't change state of file " + getFilename() + " id=" + getId());
 	}
 
 	public void markForUpload(SQLiteDatabase db) {
 		Log.i(TAG, mTAG + ":markForUpload(): " + this);
 		if(state == STATE_AVAILABLE){
-			if(updateState(db, STATE_AVAILABLE, STATE_PENDING, null))
-				return;
+			//if(updateState(db, STATE_AVAILABLE, STATE_PENDING, null))
+			//	return;
+			updateState(db, STATE_AVAILABLE, STATE_PENDING, null);
 		} else if(state == STATE_RECORDING){
 			if(updateState(db, STATE_RECORDING, STATE_RECORDING_PENDING, null))
 				return;
 			// Fallback in case the database row has been changed from RECORDING
 			// to AVAILABLE by MsdService since it has been read from the
 			// database.
-			if(updateState(db, STATE_AVAILABLE, STATE_PENDING, null))
-				return;
+			//if(updateState(db, STATE_AVAILABLE, STATE_PENDING, null))
+			//	return;
+			updateState(db, STATE_AVAILABLE, STATE_PENDING, null);
 		}
-		Log.e(TAG, mTAG + ":markForUpload() FAILED:\n" + this);
 	}
 
 	/**

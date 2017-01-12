@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import de.srlabs.snoopsnitch.EncryptedFileWriterError;
 import de.srlabs.snoopsnitch.R;
@@ -26,6 +27,10 @@ import de.srlabs.snoopsnitch.analysis.ImsiCatcher;
 import de.srlabs.snoopsnitch.util.MsdDialog;
 
 public class ListViewImsiCatcherAdapter extends ArrayAdapter<ImsiCatcher> {
+
+    private static final String TAG = "SNSN";
+    private static final String mTAG = "ListViewImsiCatcherAdapter: ";
+
 	// Attributes
 	private final Context context;
 	private final Vector<ImsiCatcher> values;
@@ -122,15 +127,20 @@ public class ListViewImsiCatcherAdapter extends ArrayAdapter<ImsiCatcher> {
 								btnUpload.setVisibility(View.VISIBLE);
 								//rowView.setBackgroundColor(context.getResources().getColor(R.color.common_custom_row_background_disabled));
                                 rowView.setBackgroundColor(ContextCompat.getColor(context, R.color.common_custom_row_background_disabled));
-							} catch (EncryptedFileWriterError e) {
+							} catch (EncryptedFileWriterError e1) {
 								// FIXME: Error dialog
-								Log.i("MSD", "Upload for IMSI catcher event failed: " + e.getMessage(),e);
-							} catch (SQLException e) {
+                                // Emi: What kind of "dialog"? (Is this fixed?)  2017-01-11
+								//Log.i(TAG, mTAG + "Upload for IMSI catcher event failed: " + e.getMessage(),e);
+                                Log.i(TAG, mTAG + "Upload for IMSI catcher event failed: " + e1);
+                                Toast.makeText(context, "Upload of event failed with: EncryptedFileWriterError", Toast.LENGTH_LONG).show();
+							} catch (SQLException e2) {
 								// FIXME: Error dialog
-								Log.i("MSD", "Upload for IMSI catcher event failed: " + e.getMessage(),e);
-							} catch (IOException e) {
+								Log.i(TAG, mTAG + "Upload for IMSI catcher event failed: " + e2);
+                                Toast.makeText(context, "Upload of event failed with: SQLException", Toast.LENGTH_LONG).show();
+							} catch (IOException e3) {
 								// FIXME: Error dialog
-								Log.i("MSD", "Upload for IMSI catcher event failed: " + e.getMessage(),e);
+								Log.i(TAG, mTAG + "Upload for IMSI catcher event failed: " + e3);
+                                Toast.makeText(context, "Upload of event failed with: IOException", Toast.LENGTH_LONG).show();
 							}
 							host.refreshView();
 						}

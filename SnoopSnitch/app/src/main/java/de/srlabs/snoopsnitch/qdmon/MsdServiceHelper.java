@@ -11,14 +11,16 @@ import android.os.RemoteException;
 import android.util.Log;
 
 public class MsdServiceHelper{
-	private static String TAG = "msd-service-helper";
-    private static final String  aTAG = "SNSN";
-    private static final String  mTAG = "MsdServiceHelper";
+
+	//private static String TAG = "msd-service-helper";
+	private static final String  TAG = "SNSN";
+    private static final String  mTAG = "MsdServiceHelper: ";
 
 	private Context context;
 	private MyServiceConnection serviceConnection = new MyServiceConnection();
 	private MsdServiceCallback callback;
 	public IMsdService mIMsdService;
+
 	class  MyMsdServiceCallbackStub extends IMsdServiceCallback.Stub{
 		@Override
 		public void stateChanged(final String reason) throws RemoteException {
@@ -35,6 +37,7 @@ public class MsdServiceHelper{
 			System.exit(0);
 		}
 	}
+
 	MyMsdServiceCallbackStub msdCallback = new MyMsdServiceCallbackStub();
 	private boolean connected = false;
 	private AnalysisEventDataInterface data = null;
@@ -45,55 +48,60 @@ public class MsdServiceHelper{
 		this.callback = callback;
 		startService();
 	}
+
 	private void startService(){
 		context.startService(new Intent(context, MsdService.class));
 		context.bindService(new Intent(context, MsdService.class), this.serviceConnection, Context.BIND_AUTO_CREATE);
 		data = new AnalysisEventData(context);
 	}
+
 	public boolean isConnected(){
 		return connected ;
 	}
+
 	public boolean startRecording(){
-		Log.i(TAG,"MsdServiceHelper.startRecording() called");
+		Log.i(TAG, mTAG + "startRecording() called");
 		boolean result = false;
 		try {
 			result = mIMsdService.startRecording();
 		} catch (Exception e) {
-			handleFatalError("Exception in MsdServiceHelper.startRecording()", e);
+			handleFatalError("Exception in startRecording()", e);
 		}
-		Log.i(TAG,"MsdServiceHelper.startRecording() returns " + result);
+		Log.i(TAG, mTAG + "startRecording() returns: " + result);
 		return result;
 	}
+
 	public boolean stopRecording(){
-		Log.i(TAG,"MsdServiceHelper.stopRecording() called");
+		Log.i(TAG, mTAG + "stopRecording() called");
 		boolean result = false;
 		try {
 			result = mIMsdService.stopRecording();
 		} catch (RemoteException e) {
-			handleFatalError("RemoteException while calling mIMsdService.isRecording() in MsdServiceHelper.startRecording()", e);
+			handleFatalError("RemoteException while calling mIMsdService.stopRecording(): ", e);
 		}
-		Log.i(TAG,"MsdServiceHelper.stopRecording() returns " + result);
+		Log.i(TAG, mTAG + "stopRecording() returns: " + result);
 		return result;
 	}
+
 	public boolean isRecording(){
 		if(!connected){
-			Log.i(TAG,"MsdServiceHelper.isRecording(): Not connected => false");
+			Log.i(TAG, mTAG + "isRecording(): Not connected => false");
 			return false;
 		}
 		boolean result = false;
 		try {
 			result = mIMsdService.isRecording();
 		} catch (RemoteException e) {
-			handleFatalError("RemoteException while calling mIMsdService.isRecording() in MsdServiceHelper.startRecording()", e);
+			handleFatalError("RemoteException while calling mIMsdService.isRecording(): ", e);
 		}
-		Log.i(TAG,"MsdServiceHelper.isRecording() returns " + result);
+		Log.i(TAG, mTAG + "isRecording() returns: " + result);
 		return result;
 	}
-	class MyServiceConnection implements ServiceConnection {
 
+	class MyServiceConnection implements ServiceConnection {
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
-			Log.i(MsdService.TAG,"MsdServiceHelper.MyServiceConnection.onServiceConnected()");
+			Log.i(TAG, mTAG + "MyServiceConnection.onServiceConnected() called.");
 			mIMsdService = IMsdService.Stub.asInterface(service);
 			try {
 				mIMsdService.registerCallback(msdCallback);
@@ -108,7 +116,7 @@ public class MsdServiceHelper{
 					logDataBuffer = null;
 				}
 			} catch (RemoteException e) {
-				handleFatalError("RemoteException in MsdServiceHelper.MyServiceConnection.onServiceConnected()", e);
+				handleFatalError("RemoteException in MyServiceConnection.onServiceConnected()", e);
 			}
 			connected = true;
 			callback.stateChanged(StateChangedReason.RECORDING_STATE_CHANGED);
@@ -116,7 +124,7 @@ public class MsdServiceHelper{
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
-			Log.i(TAG,"MsdServiceHelper.MyServiceConnection.onServiceDisconnected() called");
+			Log.i(TAG, mTAG + "MyServiceConnection.onServiceDisconnected() called.");
 			context.unbindService(this);
 			mIMsdService = null;
 			connected = false;
@@ -131,12 +139,14 @@ public class MsdServiceHelper{
 		if(e != null)
 			msg += e.getClass().getCanonicalName() + ": " + e.getMessage();
 		//Log.e(TAG, msg, e);
-        Log.e(aTAG, mTAG + msg + "\n", e);
+        Log.e(TAG, mTAG + "Fatal Error: " + msg + ": ", e);
 		callback.internalError(msg);
 	}
+
 	public AnalysisEventDataInterface getData(){
 		return data;
 	}
+
 	public void writeLog(String logData) {
 		if(isConnected())
 			try {
@@ -150,26 +160,32 @@ public class MsdServiceHelper{
 			logDataBuffer.append(logData);
 		}
 	}
+
 	public void triggerUploading() {
+        Log.i(TAG, mTAG + "triggerUploading() called.");
 		try {
 			mIMsdService.triggerUploading();
+            Log.i(TAG, mTAG + "triggerUploading(): upload of pending files OK.");
 		} catch (RemoteException e) {
-			handleFatalError("RemoteException in MsdServiceHelper.mIMsdService.triggerUploading()", e);
+            Log.i(TAG, mTAG + "triggerUploading(): upload of pending files FAILED!");
+			handleFatalError("RemoteException in mIMsdService.triggerUploading()", e);
 		}
 	}
+
 	public long reopenAndUploadDebugLog(){
 		try {
 			return mIMsdService.reopenAndUploadDebugLog();
 		} catch (RemoteException e) {
-			handleFatalError("RemoteException in MsdServiceHelper.mIMsdService.reopenAndUploadDebugLog()", e);
+			handleFatalError("RemoteException in mIMsdService.reopenAndUploadDebugLog()", e);
 			return 0;
 		}
 	}
+
 	public int getParserNetworkGeneration(){
 		try {
 			return mIMsdService.getParserNetworkGeneration();
 		} catch (RemoteException e) {
-			handleFatalError("RemoteException in MsdServiceHelper.mIMsdService.getParserNetworkGeneration()", e);
+			handleFatalError("RemoteException in mIMsdService.getParserNetworkGeneration()", e);
 			return 0;
 		}
 	}
@@ -177,35 +193,35 @@ public class MsdServiceHelper{
 		try {
 			mIMsdService.endExtraRecording(upload);
 		} catch (RemoteException e) {
-			handleFatalError("RemoteException in MsdServiceHelper.mIMsdService.getParserNetworkGeneration()", e);
+			handleFatalError("RemoteException in mIMsdService.getParserNetworkGeneration()", e);
 		}
 	}
 	public void startExtraRecording(String filename) {
 		try {
 			mIMsdService.startExtraRecording(filename);
 		} catch (RemoteException e) {
-			handleFatalError("RemoteException in MsdServiceHelper.mIMsdService.getParserNetworkGeneration()", e);
+			handleFatalError("RemoteException in mIMsdService.getParserNetworkGeneration()", e);
 		}
 	}
 	public void startActiveTest(){
 		try {
 			mIMsdService.startActiveTest();
 		} catch (RemoteException e) {
-			handleFatalError("RemoteException in MsdServiceHelper.mIMsdService.getParserNetworkGeneration()", e);
+			handleFatalError("RemoteException in mIMsdService.getParserNetworkGeneration()", e);
 		}
 	}
 	public void stopActiveTest(){
 		try {
 			mIMsdService.stopActiveTest();
 		} catch (RemoteException e) {
-			handleFatalError("RemoteException in MsdServiceHelper.mIMsdService.getParserNetworkGeneration()", e);
+			handleFatalError("RemoteException in mIMsdService.getParserNetworkGeneration()", e);
 		}
 	}
 	public int getDiagMsgCount() {
 		try {
 			return mIMsdService.getDiagMsgCount();
 		} catch (RemoteException e) {
-			handleFatalError("RemoteException in MsdServiceHelper.mIMsdService.getParserNetworkGeneration()", e);
+			handleFatalError("RemoteException in mIMsdService.getParserNetworkGeneration()", e);
 			return 0;
 		}
 	}
@@ -214,14 +230,14 @@ public class MsdServiceHelper{
 			mIMsdService.exitService();
 			context.unbindService(serviceConnection);
 		} catch (Exception e) {
-			handleFatalError("Exception in MsdServiceHelper.stopService()", e);
+			handleFatalError("Exception in stopService()", e);
 		}
 	}
 	public long getLastAnalysisTimeMs(){
 		try {
 			return mIMsdService.getLastAnalysisTimeMs();
 		} catch (Exception e) {
-			handleFatalError("Exception in MsdServiceHelper.getLastAnalysisTimeMs()", e);
+			handleFatalError("Exception in getLastAnalysisTimeMs()", e);
 			return 0;
 		}
 	}

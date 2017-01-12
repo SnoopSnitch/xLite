@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -70,12 +71,14 @@ public class MsdLog {
 		Log.w(tag,msg);
 		printlnToLog(getTimePrefix() + tag + ": WARNING: " + msg);
 	}
+
 	public static void init(MsdServiceHelper msdServiceHelper) {
 		MsdLog.msdServiceHelper = msdServiceHelper;
 	}
 	public static void init(MsdService msd) {
 		MsdLog.msd = msd;
 	}
+
 	private static void printlnToLog(String line){
 		if(msdServiceHelper != null){
 			msdServiceHelper.writeLog(line + "\n");
@@ -90,52 +93,87 @@ public class MsdLog {
 		}
 	}
 
+
+    private static boolean isBlank(String string) {
+        return string == null || string.trim().length() == 0;
+    }
+
 	/**
 	 * Getting system properties using OS command getprop, instead of using reflection.
 	 *
 	 * Reflection would require:
-	 * import com.android.internal.telephony.TelephonyProperties;
-	 * import android.os.SystemProperties;
+	 *    import com.android.internal.telephony.TelephonyProperties;
+	 *    import android.os.SystemProperties;
+     *
 	 * 	//public static final String USER = Settings.System.getString("ro.build.user");
 	 *
 	 * @param key
 	 * @return property
      */
-	public static String osgetprop(String key) {
-		Process process = null;
-		String property = null;
+	private static String osgetprop(String key) {
+		Process process;
+		String property;
 		try {
-			//ifc = Runtime.getRuntime().exec("getprop ro.hardware");
-			process = new ProcessBuilder().command("/system/bin/getprop" + key).redirectErrorStream(true).start();
+			process = Runtime.getRuntime().exec("/system/bin/getprop" + " " + key);
+			//process = new ProcessBuilder().command("/system/bin/getprop" + " " + key).redirectErrorStream(true).start();
 			BufferedReader bis = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			property = bis.readLine();
 			process.destroy();
+            if (isBlank(property)) {
+                return "<n/a>";
+            }
 		} catch (IOException | NullPointerException ee) {
-			Log.e(TAG, mTAG + ": osgetprop(): Error executing getprop:\n" + ee.toString());
+			Log.e(TAG, mTAG + ": osgetprop(): Error executing getprop: " + ee.toString());
+            return "error";
 		}
 		return property;
 	}
 
-	/**
+    /**
+     * This gets some detailed information about phone model, hardware and Android version etc.
+     * We also need to know the Kernel Version (as diag-helper build is dependent on that.)
+     *
+     *  For example:
+     *
+     * 	[gsm.version.baseband]: [T815XXU1AOH1]		x	android.os.SystemProperties.PROPERTY_BASEBAND_VERSION
+     * 	[gsm.version.ril-impl]: [Samsung RIL v3.0]	x	android.os.SystemProperties.PROPERTY_RIL_IMPL
+     * 	[ril.hw_ver]:           [MP 0.500]
+     * 	[ril.modem.board]:      [SHANNON333]
+     * 	[ro.arch]:              [exynos5433]
+     * 	[ro.baseband]:          [unknown]
+     * 	[ro.board.platform]:    [exynos5]
+     *
 	 * Collecting HW specific properties for global use/re-use without having to run
 	 * shell command every time.
+     *
+     *  WARNING:  Each of these call the shell...this can take time and is inefficient.
+     *           Instead, all this should be put in some static parcel somewhere...
 	 *
+     *  ToDo:   NOTE:
+     *          We should probably make this as an array for easier grep when checking
+     *          particular properties. In addition we need to check if if/when the
+     *          global values gets zeroed by the garbage collector when app is put
+     *          in background.
+
 	 * @return prop
      */
 	public static String getDeviceProps() {
-		// We should probably make this as an array for easier grep when checking
-		// particular properties. In addition we need to check if if/when the
-		// global values gets zeroed by the garbage collector when app is put
-		// in background.
-		String prop = "";
+		String prop;
 		try {
-            prop =  "Kernel version:        " + System.getProperty("os.version") + "\n"
-                  + "gsm.version.baseband:  " + osgetprop("gsm.version.baseband") + "\n"
-                  + "gsm.version.ril-impl:  " + osgetprop("gsm.version.ril-impl") + "\n"
-                  + "ril.hw_ver:            " + osgetprop("ril.hw_ver") + "\n"
-                  + "ril.modem.board:       " + osgetprop("ril.modem.board") + "\n"
-                  + "ro.arch:               " + osgetprop("ro.arch") + "\n"
-                  + "ro.board.platform:     " + osgetprop("ro.board.platform") + "\n\n";
+            prop =    "AOS version:               " + Build.VERSION.RELEASE + "\n"
+                    + "Kernel version:            " + System.getProperty("os.version") + "\n"
+                    + "Manufacturer:              " + Build.MANUFACTURER + "\n"
+                    + "Brand:                     " + Build.BRAND + "\n"
+                    + "Product (Model):           " + Build.PRODUCT + " (" + Build.MODEL  + ")" + "\n"
+                    + "gsm_version_baseband:      " + osgetprop("gsm.version.baseband") + "\n"
+                    + "gsm_version_ril-impl:      " + osgetprop("gsm.version.ril-impl") + "\n"
+                    + "ro_confg_hw_chipidversion: " + osgetprop("ro.confg.hw_chipidversion") + "\n" // Huawei?
+                    + "ril_hw_ver:                " + osgetprop("ril.hw_ver") + "\n"                // Samsung?
+                    + "ril_modem_board:           " + osgetprop("ril.modem.board") + "\n"           // Samsung?
+                    + "ro_arch:                   " + osgetprop("ro.arch") + "\n"                   // Samsung?
+                    + "ro_product_cpu_abi:        " + osgetprop("ro.product.cpu.abi") + "\n"
+                    + "ro_dual_sim_phone:         " + osgetprop("ro.dual.sim.phone") + "\n"
+                    + "ro_board_platform:         " + osgetprop("ro.board.platform") + "\n";
         } catch (Exception ee) {
             Log.e(TAG, mTAG + "Exception in getDeviceProps(): Unable to retrieve system properties: " + ee);
             return "";
@@ -144,20 +182,13 @@ public class MsdLog {
 	}
 
 	/**
-	 * Gets some information about phone model, Android version etc.
-	 * ToDo: We need more details from getprop
-	 *
-	 * see:  https://team.srlabs.de/issues/2039
-	 *
-	 * 	[gsm.version.baseband]: [T815XXU1AOH1]		x	android.os.SystemProperties.PROPERTY_BASEBAND_VERSION
-	 * 	[gsm.version.ril-impl]: [Samsung RIL v3.0]	x	android.os.SystemProperties.PROPERTY_RIL_IMPL
-	 * 	[ril.hw_ver]:           [MP 0.500]
-	 * 	[ril.modem.board]:      [SHANNON333]
-	 * 	[ro.arch]:              [exynos5433]
-	 * 	[ro.baseband]:          [unknown]
-	 * 	[ro.board.platform]:    [exynos5]
-	 *
-	 *  NOTE: We probably also need to know the Kernel Version (as diag build is dependent on that.)
+     * This adds some system-info to the header of the "debug_<timestamp>" files.
+     *
+     * WARNING:  Each of these call the shell...this can take time and is inefficient.
+     *           Instead, all this should be put in some static parcel somewhere...
+     *
+     * NOTE: AS complain about context not being used, but it is in MsdService: "newDebugLogWriter"
+     *
 	 */
 	public static String getLogStartInfo(Context context) {
 		StringBuffer result = new StringBuffer();
@@ -171,14 +202,8 @@ public class MsdLog {
 		result.append("Product:             " + Build.PRODUCT + "\n");
 		result.append("Model:               " + Build.MODEL + "\n");
 		result.append("Baseband:            " + Build.getRadioVersion() + "\n"); // Extra \n ?
-		// WARNING: Each of these call the shell...this can take time and is inefficient.
-		// Instead, all this should be put in some static parcel somewhere...
-		// result.append("gsm.version.baseband:  " + osgetprop("gsm.version.baseband") + "\n");
-		// result.append("gsm.version.ril-impl:  " + osgetprop("gsm.version.ril-impl") + "\n");
-		// result.append("ril.hw_ver:            " + osgetprop("ril.hw_ver") + "\n");
-		// result.append("ril.modem.board:       " + osgetprop("ril.modem.board") + "\n");
-		// result.append("ro.arch:               " + osgetprop("ro.arch") + "\n");
-		// result.append("ro.board.platform:     " + osgetprop("ro.board.platform") + "\n");
+        result.append("----------------------------------------------------\n");
+		result.append(getDeviceProps());
 		return result.toString();
 	}
 }

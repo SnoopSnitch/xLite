@@ -47,7 +47,7 @@ import de.srlabs.snoopsnitch.upload.DumpFile;
 
 public class Utils {
 
-    private final static String TAG = "SNOOP";
+    private final static String TAG = "SNSN";
     private final static String mTAG = "Utils";
 
 	public static HttpsURLConnection openUrlWithPinning(Context context, String strUrl) throws

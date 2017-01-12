@@ -31,8 +31,10 @@ import android.util.Log;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class TlsSniSocketFactory implements LayeredSocketFactory {
+
     // Previous tag was too long:  TAG = "davdroid.SNISocketFactory";
-    private static final String TAG = "Snoop.SNISocketFactory";
+    private static final String TAG = "SNSN";
+    private static final String mTAG = "TlsSniSocketFactory";
 
     final static HostnameVerifier hostnameVerifier = new StrictHostnameVerifier();
 
@@ -74,15 +76,15 @@ public class TlsSniSocketFactory implements LayeredSocketFactory {
 
             // set up SNI before the handshake
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    Log.i(TAG, "Setting SNI hostname");
+                    Log.i(TAG, mTAG +"Setting SNI hostname");
                     sslSocketFactory.setHostname(ssl, host);
             } else {
-                    Log.d(TAG, "No documented SNI support on Android <4.2, trying with reflection");
+                    Log.i(TAG, mTAG + "No documented SNI support on Android <4.2, trying with reflection");
                     try {
                          java.lang.reflect.Method setHostnameMethod = ssl.getClass().getMethod("setHostname", String.class);
                          setHostnameMethod.invoke(ssl, host);
                     } catch (Exception e) {
-                            Log.w(TAG, "SNI not usable", e);
+                            Log.w(TAG, mTAG + "SNI not usable: ", e);
                     }
             }
 
@@ -91,7 +93,8 @@ public class TlsSniSocketFactory implements LayeredSocketFactory {
             if (!hostnameVerifier.verify(host, session))
                     throw new SSLPeerUnverifiedException("Cannot verify hostname: " + host);
 
-            Log.i(TAG, "Established "       + session.getProtocol() +
+            Log.i(TAG, mTAG +
+                        "Established "      + session.getProtocol() +
                         " connection with " + session.getPeerHost() +
                         " using "           + session.getCipherSuite());
 

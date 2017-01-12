@@ -11,6 +11,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+
 import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
 import de.srlabs.snoopsnitch.qdmon.MsdService;
 import de.srlabs.snoopsnitch.util.Constants;
@@ -20,7 +21,10 @@ import de.srlabs.snoopsnitch.util.MsdLog;
 import de.srlabs.snoopsnitch.util.Utils;
 
 public class MsdServiceUploadThread extends Thread {
-	private static final String TAG = "MsdServiceUploadThread";
+
+	private static final String TAG = "SNSN";
+    private static final String mTAG = "MsdServiceUploadThread: ";
+
 	private UploadState uploadState;
 	private MsdService msdService;
 	private boolean stopUploading;
@@ -36,19 +40,20 @@ public class MsdServiceUploadThread extends Thread {
 	@Override
 	public void run() {
 		newUploadRoundRequested = false;
-		MsdLog.i(TAG, "MsdServiceUploadThread starting first upload round");
+		MsdLog.i(TAG, mTAG + "run() starting first upload round");
 		do_pending_uploads();
 		while(newUploadRoundRequested){
-			MsdLog.i(TAG, "MsdServiceUploadThread starting another upload round due to newUploadRoundRequested");
+			MsdLog.i(TAG, mTAG + "run() starting another upload round due to newUploadRoundRequested");
 			newUploadRoundRequested = false;
 			do_pending_uploads();
 		}
-		MsdLog.i(TAG, "MsdServiceUploadThread terminating");
+		MsdLog.i(TAG, mTAG + "run() terminating");
 	}
+
 	public void do_pending_uploads() {
 		uploadState = createUploadState(msdService);
 		if(uploadState.getAllFiles().length == 0){
-			MsdLog.i(TAG, "do_pending_uploads(): Nothing to upload");
+			MsdLog.i(TAG, mTAG + "do_pending_uploads(): Nothing to upload");
 			return;
 		}
 		uploadState.setState(UploadState.State.RUNNING);
@@ -64,15 +69,18 @@ public class MsdServiceUploadThread extends Thread {
 		if(uploadState.getState() == UploadState.State.RUNNING){
 			// All files uploaded and no error
 			uploadState.setState(UploadState.State.COMPLETED);
+            MsdLog.i(TAG, mTAG + "Pending uploads completed." );
 		}
 	}
+
 	private void uploadFile(DumpFile file) {
 		try {
 			if(stopUploading)
 				return;
 			String uploadFileName = MsdConfig.getAppId(msdService) + "_" + file.getReportId() + "_" + file.getFilename();
-			MsdLog.i(TAG, "Starting to upload file " + file.getFilename() + " as " + uploadFileName);
-			HttpsURLConnection connection = Utils.openUrlWithPinning(msdService, Constants.UPLOAD_URL);
+			MsdLog.i(TAG, mTAG + "Starting to upload file " + file.getFilename() + " as " + uploadFileName);
+
+            HttpsURLConnection connection = Utils.openUrlWithPinning(msdService, Constants.UPLOAD_URL);
 			connection.setConnectTimeout((int) Constants.CONNECT_TIMEOUT);
 			connection.setReadTimeout((int) Constants.READ_TIMEOUT);
 			connection.setRequestMethod("POST");
@@ -103,7 +111,7 @@ public class MsdServiceUploadThread extends Thread {
 			int counter = 0;
 			while (-1 != (n = is.read(buffer))) {
 				counter += n;
-				MsdLog.i(TAG,"Upload counter: " + counter);
+				MsdLog.i(TAG, mTAG + "Upload counter: " + counter);
 				os.write(buffer, 0, n);
 				os.flush();
 				if(stopUploading)
@@ -126,7 +134,7 @@ public class MsdServiceUploadThread extends Thread {
 				MsdDatabaseManager.getInstance().closeDatabase();
 				msdService.deleteFile(file.getFilename());
 				uploadState.addCompletedFile(file, counter);
-				MsdLog.i(TAG, "uploading file " + file.getFilename() + " succeeded");
+				MsdLog.i(TAG, mTAG + "uploading file " + file.getFilename() + " succeeded");
 			} else{
 				String errorStr = "Invalid response code: " + responseCode + " while uplaoding " + file.getFilename();
 				logUploadError(errorStr);
@@ -139,8 +147,9 @@ public class MsdServiceUploadThread extends Thread {
 
 	void logUploadError(String errorStr){
 		uploadState.error(errorStr);
-		MsdLog.e(TAG,errorStr);
+		MsdLog.e(TAG, mTAG + "Upload Error: " + errorStr);
 	}
+
 	public static UploadState createUploadState(Context context){
 		MsdDatabaseManager.initializeInstance(new MsdSQLiteOpenHelper(context));
 		SQLiteDatabase db = MsdDatabaseManager.getInstance().openDatabase();

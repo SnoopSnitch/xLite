@@ -12,12 +12,18 @@ import java.util.zip.GZIPOutputStream;
 import android.content.Context;
 import android.os.PowerManager;
 import android.text.TextUtils;
+import android.util.Log;
+
 import de.srlabs.snoopsnitch.util.MsdLog;
 import de.srlabs.snoopsnitch.EncryptedFileWriterError;
 
 public class EncryptedFileWriter{
-	public static final String TAG = "msd-EncryptedFileWriter";
-	private String encryptedFilename;
+
+	//public static final String TAG = "msd-EncryptedFileWriter";
+    public static final String TAG = "SNSN";
+    public static final String mTAG = "EncryptedFileWriter :";
+
+    private String encryptedFilename;
 	private boolean compressEncryptedFile;
 	private boolean closed = false;
 	private Context context;
@@ -26,7 +32,7 @@ public class EncryptedFileWriter{
 	private String plaintextFilename;
 	private BufferedReader opensslStderr;
 	private OpensslErrorThread opensslErrorThread;
-	private BlockingQueue<MsgWrapper> msgQueue = new LinkedBlockingQueue<MsgWrapper>();
+	private BlockingQueue<MsgWrapper> msgQueue = new LinkedBlockingQueue<>();
 	private OutputStream plaintextOutputStream;
 	private boolean compressPlaintextFile;
 	private WriterThread writerThread;
@@ -34,7 +40,9 @@ public class EncryptedFileWriter{
 	private long lastFlushTime = 0;	
 	private EncryptedFileWriterError error = null;
 	
-	public EncryptedFileWriter(Context context, String encryptedFilename, boolean compressEncryptedFile, String plaintextFilename, boolean compressPlaintextFile) throws EncryptedFileWriterError {
+	public EncryptedFileWriter(Context context, String encryptedFilename,
+							   boolean compressEncryptedFile, String plaintextFilename,
+                               boolean compressPlaintextFile) throws EncryptedFileWriterError {
 		this.context = context;
 		this.encryptedFilename = encryptedFilename;
 		this.compressEncryptedFile = compressEncryptedFile;
@@ -46,6 +54,7 @@ public class EncryptedFileWriter{
 	//@SuppressLint("NewApi")
 	private void openOutput() throws EncryptedFileWriterError {
 		if(encryptedFilename != null){
+            Log.i(TAG, mTAG + "openOutput(): Trying to write encrypted file to: " + encryptedFilename );
 			info("Writing encrypted output to " + encryptedFilename);
 			String libdir = context.getApplicationInfo().nativeLibraryDir;
 			String openssl_binary = libdir + "/libopenssl.so";
@@ -71,6 +80,7 @@ public class EncryptedFileWriter{
 			opensslErrorThread.start();
 		}
 		if(plaintextFilename != null){
+            Log.i(TAG, mTAG + "openOutput(): Trying to write plaintext file to: " + plaintextFilename );
 			try {
 				plaintextOutputStream = context.openFileOutput(plaintextFilename, Context.MODE_APPEND);
 				if(compressPlaintextFile){
@@ -85,17 +95,20 @@ public class EncryptedFileWriter{
 		lastFlushTime = System.currentTimeMillis();
 		closed = false;
 	}
+
 	class MsgWrapper{
 		byte[] buf;
 		public MsgWrapper(byte[] buf){
 			this.buf = buf;
 		}
 	}
+
 	class ShutdownMsgWrapper extends MsgWrapper{
 		public ShutdownMsgWrapper() {
 			super(null);
 		}
 	}
+
 	class FlushMsgWrapper extends MsgWrapper{
 		public Object markerReached = new Object();
 		public Object flushDone = new Object();
@@ -103,6 +116,7 @@ public class EncryptedFileWriter{
 			super(null);
 		}
 	}
+
 	class OpensslErrorThread extends Thread {
 		private boolean closeOutputRunning;
 		@Override
@@ -131,8 +145,8 @@ public class EncryptedFileWriter{
 			}
 		}
 	}
-	class WriterThread extends Thread{
 
+	class WriterThread extends Thread{
 		@Override
 		public void run() {
 			try {
@@ -171,9 +185,18 @@ public class EncryptedFileWriter{
 			}
 		}
 	}
-	
+
+    /**
+     * NOTE: MsdLog.i() :
+     *       public static void i(String tag, String msg) {
+     *          Log.i(tag,msg);
+     *          printlnToLog(getTimePrefix() + tag + ": INFO: " + msg);
+     *      }
+     *
+     * @param msg
+     */
 	private void info(String msg){
-		MsdLog.i(TAG + ":" + encryptedFilename, msg);
+		MsdLog.i(TAG, mTAG + msg + " for file: " + encryptedFilename );
 	}
 	
 	private void info(boolean execute, String msg){
@@ -196,6 +219,7 @@ public class EncryptedFileWriter{
 	public synchronized void write(String str) throws EncryptedFileWriterError{
 		write(str.getBytes());
 	}
+
 	public synchronized void close() throws EncryptedFileWriterError{
 		closed = true;
 		// Use a WakeLock during close() so that the openssl process doesn't
@@ -211,7 +235,7 @@ public class EncryptedFileWriter{
 			writerThread.join(3000);
 			if(writerThread.isAlive()){
 				joinFailed = true;
-				info("EncryptedFileWriter.close() failed to stop writerThread");
+				info("close() failed to stop writerThread");
 			}
 			writerThread.join();
 			info(joinFailed, "Join succeeded");
@@ -232,6 +256,7 @@ public class EncryptedFileWriter{
 						try{
 							openssl.waitFor();
 						} catch(InterruptedException e){
+                            Log.e(TAG, mTAG + "close() InterruptedException when waiting to close openssl.");
 						}
 					};
 				};
@@ -265,9 +290,10 @@ public class EncryptedFileWriter{
 				wl.release();
 		}
 	}
+
 	public synchronized void flush() throws EncryptedFileWriterError{
 		lastFlushTime = System.currentTimeMillis();
-		info("EncryptedFileWriter.flush called, queue size=" + getQueueSize());
+		info("flush() called, queue size=" + getQueueSize());
 		try{
 			// Add a marker to the message queue and wait until the marker (and all messages before it) has been reached
 			FlushMsgWrapper flushMsg = new FlushMsgWrapper();
@@ -295,13 +321,14 @@ public class EncryptedFileWriter{
 			synchronized (flushMsg.flushDone) {
 				flushMsg.flushDone.notifyAll();
 			}
-			info("EncryptedFileWriter.flush done");
+			info("flush() done.");
 		} catch(IOException e){
 			throw new EncryptedFileWriterError("IOException in EncryptedFileWriter.flush(), file=" + encryptedFilename,e);
 		} catch(Exception e){
 			throw new EncryptedFileWriterError("Exception in EncryptedFileWriter.flush(), file=" + encryptedFilename,e);
 		}
 	}
+
 	public synchronized void flushIfUnflushedDataSince(long millis) throws EncryptedFileWriterError{
 		if(lastWriteTime == 0)
 			return;
@@ -309,6 +336,7 @@ public class EncryptedFileWriter{
 			flush();
 		}
 	}
+
 	public int getQueueSize(){
 		return msgQueue.size();
 	}

@@ -84,9 +84,10 @@ import de.srlabs.snoopsnitch.util.MsdLog;
 import de.srlabs.snoopsnitch.util.Utils;
 
 public class MsdService extends Service {
-	public static final String    TAG = "msd-service";
-	//public static final String  TAG = "SNSN";
-	private static final String  mTAG = "MsdService";
+
+	//public static final String    TAG = "msd-service";
+	public static final String  TAG = "SNSN";
+	private static final String  mTAG = "MsdService: ";
 
 	// TODO: Watch storage utilisation and stop recording if limits are exceeded
 	// TODO: Watch battery level and stop recording if battery level goes below configured limit
@@ -306,6 +307,7 @@ public class MsdService extends Service {
 	private AtomicBoolean getAndUploadGpsLocationRunning = new AtomicBoolean(false);
 	private AnalysisEventData aed = null;
 	private long previousDailyPingTime = 0;
+
 	class QueueElementWrapper<T>{
 		T obj;
 		boolean done = false;
@@ -319,6 +321,7 @@ public class MsdService extends Service {
 			return done;
 		}
 	}
+
 	@Override
 	public IBinder onBind(Intent intent) {
 		info("MsdService.onBind() called");
@@ -327,9 +330,10 @@ public class MsdService extends Service {
 		else
 			return mBinder;
 	}
+
 	public boolean onUnbind(Intent intent) {
 		if(exitFlag){
-			Log.i(TAG,"MsdService.onUnbind() called and exitFlag set => calling stopSelf()");
+			Log.i(TAG, mTAG + ".onUnbind() called and exitFlag set => calling stopSelf()");
 			stopSelf();
 			return false;
 		} else
@@ -487,6 +491,7 @@ public class MsdService extends Service {
 		Notification notification = msdServiceNotifications.getForegroundNotification();
 		startForeground(Constants.NOTIFICATION_ID_FOREGROUND_SERVICE, notification);
 	}
+
 	private void doStopForeground(){
 		stopForeground(true);
 	}
@@ -524,6 +529,7 @@ public class MsdService extends Service {
 			}
 		}
 	}
+
 	private void stopLocationRecording(){
 		if(locationManager == null)
 			return;
@@ -536,6 +542,7 @@ public class MsdService extends Service {
 		myLocationListener = null;
 		locationManager = null;
 	}
+
 	private void getAndUploadGpsLocation(){
 		// Only allow one pending location upload at a time
 		if(!this.getAndUploadGpsLocationRunning.compareAndSet(false, true))
@@ -633,10 +640,12 @@ public class MsdService extends Service {
 		// ToDo: API >16 only! For API 16- add check!
 		telephonyManager.listen(myPhoneStateListener, PhoneStateListener.LISTEN_CELL_INFO|PhoneStateListener.LISTEN_CELL_LOCATION);
 	}
+
 	private void stopPhoneStateRecording(){
 		telephonyManager.listen(myPhoneStateListener, PhoneStateListener.LISTEN_NONE);
 		myPhoneStateListener = null;
 	}
+
 	private synchronized boolean startRecording() {
 		if(!readyForStartRecording.compareAndSet(true, false)){
 			handleFatalError("MsdService.startRecording called but readyForStartRecording is not true. Probably there was an error during the last shutdown");
@@ -693,6 +702,7 @@ public class MsdService extends Service {
 
 	private synchronized boolean shutdown(boolean shuttingDownAlreadySet){
 		PowerManager.WakeLock wl = null;
+		Log.i(TAG, mTAG + "shutdown() called...");
 		try{
 			PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 			wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,TAG);
@@ -700,12 +710,12 @@ public class MsdService extends Service {
 			info("MsdService.shutdown(" + shuttingDownAlreadySet + ") called");
 			if(shuttingDownAlreadySet){
 				if(!this.shuttingDown.get()){
-					handleFatalError("MsdService.shutdown(true) called but shuttingDown is not set");
+					handleFatalError("MsdService.shutdown(true) called but shuttingDown is not set.");
 					return false;
 				}
 			} else{
 				if (!this.shuttingDown.compareAndSet(false, true)){
-					handleFatalError("MsdService.shutdown(false) called while shuttingDown is already set");
+					handleFatalError("MsdService.shutdown(false) called while shuttingDown is already set.");
 					return false;
 				}
 			}
@@ -718,6 +728,7 @@ public class MsdService extends Service {
 				} catch(IllegalThreadStateException e){
 					// The helper is still running, so let's send DisableLoggingCmds
 					if(toDiagThread != null){
+						Log.i(TAG, mTAG + "shutdown() libdiag-helper still running, sending DisableLoggingCmds...");
 						for(byte[] singleCmd:DisableLoggingCmds.cmds){
 							this.toDiagMsgQueue.add(new QueueElementWrapper<byte[]>(singleCmd));
 						}
@@ -856,6 +867,7 @@ public class MsdService extends Service {
 					rawWriter.close();
 				} catch (EncryptedFileWriterError e1) {
 					// Ignore
+					Log.e(TAG, mTAG + "shutdown(): rawWriter.close() failed with: " + e1);
 				}
 				rawWriter = null;
 			}
@@ -943,6 +955,7 @@ public class MsdService extends Service {
 			}
 		}
 	}
+
 	class DiagErrorThread extends Thread{
 		@Override
 		public void run() {
@@ -974,6 +987,7 @@ public class MsdService extends Service {
 			}
 		}
 	}
+
 	class DiagMsgWrapper{
 		byte[] buf;
 		boolean shutdownMarker = false;
@@ -984,6 +998,7 @@ public class MsdService extends Service {
 			this.buf = buf;
 		}
 	}
+
 	/**
 	 * This Thread takes diag messages from diagMsgQueue and writes the messages to the parser.
 	 *
@@ -1068,6 +1083,7 @@ public class MsdService extends Service {
 			}
 		}
 	}
+
 	class ParserErrorThread extends Thread{
 		@Override
 		public void run() {
@@ -1104,6 +1120,7 @@ public class MsdService extends Service {
 			}
 		}
 	}
+
 	/**
 	 * This Thread takes SQL statements from pendingSqlStatements and executes them, using transactions when possible
 	 *
@@ -1319,6 +1336,7 @@ public class MsdService extends Service {
 			}
 		}
 	}
+
 	class PendingSqliteStatement{
 		Long generatedRowId = null;
 		String table = null;
@@ -1363,6 +1381,7 @@ public class MsdService extends Service {
 				}
 			}
 		}
+
 		@Override
 		public String toString() {
 			if(sql != null)
@@ -1545,7 +1564,7 @@ public class MsdService extends Service {
 		@Override
 		public void run() {
 			// info("DownloadDataJsThread.run() called");
-			// Check for a new version at most once in 24 hours
+			// Check for a new version at most once every 24 hours
 			long lastCheckTime = MsdConfig.getDataJSLastCheckTime(MsdService.this);
 			if(System.currentTimeMillis() > lastCheckTime + 24*3600*1000){
 				try {
@@ -1631,10 +1650,13 @@ public class MsdService extends Service {
 	 * - Launch parser binary
 	 * - Wait for handshake
 	 * - starts parserErrorThread, fromParserThread and toParserThread
+	 *
+	 * Sets the output pcap file prefix and PATH:
+	 * 		/<device_directory>/snoopsnitch_pcap/snoopsnitch_<timestamp>.pcap
+	 *
 	 * @throws IOException
 	 */
 	private void launchParser() throws IOException {
-
 		if(parser != null)
 			throw new IllegalStateException("launchParser() called but parser!=null");
 
@@ -1648,11 +1670,17 @@ public class MsdService extends Service {
 				"-s", "" + nextSessionInfoId,
 				"-c", "" + nextCellInfoId,
 				"-a", "" + "0x" + appID};
+
 		Vector<String> vCmd = new Vector<>();
 		vCmd.addAll(Arrays.asList(cmd));
+
 		if(MsdConfig.getPcapRecordingEnabled(this) && MsdConfig.getPcapFilenamePrefix(this).length() > 0){
-			String pcapBaseFileName = MsdConfig.getPcapFilenamePrefix(this);
 			vCmd.add("-g");
+			// Add pcap PATH and prefix
+			String pcapFilePrefix = MsdConfig.getPcapFilenamePrefix(this);	// snoopsnitch
+			String pcapFilePath = MsdConfig.getPcapFilenamePath(this);		// /[internal_external_path]/snoopsnitch_pcap/
+			String pcapBaseFileName = pcapFilePath + pcapFilePrefix;		//
+			// Add timestamp to filename
 			Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 			// Note: (1) Calendar.MONTH starts counting with 0
 			//       (2) pcap file prefix is in settings and should be unique: snoopsnitch_...
@@ -1738,6 +1766,7 @@ public class MsdService extends Service {
 			return 0;
 		}
 	}
+
 	/**
 	 * Gets the next row id for a given database table.
 	 * @param tableName
@@ -1760,6 +1789,7 @@ public class MsdService extends Service {
 			return 0;
 		}
 	}
+
 	private void launchHelper() throws IOException {
 		String libdir = this.getApplicationInfo().nativeLibraryDir;
 		String diag_helper = libdir + "/libdiag-helper.so";
@@ -1853,6 +1883,8 @@ public class MsdService extends Service {
 		result.put(bytes);
 		return result.array();
 	}
+
+
 	private void sendFatalErrorMessage(String msg, Throwable e){
 		if(e == null){
 			MsdLog.e(TAG,"sendFatalErrorMessage: " + msg);
@@ -1863,6 +1895,7 @@ public class MsdService extends Service {
 		closeDebugLog(true);
 		msdServiceNotifications.showInternalErrorNotification(msg, debugLogFileId);
 	}
+
 	private void sendStateChanged(StateChangedReason reason){
 		Vector<IMsdServiceCallback> callbacksToRemove = new Vector<>();
 		for(IMsdServiceCallback callback:mBinder.callbacks){
@@ -1878,6 +1911,11 @@ public class MsdService extends Service {
 		mBinder.callbacks.removeAll(callbacksToRemove);
 	}
 
+
+    // ========================================================================
+    //  ERROR handlers and info logs
+    // ========================================================================
+
 	void handleFatalError(String msg, final Throwable e){
 		boolean doShutdown = false;
 		if(recording && shuttingDown.compareAndSet(false, true)){
@@ -1887,7 +1925,7 @@ public class MsdService extends Service {
 				try{
 					((String)null).toString();
 				} catch(Exception e1){
-					MsdLog.e(TAG, "Dummy Exception to get stack trace of fatal error:",e1);
+					MsdLog.e(TAG, "Dummy Exception to get stack trace of fatal error:", e1);
 				}
 			}
 			doShutdown = true;
@@ -1897,7 +1935,8 @@ public class MsdService extends Service {
 		} else{
 			msg = "Error while not recording: " + msg;
 		}
-		MsdLog.e(TAG,"handleFatalError: " + msg,e);
+		//MsdLog.e(TAG,"handleFatalError: " + msg,e);
+		MsdLog.e(TAG, mTAG + msg,e);
 		final String finalMsg = msg;
 		if(doShutdown){
 			// Call shutdown in the main thread so that the thread causing the Error can terminate
@@ -1905,7 +1944,7 @@ public class MsdService extends Service {
 			mainThreadHandler.post(new ExceptionHandlingRunnable(new Runnable(){
 				@Override
 				public void run() {
-					Log.e(TAG,"shutdownDueToError(finalMsg,e);");
+					Log.e(TAG, mTAG + "shutdownDueToError(finalMsg,e);");
 					shutdownDueToError(finalMsg,e);
 				};
 			}));
@@ -1920,21 +1959,25 @@ public class MsdService extends Service {
 	void handleFatalError(String msg){
 		handleFatalError(msg,null);
 	}
+
 	private static void info(String msg){
-		MsdLog.i(TAG,msg);
+		MsdLog.i(TAG, msg);
 	}
+
 	private static void info(boolean execute, String msg){
 		if (execute) {
 			info(msg);
 		}
 	}
+
 	private static void warn(String msg){
 		MsdLog.w(TAG,msg);
 	}
+
 	private void shutdownDueToError(String msg, Throwable e){
 		shutdown(true);
 		MsdLog.e(TAG, "Sending internalError() to all callbacks");
-		Vector<IMsdServiceCallback> callbacksToRemove = new Vector<IMsdServiceCallback>();
+		Vector<IMsdServiceCallback> callbacksToRemove = new Vector<>();
 		for(IMsdServiceCallback callback:mBinder.callbacks){
 			try {
 				callback.internalError();
@@ -1950,6 +1993,7 @@ public class MsdService extends Service {
 		MsdLog.e(TAG, "Terminating MsdService after shutting down due to an unexpected error");
 		System.exit(1);
 	}
+
 	private void shutdownDueToExpectedError(int errorId){
 		if(recording)
 			shutdown(false);
@@ -1970,9 +2014,12 @@ public class MsdService extends Service {
 		MsdLog.e(TAG, "Terminating MsdService after shutting down due to an expected error");
 		System.exit(1);
 	}
+    // ========================================================================
+
 
 	/**
 	 * Checks whether all threads are still running and no message queue contains a huge number of messages
+     *
 	 */
 	private synchronized void checkRecordingState(){
 		if(shuttingDown.get())
@@ -2185,7 +2232,7 @@ public class MsdService extends Service {
 			}
 		}
 		if(encryptedFilename == null){
-			Log.e(TAG, "Couldn't find a non-existing filename for raw qdmon dump, baseFilename=" + baseFilename);
+			Log.e(TAG, mTAG + "Could not find an available filename for the raw qdmon dump with baseFilename: " + baseFilename);
 			return;
 		}
 
@@ -2265,13 +2312,14 @@ public class MsdService extends Service {
 		try {
 			MsdDatabaseManager.getInstance().closeDatabase();
 		} catch (Exception ee) {
-			Log.e(TAG, mTAG + ": closeDebugLog(): Error when closing DB:\n"+ ee.toString());
+			Log.e(TAG, mTAG + ": closeDebugLog(): Error when closing DB: "+ ee.toString());
 		}
 	}
 
 	/**
 	 * Opens or reopens the debug log so that it only contains e.g. 1 hour of
 	 * output (which should be enough to debug a crash).
+	 *
 	 * @throws EncryptedFileWriterError 
 	 */
 	private long openOrReopenDebugLog(boolean forceReopen, boolean markForUpload) throws EncryptedFileWriterError{
@@ -2283,12 +2331,16 @@ public class MsdService extends Service {
 		// Save the existing writer so that it can be closed after the new one has been opened (so we can't loose any messages).
 		EncryptedFileWriter oldDebugLogWriter = debugLogWriter;
 		long oldDebugLogId = debugLogFileId;
+
 		// Create a new dump file every 10 minutes, name it with the
 		// UTC time so that it does not reuse the same filename if
 		// the user	switches between different timezones.
 		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		// Calendar.MONTH starts counting with 0
-		String timestampStr = String.format(Locale.US, "%04d-%02d-%02d_%02d-%02d-%02dUTC",c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH),c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND));
+		String timestampStr = String.format(Locale.US, "%04d-%02d-%02d_%02d-%02d-%02dUTC",
+				c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH),
+				c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND));
+
 		String plaintextFilename = null;
 		String encryptedFilename = null;
 		for(int i=0;i<10;i++){
@@ -2307,12 +2359,13 @@ public class MsdService extends Service {
 			}
 		}
 		if(encryptedFilename == null){
-			Log.e(TAG, "openOrReopenDebugLog(): Couldn't find an available filename for debug log");
+			Log.e(TAG, "openOrReopenDebugLog(): Couldn't find an available filename to save debug log.");
 			return 0;
 		}
 		EncryptedFileWriter newDebugLogWriter =
 				new EncryptedFileWriter(this, encryptedFilename, true, MsdConfig.recordUnencryptedLogfiles(this) ? plaintextFilename : null , true);
 		newDebugLogWriter.write(MsdLog.getLogStartInfo(this));
+
 		if(logBuffer != null){
 			newDebugLogWriter.write("LOGBUFFER: " + logBuffer.toString() + ":LOGBUFFER_END");
 			logBuffer = null;
@@ -2395,6 +2448,7 @@ public class MsdService extends Service {
 			MsdConfig.setLastCleanupTime(this, System.currentTimeMillis());
 		}
 	}
+
 	private void cleanupFiles(SQLiteDatabase db){
 		// Read all files to a HashMap and then iterate over a directory listing, saves doing an SQL query for each file
 		Vector<DumpFile> dbFiles = DumpFile.getFiles(db, "");
@@ -2463,6 +2517,7 @@ public class MsdService extends Service {
 			df.delete(db);
 		}
 	}
+
 	private void cleanupDatabase(SQLiteDatabase db) throws SQLException, IOException {
 		String sql;
 		int keepDuration = MsdConfig.getAnalysisInfoKeepDurationHours(MsdService.this);
