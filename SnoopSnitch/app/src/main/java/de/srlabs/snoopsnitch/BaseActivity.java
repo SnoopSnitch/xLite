@@ -182,11 +182,9 @@ public abstract class BaseActivity extends FragmentActivity {
 	}
 
 	public void internalError(String errorMsg) {
-		MsdDialog.makeFatalConditionDialog(this, "A fatal error occurred!", new OnClickListener()
-		{
+		MsdDialog.makeFatalConditionDialog(this, "A fatal error occurred!", new OnClickListener() {
 			@Override
-			public void onClick(DialogInterface dialog, int which) 
-			{
+			public void onClick(DialogInterface dialog, int which) {
 				quitApplication();
 			}
 		}, errorMsg, false).show();

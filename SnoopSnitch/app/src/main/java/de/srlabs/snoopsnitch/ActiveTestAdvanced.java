@@ -20,7 +20,8 @@ import de.srlabs.snoopsnitch.util.Utils;
 
 public class ActiveTestAdvanced extends BaseActivity{
 
-	private static final String TAG = "ActiveTestAdvanced";
+	private static final String TAG = "SNSN";
+	private static final String mTAG = "ActiveTestAdvanced :";
 
 	private Button btnStartStop;    // "Start" the test (or "Stop" if already started)
 	private Button btnMode;         // "Mode"    go to settings: for Wireless and Network
@@ -31,6 +32,8 @@ public class ActiveTestAdvanced extends BaseActivity{
 	private MyActiveTestCallback activeTestCallback = new MyActiveTestCallback();
 	private WebView activeTestWebView;
 	private ActiveTestResults lastResults;
+
+    // ToDo: (Emi) Consider adding a "Reset" button, for resetting previous test results.
 	private enum StartButtonMode {
 		START, STOP, CONTINUE, STARTOVER
 	}
@@ -50,7 +53,7 @@ public class ActiveTestAdvanced extends BaseActivity{
 
 		@Override
 		public void testStateChanged() {
-			Log.i("ActiveTestAdvanced", "testStateChanged()");
+			Log.i(TAG, mTAG + "testStateChanged() --> updateButtons().");
 			updateButtons();
 		}
 
@@ -71,15 +74,18 @@ public class ActiveTestAdvanced extends BaseActivity{
 			});
 		}
 	}
+
 	private void showErrorMsg(String msg) {
 		String errorJs = "setErrorLog(" + escape(msg) + ";\n";
 		activeTestWebView.loadUrl("javascript:" + errorJs);
 	}
+
 	private String escape(String input) {
 		if(input == null)
 			return "undefined";
 		return "\"" + input.replace("\\","\\\\").replace("\"", "\\\"").replace("\n","\\n") + "\"";
 	}
+
 	public void updateWebView() {
 		if(lastResults == null)
 			return; // updateWebView() will be called again when results are available
@@ -89,12 +95,15 @@ public class ActiveTestAdvanced extends BaseActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_active_test_advanced);
 		this.btnStartStop = (Button) findViewById(R.id.btnStartStop);
 		this.btnMode = (Button) findViewById(R.id.btnMode);
 		this.btnNetwork = (Button) findViewById(R.id.btnNetwork);
 		this.activeTestWebView = (WebView)findViewById(R.id.activeTestWebView);
-		loadWebView();
+        // TEST: Emi trying to get settings to update (Not working here!)
+        //activeTestHelper.applySettings();
+        loadWebView();
 		activeTestHelper = new ActiveTestHelper(this, activeTestCallback);
 		this.btnStartStop.setOnClickListener(new OnClickListener() {
 			@Override

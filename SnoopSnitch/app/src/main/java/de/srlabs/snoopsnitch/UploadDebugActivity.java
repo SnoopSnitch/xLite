@@ -156,7 +156,7 @@ public class UploadDebugActivity extends BaseActivity {
 					finish();
 				}
 			}, false).show();
-			MsdDialog.makeNotificationDialog(this, "Upload OK. Change in UploadDebugActivity if you se this!: " + reportId, null, true).show();
+			//MsdDialog.makeNotificationDialog(this, "Upload OK. Change in UploadDebugActivity if you se this!: " + reportId, null, true).show();
 
 		} catch(Exception e){
 			MsdLog.e("UploadDebugActivity","Exception while preparing debug logs to upload",e);
@@ -174,6 +174,7 @@ public class UploadDebugActivity extends BaseActivity {
 			MsdDatabaseManager.getInstance().closeDatabase();
 		}
 	}
+
 	private String escape(String input) {
 		if(input == null)
 			return "undefined";

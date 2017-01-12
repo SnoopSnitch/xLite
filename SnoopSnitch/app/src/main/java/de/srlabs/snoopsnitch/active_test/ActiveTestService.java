@@ -46,12 +46,10 @@ import de.srlabs.snoopsnitch.util.Utils;
 public class ActiveTestService extends Service{
 
 	//private static final String TAG = "msd-active-test-service";
-	// ToDo: We keep this for now as it may be used in some external parsers...
-	// Need to change to "SNSN"
-	private static final String TAG = "msd-active-test-service";
+	private static final String TAG = "SNSN:service";
 	private static final String mTAG = "ActiveTestService";
 
-	// Perhaps rename this to "SNSN_TEST_SMS_SENT"?
+	// Can we rename this to "SNSN_TEST_SMS_SENT"?
 	private final static String ACTION_SMS_SENT = "msd-active-test-service_SMS_SENT";
 
 	private final MyActiveTestServiceStub mBinder = new MyActiveTestServiceStub();
@@ -94,12 +92,14 @@ public class ActiveTestService extends Service{
 				MsdLog.d(TAG, "unhandled call state: " + phoneState);
 		}
 	}
+
 	class MySmsReceiver extends SmsReceiver{
 		@Override
 		protected void onReceiveSms(final SmsMessage sms) {
 			stateMachine.handleIncomingSms(sms);
 		}
 	}
+
 	class MyActiveTestServiceStub extends IActiveTestService.Stub {
 		@Override
 		public void registerCallback(IActiveTestCallback callback) throws RemoteException {
@@ -149,6 +149,7 @@ public class ActiveTestService extends Service{
 
 		/**
 		 * Called by the UI in onResume so that the displayed settings (online/offline, number of iterations) are applied
+		 *
 		 * @throws RemoteException
 		 */
 		@Override
@@ -157,6 +158,7 @@ public class ActiveTestService extends Service{
 			ActiveTestService.this.applySettings(!isTestRunning());
 		}
 	}
+
 	class ProgressTickRunnable implements Runnable{
 		@Override
 		public void run() {
@@ -168,9 +170,11 @@ public class ActiveTestService extends Service{
 			handler.postDelayed(this, 1000);
 		}
 	}
+
 	enum State {
 		ROUND_START, CALL_MO, CALL_MO_ACTIVE, SMS_MO, CALL_MT_API, CALL_MT_WAITING, CALL_MT_ACTIVE, SMS_MT_API, SMS_MT_WAITING, PAUSE, END
 	}
+
 	class StateMachine{
 		State state = State.ROUND_START;
 		long nextTimeoutMillis = 0;
@@ -188,6 +192,7 @@ public class ActiveTestService extends Service{
 		};
 		private ApiCall api;
 		private boolean forceSkipIncomingSms = false;
+
 		void handleIncomingSms(SmsMessage sms){
 			//debugInfo("handleIncomingSms() received in state " + state.name());
 			stateInfo("Received SMS in state " + state.name() + ": " + sms.getMessageBody());
@@ -213,6 +218,7 @@ public class ActiveTestService extends Service{
 				stateInfo("Received unexpected Gsmmap test sms in state " + state.name());
 			}
 		}
+
 		void handleTelRinging() {
 			debugInfo("handleTelRinging() received in state " + state.name());
 			if(state == State.CALL_MT_WAITING){
@@ -234,6 +240,7 @@ public class ActiveTestService extends Service{
 				stateInfo("Received unexpected call in state " + state.name());
 			}
 		}
+
 		void currentTestSuccess(){
 			numSuccessfulTests++;
 			int numMessages = msdServiceHelper.getDiagMsgCount() - currentExtraRecordingStartDiagMsgCount;
@@ -276,6 +283,7 @@ public class ActiveTestService extends Service{
 			stateInfo(logMsg);
 			state = newState;
 		}
+
 		void handleTelIdle(){
 			stateInfo("handleTelIdle() received in state " + state.name());
 			if(state == State.CALL_MT_ACTIVE){
@@ -308,6 +316,7 @@ public class ActiveTestService extends Service{
 				}
 			}
 		}
+
 		void handleTelDialing(){
 			stateInfo("handleTelDialing() received in state " + state.name());
 			if(state == State.CALL_MO){
@@ -330,7 +339,7 @@ public class ActiveTestService extends Service{
 				return;
 			}
 			if(continiousMode){
-				handleFatalError("Continious mode is not yet implemented");
+				handleFatalError("Continuous mode is not yet implemented");
 			} else{
 				boolean skipIncomingSms = true;
 				Operator operator = new Operator(ActiveTestService.this);
@@ -338,6 +347,7 @@ public class ActiveTestService extends Service{
 
 				if(forceSkipIncomingSms)
 					skipIncomingSms = true;
+
 				// Find the action with the lowest run count and then trigger this action
 				int numSmsMo = results.getCurrentNetworkOperatorRatTestResults().getNumRuns(TestType.SMS_MO);
 				int numCallMo = results.getCurrentNetworkOperatorRatTestResults().getNumRuns(TestType.CALL_MO);
@@ -371,8 +381,10 @@ public class ActiveTestService extends Service{
 				if(minRunCount >= results.getNumIterations()){
 					nextState = State.END;
 				}
+
 				stateInfo("iterate(): numSmsMo=" + numSmsMo + "  numCallMo=" + numCallMo + "  numSmsMt=" + numSmsMt + "  numCallMt=" + numCallMt + "  nextState=" + nextState.name());
-				if(nextState == State.SMS_MO){
+
+                if(nextState == State.SMS_MO){
 					setState(State.SMS_MO, "iterate()",Constants.SMS_MO_TIMEOUT);
 					updateNetworkOperatorAndRat();
 					results.startTest(TestType.SMS_MO,Constants.SMS_MO_TIMEOUT);
@@ -427,6 +439,7 @@ public class ActiveTestService extends Service{
 				}
 			}
 		}
+
 		void handleTimeout(){
 			stateInfo("handleTimeout(state=" + state.name() + ")");
 			if(state == State.SMS_MO){
@@ -475,6 +488,7 @@ public class ActiveTestService extends Service{
 				handleFatalError("handleTimeout in unexpected state " + state.name());
 			}
 		}
+
 		void handleApiFail(String apiId, String errorStr){
 			debugInfo("handleApiFail() received in state " + state.name());				
 			if(errorStr != null && errorStr.equals("BLACKLISTED")){
@@ -521,6 +535,7 @@ public class ActiveTestService extends Service{
 				handleFatalError("handleApiFail in unexpected state " + state.name());
 			}
 		}
+
 		void handleApiSuccess(String apiId){
 			debugInfo("handleApiSuccess() received in state " + state.name());
 			if(state == State.CALL_MT_API){
@@ -554,6 +569,7 @@ public class ActiveTestService extends Service{
 				stateInfo("handleSmsSent in unexpected state " + state.name());
 			}
 		}
+
 		public void postIterateRunnable(int delayMillis) {
 			handler.postDelayed(this.iterateRunnable , delayMillis);
 		}
@@ -667,7 +683,7 @@ public class ActiveTestService extends Service{
 		results.setNetworkOperatorAndRat(telephonyManager, networkGeneration);
 	}
 
-	// Consider replace and remove this
+	// Consider replace or remove this
 	public void debugInfo(String msg) {
 		MsdLog.i(TAG,msg);
 	}
@@ -675,6 +691,7 @@ public class ActiveTestService extends Service{
 	public void stateInfo(String msg) {
 		MsdLog.i(TAG,"STATE_INFO: " + msg);
 	}
+
 	@Override
 	public int onStartCommand(final Intent intent, final int flags, final int startId) {
 		final String action = intent.getAction();
@@ -692,15 +709,14 @@ public class ActiveTestService extends Service{
 		this.msdServiceHelper.startActiveTest();
 		// http://stackoverflow.com/questions/599443/how-to-hang-up-outgoing-call-in-android
 		try {
-			// Java reflection to gain access to TelephonyManager's
-			// ITelephony getter
-			Log.v(TAG, "Get getTeleService...");
+			// Java reflection to gain access to TelephonyManager's ITelephony getter
+			Log.v(TAG, mTAG + "Attempt reflection of getITelephony method...");
 			Class<?> c = Class.forName(telephonyManager.getClass().getName());
 			Method m = c.getDeclaredMethod("getITelephony");
 			m.setAccessible(true);
 			telephonyService = (ITelephony) m.invoke(telephonyManager);
 		} catch (Exception e) {
-			handleFatalError("Could not get telephonyService",e);
+			handleFatalError("Could not get telephonyService by reflection!",e);
 		}
 		stateMachine = new StateMachine();
 		results.setOnlineMode(true);

@@ -48,7 +48,6 @@ public class ActiveTestHelper{
 
 	class MyServiceConnection implements ServiceConnection {
 
-
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			MsdLog.i(MsdService.TAG,"MsdServiceHelper.MyServiceConnection.onServiceConnected()");
@@ -122,7 +121,7 @@ public class ActiveTestHelper{
 		try {
 			mIActiveTestService.stopTest();
 		} catch (Exception e) {
-			handleFatalError("Exception while running mIActiveTestService.stopTest(ownNumber)", e);
+			handleFatalError("Exception while running mIActiveTestService.stopTest()", e);
 		}
 	}
 
@@ -142,8 +141,27 @@ public class ActiveTestHelper{
 	 * ToDo: (2) [ ] Take user to Settings and ask to disable
 	 * ToDo: (3) [ ] Disable AirPlane Mode
 	 * ToDO: (4) [ ] Send AirPlaneMode change intent to OS
-	 *
-	 */
+     * ToDO: (5) [ ] Fix funny Logcat Error:
+     *      "Setting airplane_mode_on has moved from android.provider.Settings.System to
+     *      android.provider.Settings.Global, returning read-only value"
+     *
+     * /
+    /*
+             ----------------------------
+             Name            AOS     API
+             ----------------------------
+             Nougat          7.1     25     N_MR1
+             Nougat          7.0     24
+             Marshmallow     6.0     23
+             Lollipop        5.1     22     LOLLIPOP_MR1
+             Lollipop        5.0     21
+             KitKat          4.4.x   19
+             Jelly Bean      4.3.x   18     JELLY_BEAN_MR2
+             Jelly Bean      4.2.x   17     JELLY_BEAN_MR1
+             Jelly Bean      4.1.x   16
+             ----------------------------
+     */
+
 	@SuppressWarnings("deprecation")
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	public static boolean isAirplaneModeOn(Context context) {
@@ -229,7 +247,9 @@ public class ActiveTestHelper{
 	public void queryPhoneNumberAndStart(){
 		queryPhoneNumberAndStart(null);
 	}
+
 	private void queryPhoneNumberAndStart(String msg){
+        // ToDo: Emi: Entry point for smarter number finder...
 		final String lastConfirmedOwnNumber = MsdConfig.getOwnNumber(context);
 		final EditText editText = new EditText(context);
 		editText.setHint("international notation using '+'");
@@ -338,7 +358,11 @@ public class ActiveTestHelper{
 		try {
 			if(mIActiveTestService != null)
 				mIActiveTestService.applySettings();
+            else {
+                Log.i(TAG, mTAG + "applySettings(): mIActiveTestService is null. Cannot apply settings.");
+            }
 		} catch (Exception e) {
+            Log.e(TAG, mTAG + "applySettings(): Exception: ", e);
 			handleFatalError("Exception in ActiveTestHelper.applySettings()",e);
 		}
 	}

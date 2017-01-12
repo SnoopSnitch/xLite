@@ -25,8 +25,7 @@ import de.srlabs.snoopsnitch.views.adapter.DetailChartGalleryAdapter;
 import de.srlabs.snoopsnitch.views.adapter.ListViewEventAdapter;
 import de.srlabs.snoopsnitch.views.adapter.ListViewImsiCatcherAdapter;
 
-public class DetailChartActivity extends BaseActivity
-{
+public class DetailChartActivity extends BaseActivity {
 	// Attributes
 	private Spinner spinner;
 	private ListView listView;
@@ -41,8 +40,7 @@ public class DetailChartActivity extends BaseActivity
 	private int _threatType;	
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) 
-	{
+	protected void onCreate(Bundle savedInstanceState)  	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chart_detail);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
