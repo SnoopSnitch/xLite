@@ -106,6 +106,10 @@ public class MsdLog {
 	 *    import android.os.SystemProperties;
      *
 	 * 	//public static final String USER = Settings.System.getString("ro.build.user");
+     *
+     * 	Note: System.getProperty(key) doesn't work the way you think. It's different from
+     * 	      the properties you get from the shell "getprop" command.
+     *
 	 *
 	 * @param key
 	 * @return property
@@ -114,7 +118,8 @@ public class MsdLog {
 		Process process;
 		String property;
 		try {
-			process = Runtime.getRuntime().exec("/system/bin/getprop" + " " + key);
+            //System.getProperty(key);
+            process = Runtime.getRuntime().exec("/system/bin/getprop" + " " + key);
 			//process = new ProcessBuilder().command("/system/bin/getprop" + " " + key).redirectErrorStream(true).start();
 			BufferedReader bis = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			property = bis.readLine();
