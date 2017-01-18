@@ -56,36 +56,36 @@ Date: 2016-12-12
 │   └── Utils.java						- HttpsURLConnection, network detection, generateAppId, createDiagDevice, uploadMetadata, dumpDatabase, read files/assets
 ├── views
 │   ├── adapter
-│   │   ├── DetailChartGalleryAdapter.java
-│   │   ├── ListViewEventAdapter.java
-│   │   ├── ListViewImsiCatcherAdapter.java
-│   │   └── ListViewProviderAdapter.java
-│   ├── ChartSlidePageFragment.java
-│   ├── DashboardProviderChart.java
-│   ├── DashboardProviderList.java
-│   ├── DashboardThreatChart.java
+│   │   ├── DetailChartGalleryAdapter.java	- 
+│   │   ├── ListViewEventAdapter.java		- 
+│   │   ├── ListViewImsiCatcherAdapter.java	- 
+│   │   └── ListViewProviderAdapter.java	- 
+│   ├── ChartSlidePageFragment.java			- 
+│   ├── DashboardProviderChart.java			- 
+│   ├── DashboardProviderList.java			- 
+│   ├── DashboardThreatChart.java			- 
 │   ├── DetailThreatChartDay.java
 │   ├── DetailThreatChartHour.java
 │   ├── DetailThreatChart.java
 │   ├── DetailThreatChartMonth.java
 │   └── DetailThreatChartWeek.java
-├── AboutActivity.java
-├── ActiveTestAdvanced.java
-├── BaseActivity.java
-├── BootCompletedIntentReceiver.java
-├── CrashUploadActivity.java
-├── DashboardActivity.java
-├── DetailChartActivity.java
-├── EnableAutoUploadModeActivity.java
-├── EncryptedFileWriterError.java
-├── LocalMapActivity.java
-├── MapActivity.java
-├── MsdServiceHelperTest.java
-├── NetworkInfoActivity.java
-├── SettingsActivity.java
-├── SettingsFragment.java
-├── StartupActivity.java
-└── UploadDebugActivity.java
+├── AboutActivity.java					- 
+├── ActiveTestAdvanced.java				- 
+├── BaseActivity.java					- 
+├── BootCompletedIntentReceiver.java	- 
+├── CrashUploadActivity.java			- 
+├── DashboardActivity.java				- **** MAIN (2/2)****
+├── DetailChartActivity.java			- 
+├── EnableAutoUploadModeActivity.java	-
+├── EncryptedFileWriterError.java		- 
+├── LocalMapActivity.java				- 
+├── MapActivity.java					- 
+├── MsdServiceHelperTest.java			- 
+├── NetworkInfoActivity.java			- 
+├── SettingsActivity.java				- 
+├── SettingsFragment.java				- 
+├── StartupActivity.java				- **** MAIN (1/2)****  This is launched when starting the App and checks device compatibility etc.
+└── UploadDebugActivity.java			- 
 
 #-------------------------------------------------
 # The XML layout files
