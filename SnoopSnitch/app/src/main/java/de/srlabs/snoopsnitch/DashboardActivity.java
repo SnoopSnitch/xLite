@@ -39,10 +39,11 @@ import de.srlabs.snoopsnitch.views.DashboardProviderChart;
 import de.srlabs.snoopsnitch.views.DashboardThreatChart;
 import de.srlabs.snoopsnitch.views.adapter.ListViewProviderAdapter;
 
+//import permissions.dispatcher.RuntimePermissions;
+
 import static android.media.AudioAttributes.USAGE_NOTIFICATION_EVENT;
 
-public class DashboardActivity extends BaseActivity implements ActiveTestCallback
-{
+public class DashboardActivity extends BaseActivity implements ActiveTestCallback {
 	// Attributes
 	private DashboardThreatChart layout;
 	private ViewTreeObserver vto;
@@ -82,8 +83,7 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 
 	// Methods
 	@Override
-	protected void onCreate(Bundle savedInstanceState) 
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dashboard);
 		

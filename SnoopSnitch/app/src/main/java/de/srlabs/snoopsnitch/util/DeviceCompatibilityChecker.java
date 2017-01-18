@@ -147,7 +147,7 @@ public class DeviceCompatibilityChecker {
 			}
 		}
 		if (suBinariesTried > 0) {
-			//  Found and su binary, but it didn't work
+			//  Found an su binary, but it didn't work
 			suFailReason = SU_NOT_WORKING;
 			return null;
 		} else {

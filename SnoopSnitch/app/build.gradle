@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25                    // 25
+    compileSdkVersion 25                    // 25 (AOS 7.1)
     buildToolsVersion "25.0.2"              // Always use latest build-tools unless otherwise required by app (what's that?)
 
     // Since Android-M/23 (AOS 6.0), the original apacheHTTP is no longer supported.
@@ -24,6 +24,7 @@ android {
 //        }
 
         // For Java 1.8 compile compatibility
+        // NOTE: jack currently does not work with AS "InstantRun" functionality
         /*jackOptions {
             enabled true
         }*/
@@ -176,6 +177,11 @@ dependencies {
     //compile "com.android.support:support-media-compat:25.0.1" // v4 :
     //compile "com.android.support:support-fragment:25.0.1"     // v4 :
     compile 'com.android.support:appcompat-v7:25.1.0'           // depends on v4 ?
+
+    // A better way to handle new M permission system
+    // PermissionDsipatcher: https://github.com/hotchemi/PermissionsDispatcher
+    //compile 'com.github.hotchemi:permissionsdispatcher:2.3.1'                       // v4
+    //annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.3.1' // v4
 
     // OpenCSV (comma-separated values) parser library
     //compile 'au.com.bytecode:opencsv:2.4'

@@ -17,6 +17,25 @@
          android:permissionGroup="android.permission-group.PHONE"
          android:permissionGroup="android.permission-group.SMS"
          android:permissionGroup="android.permission-group.STORAGE" -->
+    <!--
+        We are using 4 groups of Dangerous permissions:
+        _______________________________________________________________________
+        Group		Permission (we need)
+        _______________________________________________________________________
+        LOCATION	ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION
+        PHONE		READ_PHONE_STATE, CALL_PHONE, USE_SIP, PROCESS_OUTGOING_CALLS
+        SMS		    SEND_SMS, RECEIVE_SMS, READ_SMS, RECEIVE_WAP_PUSH, RECEIVE_MMS
+        STORAGE		READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE
+        _______________________________________________________________________
+
+        But beacuse how individual permissions are handled within a group,
+        we only need to request the strongest permission within the group,
+        and all others within that group will be automatically accepted.
+        However, the challange is to know what is the precedence of these.
+
+        We can try with:  ACCESS_FINE_LOCATION, CALL_PHONE, SEND_SMS, WRITE_EXTERNAL_STORAGE
+
+    -->
 
     <!-- In anticipation for 1.1.0 bug fix: permission crash:
            "DatabaseUtils(  834): java.lang.SecurityException: Permission Denial"
