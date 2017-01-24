@@ -35,13 +35,20 @@ public class DeviceCompatibilityChecker {
 	 * @return Returns null if everything is OK or a textual description of the
 	 *         Error if the phone is not compatible.
 	 */
-	public static String checkDeviceCompatibility(Context context){
-		boolean deviceIncompatibleDetected = MsdConfig.getDeviceIncompatible(context);
+	public static String checkDeviceCompatibility(Context context) {
+
+        boolean markedCompatible   = MsdConfig.getDeviceCompatibleDetected(context); // always!
+        boolean markedIncompatible = MsdConfig.getDeviceIncompatible(context);       // maybe!
 		// check previous/saved incompatibility set by: ActiveTestService:currentTestSuccess()
-		if(deviceIncompatibleDetected){
+		if(!markedCompatible && markedIncompatible){
 			//return context.getResources().getString(R.string.compat_no_baseband_messages_in_active_test);
 			return context.getResources().getString(R.string.compat_no_marked);
-		}
+		} else if (markedCompatible && markedIncompatible) {
+            // We might allow user to restart and try again
+            // FIXME: For debug purposes reset incompatible flag after showing reboot toast.
+            MsdConfig.setDeviceIncompatible(context, true);
+            return context.getResources().getString(R.string.compat_no_baseband_reboot);
+        }
 		
 		String suBinary;
 		File diagDevice = new File("/dev/diag");

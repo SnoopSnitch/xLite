@@ -30,6 +30,7 @@ import android.telephony.TelephonyManager;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.internal.telephony.ITelephony;
 
@@ -40,6 +41,7 @@ import de.srlabs.snoopsnitch.qdmon.Operator;
 import de.srlabs.snoopsnitch.util.Constants;
 import de.srlabs.snoopsnitch.util.MSDServiceHelperCreator;
 import de.srlabs.snoopsnitch.util.MsdConfig;
+import de.srlabs.snoopsnitch.util.MsdDialog;
 import de.srlabs.snoopsnitch.util.MsdLog;
 import de.srlabs.snoopsnitch.util.Utils;
 
@@ -246,15 +248,26 @@ public class ActiveTestService extends Service{
 			int numMessages = msdServiceHelper.getDiagMsgCount() - currentExtraRecordingStartDiagMsgCount;
 			stateInfo("Number of messages: " + numMessages);
 			if(numSuccessfulTests >= 3 && numMessages == 0){
-				// At least 3 successful tests and we have not generated any diag messages yet => The device is incompatible.
-				boolean deviceCompatibleDetected = MsdConfig.getDeviceIncompatible(ActiveTestService.this);
-				if(!deviceCompatibleDetected){
-					stateInfo("Detected incompatible device, stopping test");
+				// At least 3 successful tests and we have not generated any diag messages yet
+				// ==> The device MAY be:
+                //      (a)  incompatible
+                //      (b)  have a temporary blocked diag port (no baseband messages)
+                //      (c)  ??
+                //
+				//boolean deviceCompatibleDetected = MsdConfig.getDeviceIncompatible(ActiveTestService.this);
+				//if(!deviceCompatibleDetected){
+                boolean dCD = MsdConfig.getDeviceCompatibleDetected(ActiveTestService.this);
+                if(!dCD){
+					stateInfo("Device is possibly incompatible. Stopping test.");
 					// We have never received an SQL message from the parser
-					// and we have at least 3 tests without diag messages =>
-					// The device is most likely incompatible.
+					// and we have at least 3 tests without any diag messages
+					// ==> The device is most likely incompatible.
 					ActiveTestService.this.stopTest();
 					MsdConfig.setDeviceIncompatible(ActiveTestService.this, true);
+                    // FIXME:  Make sure we have some Toast or Dialog somewhere (not here), to inform user that:
+                    // "Your device seem incompatible. Please close app and reboot phone if you think this is wrong."
+                    // (Emi 2017-01-19)
+
 					Vector<IActiveTestCallback> callbacksToRemove = new Vector<>();
 					for(IActiveTestCallback callback:callbacks){
 						try {

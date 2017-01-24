@@ -25,6 +25,7 @@
     <string name="action_upload_debug_logs">Submit feedback/questions</string>
     <string name="action_network_info">Network Info</string>
     <string name="action_settings">Settings</string>
+    <string name="action_dump_database">Export Database</string>
     <string name="action_about">About</string>
     <string name="action_exit">Exit</string>
     
@@ -50,6 +51,7 @@
     <string name="alert_deviceCompatibility_title">Compatibility check failed</string>
     <string name="alert_deviceCompatibility_header">Your device is not compatible.\n\nREASON:</string>
     <string name="alert_deviceCompatibility_message">\n\nVisit the project website for details (https://opensource.srlabs.de/projects/snoopsnitch).</string>
+    <string name="alert_deviceCompatibility_maybe">Your device seem incompatible. Please reboot your device if you think this is wrong.</string>
 
     <!-- See bottom of page for multi-line strings:
             about_text
@@ -206,8 +208,8 @@
 
     <!-- ToDo: We need to separate the pcap file prefix and the PATH to be saved... -->
     <string name="settings_pcap_file_path">PCAP file PATH</string>
-    <string name="settings_pcap_file_path_summary">The directory (PATH) used to save your *.pcap trace files.\nDefault:  [./] </string>
-    <string name="settings_pcap_file_path_default">./</string>
+    <string name="settings_pcap_file_path_summary">The directory (PATH) used to save your *.pcap trace files.\nCurrent: %s \nDefault:  [/storage/emulated/0/snoopsnitch_pcap/] </string>
+    <string name="settings_pcap_file_path_default">/storage/emulated/0/snoopsnitch_pcap/</string>
 
     <!-- ======================================================================================= -->
     <!-- END: SETTINGS -->
@@ -264,9 +266,11 @@
     <string name="at_update">Please update SnoopSnitch</string>
     <string name="at_done">Done. Please test both 2G and 3G</string>
     <!-- ToDo: Emi: Add better test info: -->
-    <!--string name="at_done_2g">2G Done - Now also test 3G</string>
+    <!--
+    <string name="at_done_2g">2G Done - Now also test 3G</string>
     <string name="at_done_3g">3G Done - Now also test 2G</string>
-    <string name="at_done_all">All Tests Done!</string-->
+    <string name="at_done_all">All Tests Done!</string>
+    -->
 
     <string name="at_idle"></string>
     <string name="at_progress">Progress</string>
@@ -292,6 +296,7 @@
      
     <string name="compat_no_baseband_messages_in_active_test">Error, no baseband messages received during active test.</string>
     <string name="compat_no_baseband_messages">Error, no baseband messages.</string>
+    <string name="compat_no_baseband_reboot">Error: No baseband messages, please reboot device.</string>
     <string name="compat_no_marked">Error, your device has been marked incompatible.</string>
 
     <!-- Settings-->

@@ -5,10 +5,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.channels.FileChannel;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -33,11 +35,13 @@ import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
+import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import de.srlabs.snoopsnitch.EncryptedFileWriterError;
 import de.srlabs.snoopsnitch.R;
+import de.srlabs.snoopsnitch.StartupActivity;
 import de.srlabs.snoopsnitch.analysis.ImsiCatcher;
 import de.srlabs.snoopsnitch.BuildConfig;
 import de.srlabs.snoopsnitch.qdmon.EncryptedFileWriter;
@@ -455,4 +459,49 @@ public class Utils {
 		}
 		return null;
 	}
+
+    // Defined in build.gradle
+    public static String getPackageName() { return BuildConfig.APPLICATION_ID; }
+
+    /**
+     * WIP
+     *
+     * Dump (or backup) database to SD card.
+     *
+     * Reference:  Redmine Task #1542  -- Add local database export
+     *
+     */
+    public void exportDatabase() {
+        try {
+            File sd = Environment.getExternalStorageDirectory(); //  /storage/emulated/0/
+            File data = Environment.getDataDirectory();          //  /data/
+
+            String databaseName = "msd.db";
+
+            if (sd.canWrite()) {
+                //  /data/data/de.srlabs.snoopsnitch/databases/msd.db
+                String currentDBPath = "//data//" + getPackageName() + "//databases//" + databaseName + "";
+                String backupDBPath = "msd_backup.db";
+                File currentDB = new File(data, currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, mTAG + ":exportDatabase() Failed with exception: " + e);
+        }
+    }
+
+    public static boolean isDeviceMSM() {
+
+        //MsdLog.osgetprop();
+        return true; //
+    }
+
 }

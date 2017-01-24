@@ -4,10 +4,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
 import android.telephony.TelephonyManager;
+
+import java.io.File;
+
+import de.srlabs.snoopsnitch.BuildConfig;
+import de.srlabs.snoopsnitch.DashboardActivity;
+
 //import android.util.Log;
 //import android.preference.PreferenceManager;
 
@@ -33,7 +40,13 @@ public class MsdConfig {
 	// ========================================================================
 	// Device Compatibility
 	// ========================================================================
+    // Device compatibility is set in:
+    //   (a) ActiveTestService.java:257     setDeviceIncompatible         -- MAYBE incompatible
+    //   (b) MsdService.java:1052           setDeviceCompatibleDetected   -- once compatible, always compatible!)
 
+    // The following marks a device as permanently diag compatible. Meaning that
+    // the app has received diag messages at one point. (Thus it should not be marked as
+    // incompatible again)
 	public static boolean getDeviceCompatibleDetected(Context context) {
 		return sharedPrefs(context).getBoolean("device_compatible_detected", false);
 	}
@@ -44,7 +57,7 @@ public class MsdConfig {
 		editor.commit();
 	}
 
-	// ToDo: Author should add a redmine issue request with the specific functionality intended or remove. (Emi: 2017-01-09)
+	// ToDo: Author should add a Redmine issue request with the specific functionality intended or remove. (Emi: 2017-01-09)
 	// The version suffix should be counted up when there is a solution for the
 	// "No baseband messages" problem (so that phones detected to be
 	// incompatible with a previous version can used again)
@@ -310,38 +323,89 @@ public class MsdConfig {
 	 * .	String filename = pcapBaseFileName + "_" + String.format(Locale.US, ....) + ".pcap";
 	 *
 	 * 		The default storage location is/was: 		/sdcard/snoopsnitch/
-	 * 		The default storage location should be: 	/.../snoopsnitch_pcap/
+	 * 		The default storage location should be: 	/.../pcaps/
 	 * 		The default strings for this are in: 		strings.xml
 	 *  	The default preference for this are in: 	preferences.xml
+     *
+     *  After installation, we have app related files in:
+     *
+     *      /data/user/0/de.srlabs.snoopsnitch/files
+     *      /data/data/de.srlabs.snoopsnitch/files/
+     *      /data/app/de.srlabs.snoopsnitch-1/
+     *
+     * 	New options:
+     *
+     *      getExternalStorageDirectory : requires WRITE_EXTERNAL_STORAGE permission
+     *      getExternalFilesDir(String) : requires no permissions
+     *      getExternalCacheDir()       : requires no permissions
+     *      getExternalMediaDirs()      : requires no permissions
+     *      getDataDirectory            : ?
 	 *
 	 * @param context
 	 * @return
      */
     public static String getPcapFilenamePrefix(Context context) {
-		// Was:
-		//		return sharedPrefs(context).getString("settings_pcap_filename_prefix", "/sdcard/snoopsnitch");
-		//
-		// New options:
-        // getExternalStorageDirectory : requires WRITE_EXTERNAL_STORAGE permission
-        // getExternalFilesDir(String) : requires no permissions
-        // getExternalCacheDir()       : requires no permissions
-        // getExternalMediaDirs        : requires no permissions
-
-		// getDataDirectory ?
-
-		//return sharedPrefs(context).getString("settings_pcap_filename_prefix",
-		//		//Environment.getExternalStorageDirectory().getPath() + "/sdcard/snoopsnitch");
-		//		Environment.getExternalStorageDirectory().getPath() + "snoopsnitch");
+		// return sharedPrefs(context).getString("settings_pcap_filename_prefix", "/sdcard/snoopsnitch");
         return sharedPrefs(context).getString("settings_pcap_filename_prefix", "snoopsnitch");
 	}
 
-	public static String getPcapFilenamePath(Context context) {
-		//String prefPath = sharedPrefs(context).getString("settings_pcap_file_path",
-		//		Environment.getDataDirectory().getPath() + "/snoopsnitch_pcap/");
-				//Environment.getExternalFilesDir().getPath() + "/snoopsnitch/");
-				//Environment.getExternalStorageDirectory().getPath() + "/snoopsnitch");
-		//return 	Environment.getDataDirectory().getPath() + "/snoopsnitch_pcap/";
-		//return Environment.getExternalMediaDirs() + "/snoopsnitch_pcap/"; // API 21+
-		return Environment.getExternalStorageDirectory().getPath() + "/snoopsnitch_pcap/"; //
+    public static String getPcapFilenamePath(Context context) {
+
+        // First check if we have already created a directory:
+        //String prefPath = sharedPrefs(context).getString("settings_pcap_file_path",
+        //Environment.getDataDirectory().getPath() + "/snoopsnitch_pcap/");
+        String prefPath = sharedPrefs(context).getString("settings_pcap_file_path", null);
+
+        //File dumbfile = new File(context.getExternalFilesDir(null), filename);
+        //File dumbfile = new File(context.getFilesDir(), filename);
+        //File dummydir = new mkdir(pcapDir);
+
+        String filename = "dummy.txt";  // Dummy file to test write-ability to directory
+        String pcapDirName  = "pcaps";  // PCAP directory name (from default or settings)
+        File pcapPath;                  // Path to (created) PCAP directory
+
+        try {
+            File appDir = context.getFilesDir();            //  /data/user/0/de.srlabs.snoopsnitch/files
+            File pcapDir = new File(appDir, pcapDirName);   //  /data/user/0/de.srlabs.snoopsnitch/files/pcaps
+            // check if we have already created a directory:
+            if( pcapDir.exists() ) {
+                Log.i(TAG, "PCAP: path ok: " + pcapDir.toString());
+            } else {
+                // getDir() creates directory if it doesn't already exists. But,
+                // it seem that it adds an "app_" prefix to it in AOS 6.0+
+                //pcapPath = context.getDir(pcapDir,0);     // 0 = MODE_PRIVATE
+                pcapDir.mkdir(); //  /data/user/0/de.srlabs.snoopsnitch/pcaps
+                Log.i(TAG, "PCAP: pcapDir not found. Creating: " + pcapDir.toString());
+            }
+            File outFile = new File(pcapDir, filename);
+        } catch (SecurityException e) {
+            Log.e(TAG, "PCAP: filename path security exception: " + e);
+        }
+
+        //if (Build.VERSION.SDK_INT >= 21) {
+            // Fixme: This is an array!
+            //Log.i(TAG, "PCAP: getExternalMediaDirs: " + context.getExternalMediaDirs());    // API 21+
+        //}
+
+        String dumbpath = "";
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            Log.i(TAG, "PCAP: ExternalStorage is available.");
+            // We can read and write the media
+            File dumbfile = new File(context.getExternalFilesDir(null), filename);
+            dumbpath = dumbfile.getAbsolutePath();
+        }
+
+        Log.i(TAG, "PCAP: getExternalStorageDirectory: " + Environment.getExternalStorageDirectory().getPath()); // /storage/emulated/0/
+        Log.i(TAG, "PCAP: getExternalFilesDir: "  + dumbpath);                                  //  /storage/emulated/0/Android/data/de.srlabs.snoopsnitch/files/dummy.txt
+        Log.i(TAG, "PCAP: getExternalCacheDir: "  + context.getExternalCacheDir());             //  /storage/emulated/0/Android/data/de.srlabs.snoopsnitch/cache
+        Log.i(TAG, "PCAP: getDataDirectory: "     + Environment.getDataDirectory().getPath());  //  /data/
+        Log.i(TAG, "PCAP: getFilesDir: "          + context.getFilesDir());                     //  /data/user/0/de.srlabs.snoopsnitch/files
+
+
+        String app_files_dir = context.getFilesDir().getPath();
+        String pcap_files_dir = app_files_dir + "/pcaps/";          // need trailing "/"
+        Log.i(TAG, "PCAP: pcap_files_dir: " + pcap_files_dir);      //  Wrong: /storage/emulated/0/pcaps/
+        return pcap_files_dir;
 	}
 }
