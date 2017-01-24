@@ -11,11 +11,11 @@ android {
     useLibrary 'org.apache.http.legacy'     //
 
     defaultConfig {
-        applicationId "de.srlabs.snoopsnitch"
-        minSdkVersion 18                    // 16 (4.1) .. 19 (4.4)
-        targetSdkVersion 25                 // 25 (7.1)
-        versionCode 16                      // In GooglePlay:  Ant: 15- ;  AS(Gradle): 16+
-        versionName "1.1.10"                 // 1.0.x (old aunt), 1.1.x (new Grechen)
+        applicationId "de.srlabs.snoopsnitch"   // Can be referenced with: BuildConfig.APPLICATION_ID;
+        minSdkVersion 18                        // 16 (4.1) .. 19 (4.4)
+        targetSdkVersion 25                     // 25 (7.1)
+        versionCode 16                          // In GooglePlay:  Ant: 15- ;  AS(Gradle): 16+
+        versionName "1.1.23"                    // 1.0.x (old aunt), 1.1.x (new Grechen)
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        externalNativeBuild {
 //            cmake {

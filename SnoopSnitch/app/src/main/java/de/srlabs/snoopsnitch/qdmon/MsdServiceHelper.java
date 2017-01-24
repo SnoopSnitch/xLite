@@ -31,7 +31,6 @@ public class MsdServiceHelper{
 				}
 			});
 		}
-
 		@Override
 		public void internalError() throws RemoteException {
 			System.exit(0);
@@ -139,7 +138,8 @@ public class MsdServiceHelper{
 		if(e != null)
 			msg += e.getClass().getCanonicalName() + ": " + e.getMessage();
 		//Log.e(TAG, msg, e);
-        Log.e(TAG, mTAG + "Fatal Error: " + msg + ": ", e);
+        //Log.e(TAG, mTAG + "Fatal Error: " + msg + ": ", e);
+		Log.e(TAG, mTAG + "Fatal Error: " + msg);
 		callback.internalError(msg);
 	}
 
@@ -148,13 +148,13 @@ public class MsdServiceHelper{
 	}
 
 	public void writeLog(String logData) {
-		if(isConnected())
-			try {
-				mIMsdService.writeLog(logData);
-			} catch (RemoteException e) {
-				handleFatalError("RemoteException in writeLog()",e);
-			}
-		else{
+		if(isConnected()) {
+            try {
+                mIMsdService.writeLog(logData);
+            } catch (RemoteException e) {
+                handleFatalError("RemoteException in writeLog()", e);
+            }
+        } else {
 			if(logDataBuffer == null)
 				logDataBuffer = new StringBuffer();
 			logDataBuffer.append(logData);
@@ -167,7 +167,7 @@ public class MsdServiceHelper{
 			mIMsdService.triggerUploading();
             Log.i(TAG, mTAG + "triggerUploading(): upload of pending files OK.");
 		} catch (RemoteException e) {
-            Log.i(TAG, mTAG + "triggerUploading(): upload of pending files FAILED!");
+            Log.e(TAG, mTAG + "triggerUploading(): upload of pending files FAILED!");
 			handleFatalError("RemoteException in mIMsdService.triggerUploading()", e);
 		}
 	}

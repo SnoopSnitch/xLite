@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -44,7 +45,11 @@ import de.srlabs.snoopsnitch.views.adapter.ListViewProviderAdapter;
 import static android.media.AudioAttributes.USAGE_NOTIFICATION_EVENT;
 
 public class DashboardActivity extends BaseActivity implements ActiveTestCallback {
-	// Attributes
+
+    private static final String TAG = "SNSN";
+    private static final String mTAG = "DashboardActivity :";
+
+    // Attributes
 	private DashboardThreatChart layout;
 	private ViewTreeObserver vto;
 	private TextView txtSmsMonthCount;
@@ -171,7 +176,6 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
 		// Get provider data
 		this.providerList = msdServiceHelperCreator.getMsdServiceHelper().getData().getScores().getServerData();
 		refreshView();
@@ -197,6 +201,18 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 		}
 	}
 
+
+    public void vibrate() {
+        // Vibrate() can also take: AudioAttributes...
+        // Get instance of Vibrator from current Context
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        long[] pattern = {0, 400, 500, 400}; // Vibrate 2 times with 0.5s interval
+        if (v.hasVibrator()) {
+            v.vibrate(pattern, -1);          // "-1" = vibrate exactly as pattern, no repeat
+        }
+        v.cancel(); // Force cancelling of stubborn vibration
+    }
+
     public void eventNote() {
         /**
          * We want some notification sound: (API 21+)
@@ -219,17 +235,10 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
             if (r != null)
                 r.play();
         } catch (Exception e) {
-            //Log.e(TAG, mTAG + "Ringtone Exception: " + e);
+            Log.e(TAG, mTAG + "Ringtone Exception: " + e);
             e.printStackTrace();
         }
-
-        // Vibrate() can also take: AudioAttributes...
-        // Get instance of Vibrator from current Context
-        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        long[] pattern = {0, 400, 500, 400}; // Vibrate 2 times with 0.5s interval
-        if (v.hasVibrator()) {
-            v.vibrate(pattern, -1);          // "-1" = vibrate exactly as pattern, no repeat
-        }
+        vibrate();
     }
 
 	@Override
@@ -240,15 +249,18 @@ public class DashboardActivity extends BaseActivity implements ActiveTestCallbac
 		} else if (reason.equals(StateChangedReason.ANALYSIS_DONE))	{
 			updateLastAnalysis();
 			refreshView();
+            vibrate();
 		} else if (reason.equals(StateChangedReason.RAT_CHANGED)) {
 			updateInterseptionImpersonation();
+            vibrate();
 		} else if (reason.equals(StateChangedReason.NO_BASEBAND_DATA)) {
 			txtLastAnalysisTime.setText(getString(R.string.compat_no_baseband_messages));
 			// New API compat uses: ContextCompat.getColor(context, <color>)
 			//xtLastAnalysisTime.setTextColor(getResources().getColor(R.color.common_chartRed));
 			txtLastAnalysisTime.setTextColor(ContextCompat.getColor(this, R.color.common_chartRed));
 			txtDashboardLastAnalysis.setVisibility(View.GONE);
-            // FIXME: For debugging! Remove if working:
+            Log.e(TAG, mTAG + "ERROR: No baseband data! ");
+            // Originally for debugging, but may be of convenience.
             eventNote();
 		}
 		super.stateChanged(reason);

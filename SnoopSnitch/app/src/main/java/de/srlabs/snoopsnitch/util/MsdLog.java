@@ -197,18 +197,20 @@ public class MsdLog {
 	 */
 	public static String getLogStartInfo(Context context) {
 		StringBuffer result = new StringBuffer();
-		result.append("Log opened:          " + Utils.formatTimestamp(System.currentTimeMillis()) + "\n");
-		result.append("SnoopSnitch Version: " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")" + "\n");
-		result.append("Android version:     " + Build.VERSION.RELEASE + "\n");
-		result.append("Kernel version:      " + System.getProperty("os.version") + "\n");
-		result.append("Manufacturer:        " + Build.MANUFACTURER + "\n");
-		result.append("Board:               " + Build.BOARD + "\n");
-		result.append("Brand:               " + Build.BRAND + "\n");
-		result.append("Product:             " + Build.PRODUCT + "\n");
-		result.append("Model:               " + Build.MODEL + "\n");
-		result.append("Baseband:            " + Build.getRadioVersion() + "\n"); // Extra \n ?
+        result.append("\n\n");
+		result.append("Log opened:           " + Utils.formatTimestamp(System.currentTimeMillis()) + "\n");
+		result.append("SnoopSnitch Version:  " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")" + "\n");
+		result.append("Android version:      " + Build.VERSION.RELEASE + "\n");
+		result.append("Kernel version:       " + System.getProperty("os.version") + "\n");
+		result.append("Manufacturer:         " + Build.MANUFACTURER + "\n");
+		result.append("Board:                " + Build.BOARD + "\n");
+		result.append("Brand:                " + Build.BRAND + "\n");
+		result.append("Product:              " + Build.PRODUCT + "\n");
+		result.append("Model:                " + Build.MODEL + "\n");
+		result.append("Baseband:             " + Build.getRadioVersion() + "\n");
         result.append("----------------------------------------------------\n");
 		result.append(getDeviceProps());
+		result.append("----------------------------------------------------\n");
 		return result.toString();
 	}
 }

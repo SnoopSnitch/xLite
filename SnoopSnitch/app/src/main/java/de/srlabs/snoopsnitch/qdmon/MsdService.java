@@ -1046,11 +1046,14 @@ public class MsdService extends Service {
 					}
 					if(line.trim().length() == 0)
 						continue; // Ignore empty lines
-					// Mark the device as compatible after the first SQL or RAT line from the parser.
+
+					// Mark the device as permanently compatible after the first SQL or RAT line from the parser.
 					if(!deviceCompatibleDetected && (line.startsWith("SQL:") || line.startsWith("RAT:"))){
 						deviceCompatibleDetected = true;
 						MsdConfig.setDeviceCompatibleDetected(MsdService.this, true);
+						Log.i(TAG, mTAG + ".FromParserThread class: Device permanently marked as compatible!");
 					}
+
 					if(line.startsWith("SQL:")){
 						String sql = line.substring(4);
 						info(parserLogging, "FromParserThread enqueueing SQL Statement: " + sql);
@@ -1651,8 +1654,8 @@ public class MsdService extends Service {
 	 * - Wait for handshake
 	 * - starts parserErrorThread, fromParserThread and toParserThread
 	 *
-	 * Sets the output pcap file prefix and PATH:
-	 * 		/<device_directory>/snoopsnitch_pcap/snoopsnitch_<timestamp>.pcap
+	 * Sets the output pcap file prefix and PATH to something like:
+	 * 		/<device_directory>/pcaps/snoopsnitch_<timestamp>.pcap
 	 *
 	 * @throws IOException
 	 */
@@ -1678,7 +1681,7 @@ public class MsdService extends Service {
 			vCmd.add("-g");
 			// Add pcap PATH and prefix
 			String pcapFilePrefix = MsdConfig.getPcapFilenamePrefix(this);	// snoopsnitch
-			String pcapFilePath = MsdConfig.getPcapFilenamePath(this);		// /[internal_external_path]/snoopsnitch_pcap/
+			String pcapFilePath = MsdConfig.getPcapFilenamePath(this);		// ? /[internal_external_path]/snoopsnitch_pcap/
 			String pcapBaseFileName = pcapFilePath + pcapFilePrefix;		//
 			// Add timestamp to filename
 			Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -2395,7 +2398,7 @@ public class MsdService extends Service {
 	}
 
 	/**
-	 * Deletes all files with STATE_RECORDINIG in the database, should be called
+	 * Deletes all files with STATE_RECORDING in the database, should be called
 	 * in onCreate(). This will delete incomplete old files which are
 	 * created when MsdService crashes.
 	 */
@@ -2423,6 +2426,7 @@ public class MsdService extends Service {
 			wl.release();
 		}
 	}
+
 	private void cleanup(){
 		if(System.currentTimeMillis() > MsdConfig.getLastCleanupTime(this) + 3600 * 1000){
 			PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
