@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+
 import de.srlabs.snoopsnitch.R;
 import de.srlabs.snoopsnitch.qdmon.MsdServiceCallback;
 import de.srlabs.snoopsnitch.qdmon.MsdServiceHelper;
@@ -15,6 +16,7 @@ import de.srlabs.snoopsnitch.qdmon.StateChangedReason;
 import de.srlabs.snoopsnitch.util.DeviceCompatibilityChecker;
 
 public class MsdServiceHelperTest extends Activity implements MsdServiceCallback{
+
 	private Button btnStart;
 	private Button btnStop;
 	private Button btnUpload;
@@ -24,7 +26,7 @@ public class MsdServiceHelperTest extends Activity implements MsdServiceCallback
 	private void appendLogMsg(String newMsg){
 		newMsg = newMsg.trim();
 		textView1.append(newMsg + "\n");
-		// find the amount we need to scroll.  This works by
+		// find the amount we need to scroll. This works by
 		// asking the TextView's internal layout for the position
 		// of the final line and then subtracting the TextView's height
 		// http://stackoverflow.com/questions/3506696/auto-scrolling-textview-in-android-to-bring-text-into-view
@@ -54,18 +56,17 @@ public class MsdServiceHelperTest extends Activity implements MsdServiceCallback
 					appendLogMsg("Already recording");
 					return;
 				}
-				String comptatibility = DeviceCompatibilityChecker.checkDeviceCompatibility(MsdServiceHelperTest.this);
-				if(comptatibility != null){
+				String compatibility = DeviceCompatibilityChecker.checkDeviceCompatibility(MsdServiceHelperTest.this);
+				if(compatibility != null){
 					AlertDialog.Builder builder = new AlertDialog.Builder(MsdServiceHelperTest.this);
 					builder
 					.setTitle("Your phone is not compatible")
-					.setMessage(comptatibility)
+					.setMessage(compatibility)
 					.setIcon(android.R.drawable.ic_dialog_alert)
 					.setPositiveButton("Ok", new DialogInterface.OnClickListener() 
 					{
 						@Override
-						public void onClick(DialogInterface dialog, int which) 
-						{       
+						public void onClick(DialogInterface dialog, int which) {
 							dialog.dismiss();
 						}
 					});

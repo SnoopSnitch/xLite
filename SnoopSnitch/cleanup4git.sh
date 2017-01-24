@@ -32,17 +32,18 @@ echo -n "Removing all build artifacts..."
 cd ..
 
 # Remove all build directories
-echo "Removing all build directories..."
+echo -en "\nRemoving all build directories..."
 rm -fr ./contrib/build-*
+echo -e "done.\n"
 
 echo "> Gradle and IntelliJ IDEA files and directories will NOT be removed."
-echo "  Please remove these manually with:"
+echo "Please remove these manually with:"
 cat << EOF
-# Remove Gradle and IntelliJ IDEA files
-find ./ -iname "*.iml" -type f -delete
-# Remove Gradle and IntelliJ IDEA directories
-find ../ -iname "*.deps" -type d -exec rm -vr '{}' \;
-find ../ -iname "*.idea" -type d -exec rm -vr '{}' \;
+  # Remove Gradle and IntelliJ IDEA files
+  find ./ -iname "*.iml" -type f -delete
+  # Remove Gradle and IntelliJ IDEA directories
+  find ../ -iname "*.deps" -type d -exec rm -vr '{}' \;
+  find ../ -iname "*.idea" -type d -exec rm -vr '{}' \;
 
 EOF
 
@@ -56,11 +57,12 @@ find ./ -name "*.lo" -type f -delete
 find ./ -name "*.a" -type f -delete
 find ./ -name "*.la" -type f -delete
 find ./ -name "*.lai" -type f -delete
-
+echo -e "- done.\n"
 
 # Remove dynamically liked shared object (.so) output directories
 echo "Removing shared objects build output (.libs) directories..."
 find ./ -iname "*.libs" -type d -exec rm -vr '{}' \;
+echo -e "- done.\n"
 
 # Remove dynamically liked shared object (.so) libraries
 echo "Removing most dynamically linked shared object (.so) libraries."
@@ -68,29 +70,29 @@ echo "> Files already in the ../contrib/prebuilt/ will NOT be removed."
 # -prune doesn't work as expected
 #find ./ -path ./contrib/prebuilt -prune -o -name "*.so" -type f -delete 
 #find ./ -path ./contrib/prebuilt -prune -o -name "*.soT" -type f -delete 
-find ./ -name "*.so" -not -path "./contrib/prebuilt/" -exec rm -v '{}' \;
-find ./ -name "*.soT" -not -path "./contrib/prebuilt/" -exec rm -v '{}' \;
+find ./ -name "*.so" -not -path "./contrib/prebuilt" -exec rm -v '{}' \;
+find ./ -name "*.soT" -not -path "./contrib/prebuilt" -exec rm -v '{}' \;
+echo -e "- done.\n"
 
-
-echo "  To remove these manually, use:"
+echo "To remove these manually, use:"
 cat << EOF
-find ../ -name "*.so" -type f -delete
-find ../ -name "*.soT" -type f -delete
-# OR with: 
-#find ../contrib -iname "prebuilt" -type d -exec rm -vr '{}' \;
-rm -vfr ../contrib/prebuilt
+  find ../ -name "*.so" -type f -delete
+  find ../ -name "*.soT" -type f -delete
+  # OR with: 
+  #find ../contrib -iname "prebuilt" -type d -exec rm -vr '{}' \;
+  rm -vfr ../contrib/prebuilt
 
 EOF
 
+echo 
 echo "> GIT related ./app/ files and directories will NOT be removed."
-echo "  To remove these manually, use:"
-cat << EOF
-find ./app -name "*.git" -type d -exec rm -vr '{}' \;
+echo "To remove these manually, use:"
+  cat << EOF
+  find ./app -name "*.git" -type d -exec rm -vr '{}' \;
 
 EOF
-
 
 cd -
-echo "done."
+echo "Finished cleanup."
 #echo "You will have to recompile all binaries from scratch."
 exit 0

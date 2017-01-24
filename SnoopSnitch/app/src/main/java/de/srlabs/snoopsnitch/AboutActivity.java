@@ -27,8 +27,8 @@ public class AboutActivity extends BaseActivity {
 				BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")" +
                 "\n\n" +
                 "------------------------------------------------------------" + "\n" +
-                MsdLog.getDeviceProps() + "\n" +
-                "-------------------------------------------------------------" +
+                MsdLog.getDeviceProps() +
+                "------------------------------------------------------------" +
                 "\n\n" +
 				this.getString(R.string.about_text) +
 				"\n\n" +

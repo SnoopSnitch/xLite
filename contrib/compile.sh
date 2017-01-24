@@ -13,12 +13,12 @@
 # 		compile_openssl.sh
 # 
 # Libraries: 
-# 		libasn1c			[own git]
-# 		libosmocore			[own git]
-# 		gsm-parser			[own git]
-# 		libosmo-asn1-rrc 	[?]
-# 		openssl 			(Android)
-# 		diag_helper			(Android)
+# 		libasn1c            [own git]
+# 		libosmocore         [own git]
+# 		gsm-parser          [own git]
+# 		libosmo-asn1-rrc    [?]
+# 		openssl             (Android)
+# 		diag_helper         (Android)
 # 
 # Date: 2016-11-25
 # 
@@ -46,13 +46,23 @@ deltat() { echo "  [$(($SECONDS / 60)):$(($SECONDS % 60))]"; }
 
 #----------------------------------------------------------------------
 usage() {
-	echo >&2 "Usage: $0 -t {android|host} [-f] [-h]"
+	echo >&2 "Usage: $0 -t {android|host} [-f] [-g] [-u]"
 	echo >&2 "   -t <target>   Target to build for"
 	echo >&2 "   -f            Fast mode - only build parser"
 	echo >&2 "   -g            init git submodules"
 	echo >&2 "   -u            update ./prebuilt directory"
 	#echo >&2 "   -s            only build OpenSSL"
 	echo >&2 "   -h            This help screen"
+	echo >&2 "----------------------------------------------"
+	echo >&2 "Examples:"
+	echo >&2 "To build parser for android (first time), use:" 
+	echo >&2 "   $0 -t android -u -g"
+	echo >&2 "To only build parser for host, use:" 
+	echo >&2 "   $0 -t host"
+	echo >&2 "----------------------------------------------"
+	echo >&2 "Consider to run \"./gradlew clean\" or \"./clean4git.sh\""
+	echo >&2 "before re-running this."
+	echo >&2 "----------------------------------------------"
 	#exit 1
 }
 #----------------------------------------------------------------------
