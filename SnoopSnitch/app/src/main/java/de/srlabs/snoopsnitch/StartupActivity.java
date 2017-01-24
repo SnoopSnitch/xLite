@@ -47,90 +47,58 @@ public class StartupActivity extends Activity {
     private static final String TAG = "SNSN";
     private static final String mTAG = "StartupActivity";
 
+    // We want this in order to reference package methods outside
+    // of activities and fragments.
+    public static String PACKAGE_NAME;
+
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
 
     private MsdSQLiteOpenHelper helper;
 	private boolean alreadyClicked = false;
 	private ProgressDialog progressDialog;
 
-
-    /**
-     ======================================================================
-     We are using 4 groups of Dangerous permissions:
-     -----------------------------------------------------------------------
-     Group		Permission (we need)
-     -----------------------------------------------------------------------
-     LOCATION	ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION
-     PHONE		READ_PHONE_STATE, CALL_PHONE, USE_SIP, PROCESS_OUTGOING_CALLS
-     SMS		SEND_SMS, RECEIVE_SMS, READ_SMS, RECEIVE_WAP_PUSH, RECEIVE_MMS
-     STORAGE	READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE
-     -----------------------------------------------------------------------
-
-     Please see detailed notes in:  AndroidManifest.xml
-     ======================================================================
-     */
-
-    // LOCATION
-    private static final int SNSN_REQUEST_ACCESS_FINE_LOCATION = 11;  // *
-    private static final int SNSN_REQUEST_ACCESS_COARSE_LOCATION = 12;
-    // PHONE
-    private static final int SNSN_REQUEST_READ_PHONE_STATE = 21;  // *
-    private static final int SNSN_REQUEST_CALL_PHONE = 22;
-    private static final int SNSN_REQUEST_USE_SIP = 23;
-    private static final int SNSN_REQUEST_PROCESS_OUTGOING_CALLS = 24;
-    // SMS
-    private static final int SNSN_REQUEST_SEND_SMS = 31;     // *
-    private static final int SNSN_REQUEST_RECEIVE_SMS = 32;
-    private static final int SNSN_REQUEST_READ_SMS = 33;
-    private static final int SNSN_REQUEST_RECEIVE_WAP_PUSH = 34;
-    private static final int SNSN_REQUEST_RECEIVE_MMS = 35;
-    // STORAGE
-    private static final int SNSN_REQUEST_WRITE_STORAGE = 41;  // *
-    private static final int SNSN_REQUEST_READ_STORAGE = 42;
-    private static final int SNSN_REQUEST_WRITE_STORAGE_ASSET = 43;
-
+    // In case we want to use PermissionDispatcher:
     //@NeedsPermission({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.SEND_SMS, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
 
+        //MyApp = getApplicationContext().getPackageName();
+        PACKAGE_NAME = BuildConfig.APPLICATION_ID;      // Defined in build.gradle
+        Log.i(TAG, "STARTING: " + PACKAGE_NAME);
+
+        // ToDo: perhaps move this into DeviceCompatibilityChecker
+        // Check if device is Qualcomm MSM based
+        /*if (!isDeviceMSM()) {
+            // isDeviceMSM();
+            Log.e(TAG, "Incompatible: Device is not a Qualcomm MSM! Quitting installation." );
+            Toast.makeText(this, "Incompatible: Device is not a Qualcomm MSM!", Toast.LENGTH_LONG).show();
+            quitApplication();
+        }*/
+
+
         if (Build.VERSION.SDK_INT >= 23) {
             Log.i(TAG, mTAG + ":PERMISSIONS: Using API >= 23 -- We need user permission checks!");
-            if (checkAndRequestPermissions()) { // checkPermission()
-                // Code for above or equal 23 API Oriented Device
-                // Your Permission granted already .Do next code
-            } else { //requestPermission
-                return;
-                //requestPermission(); // Code for permission
+            if (checkAndRequestPermissions()) {
+                // checkPermission()
+            } else {
+                // requestPermission
+                quitApplication();
+                //return;
             }
         } else {
             // For (API < 23) there is nothing to do, as it's handled in AndroidManifest.xml
             Log.i(TAG, mTAG + ":PERMISSIONS: Using API<23 -- OK.");
         }
 
-        /*
-        //make sure we have WRITE_EXTERNAL_STORAGE ACCESS
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, SNSN_REQUEST_WRITE_STORAGE_ASSET);
-            Log.e(TAG, mTAG + ": Permission FAILURE: WRITE_EXTERNAL_STORAGE not granted.");
-            Toast.makeText(this, "Permission Failure! Please enable all required permissions.", Toast.LENGTH_LONG).show();
-        } else {
-            Log.i(TAG, ": permission granted: WRITE_EXTERNAL_STORAGE");
-            // No need to Toast proper behaviour
-            //Toast.makeText(this, "Permission Granted: WRITE_EXTERNAL_STORAGE", Toast.LENGTH_LONG).show();
-        }
-        */
-
     	String incompatibilityReason = DeviceCompatibilityChecker.checkDeviceCompatibility(this.getApplicationContext());
         if(incompatibilityReason == null){
-        	if(MsdConfig.getFirstRun(this)){
+        	if(MsdConfig.getFirstRun(this)) {
         		showFirstRunDialog();
-        	} else{
+        	} else {
         		createDatabaseAndStartDashboard();
         	}
-        } else{
+        } else {
         	showDeviceIncompatibleDialog(incompatibilityReason);
         }
     }
@@ -185,7 +153,6 @@ public class StartupActivity extends Activity {
 		System.exit(0);
 	}
 
-    //@NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE})
     private void createDatabaseAndStartDashboard() {
 		progressDialog = ProgressDialog.show(this, "Initializing database", "Please wait...", true);
 		progressDialog.show();
@@ -254,8 +221,8 @@ public class StartupActivity extends Activity {
     //@Override
     private boolean checkAndRequestPermissions() {
 
-        // We only ask one permission frome each group:
-        int pLOCATION = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION);
+        // We only ask one permission from each group:
+        int pLOCATION = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         int pPHONE    = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
         int pSMS      = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
         int pSTORAGE  = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -283,12 +250,6 @@ public class StartupActivity extends Activity {
         return true;
     }
 
-    /**
-     *
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
-     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
 
@@ -314,26 +275,23 @@ public class StartupActivity extends Activity {
                             && perms.get(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED
                             && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
-                        Log.i(TAG, mTAG + ": PERMISSIONS: ALL granted.");
-                        // process the normal flow
-                        return;
-                        /*Intent i = new Intent(MainActivity.this, WelcomeActivity.class);
-                        startActivity(i);
-                        finish();*/
-                        //else any one or both the permissions are not granted
+                        Log.i(TAG, "PERMISSIONS: ALL granted!");
+                        Toast.makeText(this, "All permissions granted!", Toast.LENGTH_LONG).show();
+                        // continue normal flow
+                        //break;
                     } else {
-                        Log.e(TAG, mTAG + ": Permission FAILURE: some permissions are not granted. Asking agin.");
+                        // else if any one or more of the permissions are not granted
+                        Log.e(TAG, mTAG + ": Permission FAILURE: some permissions are not granted. Asking again.");
                         Toast.makeText(this, "Permission Failure! Please enable ALL required permissions.", Toast.LENGTH_LONG).show();
 
-                        // permission is denied (this is the first time, when "never ask again" is not checked) so ask again explaining the usage of permission
-                        // shouldShowRequestPermissionRationale will return true
-                        //show the dialog or snackbar saying its necessary and try again otherwise proceed with setup.
+                        // permission is denied (this is the first time, when "never ask again" is not checked)
+                        // so ask again explaining the usage of permission
                         if (    ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION) ||
                                 ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE) ||
                                 ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS) ||
                                 ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
-                            showDialogOK("Service Permissions are required for this app",
+                            showDialogOK("ALL permissions are required for this app",
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -348,13 +306,12 @@ public class StartupActivity extends Activity {
                                             }
                                         }
                                     });
-                        }
-                        //permission is denied (and never ask again is checked)
-                        //shouldShowRequestPermissionRationale will return false
-                        else {
-                            explain("You have to accept the required permissions to continue. Do you want to go to app settings?");
+                        } else {
+                            // IF permission is denied (and "never ask again" is checked)
+                            Log.e(TAG, mTAG + ": Permission FAILURE: some permissions are not granted. Asking again.");
+                            explain("You have to accept ALL required permissions to continue. Do you want to go to app settings?");
                             // Quit app if user deny the permissions again
-                            quitApplication();
+                            //quitApplication();
                         }
                     }
                 }
@@ -385,11 +342,75 @@ public class StartupActivity extends Activity {
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                        finish();
+                        quitApplication();
                     }
                 });
         dialog.show();
     }
+    // ========================================================================
+    // END: permissions handlers
+    // ========================================================================
+
+    // ToDo:
+    // ========================================================================
+    // START: A cleaner permissions handler
+    // ========================================================================
+
+    // See:   http://stackoverflow.com/a/41221852/1147688
+    // NOTE:  We only list "dangerous" permissions here, as "normal" ones
+    //        in the AndroidManifest are (still) automatically granted.
+
+    /*
+    String[] permissions = new String[]{
+            // LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            //Manifest.permission.ACCESS_COARSE_LOCATION,
+            // PHONE
+            Manifest.permission.READ_PHONE_STATE,
+            //Manifest.permission.CALL_PHONE,
+            //Manifest.permission.USE_SIP,
+            //Manifest.permission.PROCESS_OUTGOING_CALLS,
+            // SMS
+            Manifest.permission.SEND_SMS,
+            //Manifest.permission.RECEIVE_SMS,
+            //Manifest.permission.READ_SMS,
+            //Manifest.permission.RECEIVE_WAP_PUSH,
+            //Manifest.permission.RECEIVE_MMS,
+            //STORAGE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            //Manifest.permission.READ_EXTERNAL_STORAGE,
+    };
+
+    private static final int REQ_MULTI_PERMS = 100; // Request Multiple Permissions (callback) ID
+
+    private boolean checkPermissions() {
+        int result;
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        for (String p : permissions) {
+            result = ContextCompat.checkSelfPermission(this, p);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p);
+            }
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this,
+                    listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQ_MULTI_PERMS);
+            return false;
+        }
+        return true;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (requestCode == REQ_MULTI_PERMS) {
+            if (grantResults.length > 0  && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // do something
+            }
+            return;
+        }
+    }
+    */
     // ========================================================================
     // END: permissions handlers
     // ========================================================================
