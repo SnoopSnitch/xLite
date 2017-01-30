@@ -69,13 +69,19 @@ public class StartupActivity extends Activity {
 
         // ToDo: perhaps move this into DeviceCompatibilityChecker
         // Check if device is Qualcomm MSM based
-        /*if (!isDeviceMSM()) {
-            // isDeviceMSM();
+        if (!Utils.isDeviceMSM()) {
             Log.e(TAG, "Incompatible: Device is not a Qualcomm MSM! Quitting installation." );
+            // Fixme : This Toast doesn't get shown...
             Toast.makeText(this, "Incompatible: Device is not a Qualcomm MSM!", Toast.LENGTH_LONG).show();
-            quitApplication();
-        }*/
 
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    quitApplication(); // Actions to do after 5 seconds
+                }
+            }, 5000); // 5 s.
+            //quitApplication();
+        }
 
         if (Build.VERSION.SDK_INT >= 23) {
             Log.i(TAG, mTAG + ":PERMISSIONS: Using API >= 23 -- We need user permission checks!");

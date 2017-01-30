@@ -424,6 +424,7 @@ public class Utils {
             }
 		}
 	}
+
 	/**
 	 * Create the diag device (if it doesn't already exist).
 	 * @return
@@ -459,6 +460,37 @@ public class Utils {
 		}
 		return null;
 	}
+
+    /**
+     * Check the status of /dev/diag with:
+     *   # \ls -alZ /dev/diag
+     *   # crw-rw---- system   qcom_diag   u:object_r:diag_device:s0 diag
+     *
+     * @return string
+     */
+    public static String checkDiag() {
+        Process checkdiag;
+        String result;
+        //File diagDevice = new File("/dev/diag");
+        //if(!diagDevice.exists())
+        //    return null;
+        String checkCmd = "/system/bin/ls -alZ /dev/diag";
+        String suBinary = DeviceCompatibilityChecker.getSuBinary();
+        String cmd[] = { suBinary, "-c", checkCmd};
+
+        try {
+            checkdiag = Runtime.getRuntime().exec(cmd);
+            BufferedReader bis = new BufferedReader(new InputStreamReader(checkdiag.getInputStream()));
+            result = bis.readLine();
+            checkdiag.destroy();
+        } catch (Exception ee) {
+            Log.e(TAG, mTAG + ":checkDiag() Exception: "+ ee);
+            return "Error: no diag info";
+        }
+        Log.i(TAG, "DIAG: " + "\"" + result + "\"");
+        return result;
+    }
+
 
     // Defined in build.gradle
     public static String getPackageName() { return BuildConfig.APPLICATION_ID; }
@@ -499,9 +531,46 @@ public class Utils {
     }
 
     public static boolean isDeviceMSM() {
-
-        //MsdLog.osgetprop();
-        return true; //
+        String msms;
+        try {
+            msms =  MsdLog.osgetprop("ro.baseband") +
+                    MsdLog.osgetprop("ro.board.platform") +
+                    MsdLog.osgetprop("ro.boot.baseband");
+        } catch (Exception e) {
+            Log.e(TAG, mTAG + "Exception in isDeviceMSM(): " + e);
+            return true; // We are friendly to bad properties of unknown devices...
+        }
+        msms = msms.toLowerCase(Locale.US);
+        CharSequence cs1 = "msm";
+        return msms.contains(cs1);
     }
+
+    /**
+     * (a) Check if and what type of Dual SIM we have.
+	 * (b) Check if both SIMs are currently used.
+     *
+     *      [gsm.sim.state]:                    [ABSENT,READY]
+     *      [persist.radio.multisim.config]:    [dsds]          // Dual SIM Dual Standby
+     *      [ro.dual.sim.phone]:                [true]
+     *      [ro.hwMultiMSim]:                   [double]
+     *      [persist.radio.msim.stackid_0]:     [1]
+     *      [persist.radio.msim.stackid_1]:     [0]
+     *
+
+    public static boolean isDualSimActive() {
+        String sims;
+        try {
+            sims =  MsdLog.osgetprop("ro.dual.sim.phone") +
+                    MsdLog.osgetprop("persist.radio.multisim.config") +
+                    MsdLog.osgetprop("gsm.sim.state");
+        } catch (Exception e) {
+            Log.e(TAG, mTAG + "Exception in isDeviceMSM(): " + e);
+            return true; // We are friendly to bad properties of unknown devices...
+        }
+        sims = sims.toLowerCase();
+        CharSequence cs1 = "msm";
+        return sims.contains(cs1);
+    }*/
+
 
 }

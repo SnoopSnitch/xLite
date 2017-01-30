@@ -49,9 +49,9 @@ public class ActiveTestService extends Service{
 
 	//private static final String TAG = "msd-active-test-service";
 	private static final String TAG = "SNSN:service";
-	private static final String mTAG = "ActiveTestService";
+	private static final String mTAG = "ActiveTestService: ";
 
-	// Can we rename this to "SNSN_TEST_SMS_SENT"?
+	// Fixme: Can we rename this to "SNSN_TEST_SMS_SENT"?
 	private final static String ACTION_SMS_SENT = "msd-active-test-service_SMS_SENT";
 
 	private final MyActiveTestServiceStub mBinder = new MyActiveTestServiceStub();
@@ -654,7 +654,7 @@ public class ActiveTestService extends Service{
 		results.setSmsMoDisabled(smsMoDisabled);
 		smsMoNumber  = MsdConfig.getActiveTestSMSMONumber(this);
 		int numIterations = MsdConfig.getActiveTestNumIterations(this);
-		stateInfo("applySettings(): numIterations= " + numIterations);
+		stateInfo("applySettings(): numIterations=" + numIterations);
 		results.setNumIterations(numIterations);
 	}
 
@@ -723,7 +723,7 @@ public class ActiveTestService extends Service{
 		// http://stackoverflow.com/questions/599443/how-to-hang-up-outgoing-call-in-android
 		try {
 			// Java reflection to gain access to TelephonyManager's ITelephony getter
-			Log.v(TAG, mTAG + "Attempt reflection of getITelephony method...");
+			Log.i(TAG, "Attempting reflection of getITelephony method...");
 			Class<?> c = Class.forName(telephonyManager.getClass().getName());
 			Method m = c.getDeclaredMethod("getITelephony");
 			m.setAccessible(true);
@@ -760,7 +760,7 @@ public class ActiveTestService extends Service{
 		try{
 			unregisterReceiver(smsReceiver);
 		} catch (Exception e) {
-			Log.w(TAG, mTAG + ": Receiver not registered.");
+			Log.w(TAG, "Receiver not registered!");
 		} // unregisterReceiver throws an Exception if it isn't registered, so let's just ignore it.
 		if(currentExtraRecordingFilename != null){
 			if(numSuccessfulTests > 0)
@@ -780,7 +780,7 @@ public class ActiveTestService extends Service{
 
 	private void startExtraFileRecording(){
 		if(this.currentExtraRecordingFilename != null){
-			handleFatalError("startExtraFileRecording() called but this.currentExtraRecordingFilename != null, this shouldn't happen");
+			handleFatalError("startExtraFileRecording() called, but currentExtraRecordingFilename != null, shouldn't happen");
 			return;
 		}
 		final Calendar calendar = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
@@ -843,9 +843,9 @@ public class ActiveTestService extends Service{
 			if(currentExtraRecordingFilename == null)
 				throw new IllegalStateException("endExtraFileRecording(" + upload + ") called but currentExtraRecordingFilename == null");
 			if(upload){
-				stateInfo("Closing and uploading " + currentExtraRecordingFilename);
+				stateInfo("Closing and uploading: " + currentExtraRecordingFilename);
 			} else{
-				stateInfo("Discarding " + currentExtraRecordingFilename);
+				stateInfo("Discarding: " + currentExtraRecordingFilename);
 			}
 			msdServiceHelper.endExtraRecording(upload);
 			currentExtraRecordingFilename = null;
@@ -858,7 +858,6 @@ public class ActiveTestService extends Service{
 		final Intent intent = new Intent(Intent.ACTION_CALL, telUri);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		try {
-			// ToDo: Implement real permission checks!
 			startActivity(intent);
 		} catch (SecurityException e) {
 			Log.w(TAG, "Callout blocked due to failed app/user permission:" + e );
@@ -934,7 +933,7 @@ public class ActiveTestService extends Service{
 	private void handleFatalError(String msg, final Throwable e){
 		if(e != null)
 			msg += ": " + e.getClass().getCanonicalName() + ": " + e.getMessage() + "  Stack: " + Log.getStackTraceString(e);
-		MsdLog.e(TAG,"handleFatalError: " + msg);
+		MsdLog.e(TAG, "handleFatalError: " + msg);
 		results.setFatalError(msg);
 		broadcastTestResults();
 		stopTest();

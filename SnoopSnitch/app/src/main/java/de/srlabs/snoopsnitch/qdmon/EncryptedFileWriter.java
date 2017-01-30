@@ -21,7 +21,9 @@ public class EncryptedFileWriter{
 
 	//public static final String TAG = "msd-EncryptedFileWriter";
     public static final String TAG = "SNSN";
-    public static final String mTAG = "EncryptedFileWriter :";
+    public static final String mTAG = "EncryptedFileWriter: ";
+
+    private MsdService msdService;
 
     private String encryptedFilename;
 	private boolean compressEncryptedFile;
@@ -56,23 +58,25 @@ public class EncryptedFileWriter{
 		if(encryptedFilename != null){
             Log.i(TAG, mTAG + "openOutput(): Trying to write encrypted file to: " + encryptedFilename );
 			info("Writing encrypted output to " + encryptedFilename);
+
 			String libdir = context.getApplicationInfo().nativeLibraryDir;
 			String openssl_binary = libdir + "/libopenssl.so";
 			String crtFile = libdir + "/libsmime_crt.so";
 			String cmd[] = {openssl_binary, "smime", "-encrypt", "-binary", "-aes256", "-outform", "DER", "-out", context.getFilesDir() + "/" + encryptedFilename, crtFile};
 			String env[] = {"LD_LIBRARY_PATH=" + libdir, "OPENSSL_CONF=/dev/null", "RANDFILE=/dev/null"};
-			info("Launching openssl: " + TextUtils.join(" ",cmd));
+
+            info("Launching openssl: " + TextUtils.join(" ",cmd));
 			try {
 				openssl =  Runtime.getRuntime().exec(cmd, env, null);
 			} catch (IOException e) {
-				throw new EncryptedFileWriterError("IOException while launching openssl for file" + encryptedFilename,e);
+				throw new EncryptedFileWriterError("IOException while launching openssl for file: " + encryptedFilename,e);
 			}
 			encryptedOutputStream = openssl.getOutputStream();
 			if(compressEncryptedFile){
 				try {
 					encryptedOutputStream = new GZIPOutputStream(encryptedOutputStream);
 				} catch (IOException e) {
-					throw new EncryptedFileWriterError("IOException while opening GZIPOutputStream in EncryptedFileWrite.openOutput, file=" + encryptedFilename);
+					throw new EncryptedFileWriterError("IOException while opening GZIPOutputStream in EncryptedFileWriter.openOutput, file: " + encryptedFilename);
 				}
 			}
 			opensslStderr = new BufferedReader(new InputStreamReader(openssl.getErrorStream()));
@@ -87,8 +91,10 @@ public class EncryptedFileWriter{
 					plaintextOutputStream = new GZIPOutputStream(plaintextOutputStream);
 				}
 			} catch (IOException e) {
-				throw new EncryptedFileWriterError("FileNotFoundException while opening plaintext output in EncryptedFileWrite.openOutput, file=" + encryptedFilename);
+                Log.e(TAG, mTAG + "openOutput(): Failed to write plaintext file: " + plaintextFilename + " IOException: " + e);
+				throw new EncryptedFileWriterError("FileNotFoundException while opening plaintext output in EncryptedFileWriter.openOutput, file: " + encryptedFilename);
 			}
+            Log.i(TAG, mTAG + "openOutput(): Wrote plaintext file to: " + plaintextFilename );
 		}
 		writerThread = new WriterThread();
 		writerThread.start();
@@ -128,11 +134,21 @@ public class EncryptedFileWriter{
 						if(closeOutputRunning){
 							info("opensslStderr.readLine() returned null while closeOutputRunning is set, OK");
 						} else{
-							throw new RuntimeException(new EncryptedFileWriterError("opensslStderr.readLine()u retrned null for file " + encryptedFilename));
+							throw new RuntimeException(new EncryptedFileWriterError("opensslStderr.readLine() returned null for file: " + encryptedFilename));
 						}
 						return;
 					}
-					throw new RuntimeException(new EncryptedFileWriterError("Openssl Error for " + encryptedFilename + ": " + line));
+
+                    // The following was reverted and replaced 2017-01-27 from chnages made 2015-04-24
+                    // See:  MsdService.DiagErrorThread() and ParserErrorThread()
+                    // ToDo: We should probably get rid of all throws to EncryptedFileWriterError
+                    //throw new RuntimeException(new EncryptedFileWriterError("Openssl Error for: " + encryptedFilename + ": " + line));
+                    if(line.contains("unused DT entry")){
+                        info("Ignoring \"unused DT entry\" error from openssl helper: " + line);
+                    } else {
+                        msdService.handleFatalError(line);
+                    }
+
 				}
 			} catch(EOFException e){
 				if(closeOutputRunning){
@@ -173,13 +189,12 @@ public class EncryptedFileWriter{
 					}
 				}
 			} catch (InterruptedException e) {
-				error = new EncryptedFileWriterError("EncryptedFileWriter.WriterThread shutting down due to InterruptedException, file=" + encryptedFilename, e);
+				error = new EncryptedFileWriterError("EncryptedFileWriter.WriterThread shutting down due to InterruptedException, file: " + encryptedFilename, e);
 			} catch (IOException e) {
 				try {
-					error = new EncryptedFileWriterError("EncryptedFileWriter.WriterThread: IOException, file=" + encryptedFilename, e);
+					error = new EncryptedFileWriterError("EncryptedFileWriter.WriterThread: IOException, file: " + encryptedFilename, e);
 					close();
-				} catch (EncryptedFileWriterError x)
-				{
+				} catch (EncryptedFileWriterError x) {
 					// Don't overwrite earlier exception
 				}
 			}
@@ -195,8 +210,8 @@ public class EncryptedFileWriter{
      *
      * @param msg
      */
-	private void info(String msg){
-		MsdLog.i(TAG, mTAG + msg + " for file: " + encryptedFilename );
+	private void info(String msg) {
+		MsdLog.i(TAG, mTAG + msg );
 	}
 	
 	private void info(boolean execute, String msg){
@@ -207,7 +222,7 @@ public class EncryptedFileWriter{
 	
 	public synchronized void write(byte[] data) throws EncryptedFileWriterError{
 		if(closed){
-			throw new IllegalStateException("Can't write data, EncrypteFileWriter is already closed");
+			throw new IllegalStateException("Can't write data! EncrypteFileWriter is already closed.");
 		}
 		if(error != null){
 			throw error;
@@ -258,7 +273,7 @@ public class EncryptedFileWriter{
 						} catch(InterruptedException e){
                             Log.e(TAG, mTAG + "close() InterruptedException when waiting to close openssl.");
 						}
-					};
+					}
 				};
 				t.start();
 				t.join(3000);
@@ -268,7 +283,7 @@ public class EncryptedFileWriter{
 					info("openssl terminated with exit value " + exitValue);
 				} catch(IllegalThreadStateException e){
 					openssl.destroy();
-					throw new EncryptedFileWriterError("EncryptedFileWriter.close() for file " + encryptedFilename + " failed to stop openssl, calling destroy(): " + e.getMessage());
+					throw new EncryptedFileWriterError("EncryptedFileWriter.close() for file: " + encryptedFilename + " failed to stop openssl, calling destroy(): " + e.getMessage());
 
 				}
 				openssl = null;
@@ -276,15 +291,15 @@ public class EncryptedFileWriter{
 			if(opensslErrorThread != null){
 				opensslErrorThread.join(3000);
 				if(opensslErrorThread.isAlive()){
-					throw new EncryptedFileWriterError("EncryptedFileWriter.close() for file " + encryptedFilename + " failed to stop opensslErrorThread");
+					throw new EncryptedFileWriterError("EncryptedFileWriter.close() for file: " + encryptedFilename + " failed to stop opensslErrorThread");
 				}
 				opensslErrorThread.join();
 				opensslErrorThread = null;
 			}
 		} catch(InterruptedException e){
-			throw new EncryptedFileWriterError("InterruptedException in EncryptedFileWriter.close() for file " + encryptedFilename,e);
+			throw new EncryptedFileWriterError("InterruptedException in EncryptedFileWriter.close() for file: " + encryptedFilename,e);
 		} catch (IOException e1) {
-			throw new EncryptedFileWriterError("IOException in EncryptedFileWriter.close() for file " + encryptedFilename,e1);
+			throw new EncryptedFileWriterError("IOException in EncryptedFileWriter.close() for file: " + encryptedFilename,e1);
 		} finally{
 			if(wl != null)
 				wl.release();
@@ -323,9 +338,9 @@ public class EncryptedFileWriter{
 			}
 			info("flush() done.");
 		} catch(IOException e){
-			throw new EncryptedFileWriterError("IOException in EncryptedFileWriter.flush(), file=" + encryptedFilename,e);
+			throw new EncryptedFileWriterError("IOException in EncryptedFileWriter.flush(), file: " + encryptedFilename, e);
 		} catch(Exception e){
-			throw new EncryptedFileWriterError("Exception in EncryptedFileWriter.flush(), file=" + encryptedFilename,e);
+			throw new EncryptedFileWriterError("Exception in EncryptedFileWriter.flush(), file: " + encryptedFilename, e);
 		}
 	}
 

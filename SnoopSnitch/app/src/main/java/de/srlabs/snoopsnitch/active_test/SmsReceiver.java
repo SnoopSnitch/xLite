@@ -1,5 +1,6 @@
 package de.srlabs.snoopsnitch.active_test;
 
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +15,10 @@ import de.srlabs.snoopsnitch.util.MsdLog;
  * @author Andreas Schildbach
  */
 public abstract class SmsReceiver extends BroadcastReceiver {
-	private static final String TAG = "msd-active-test-service-sms-receiver";
+
+	private static final String TAG = "SNSN";
+    private static final String mTAG = "SmsReceiver: ";
+    private static final String TEST_SMS = "GSMmap Test SMS";
 	private SmsMessage sms;
 
 	@Override
@@ -32,6 +36,8 @@ public abstract class SmsReceiver extends BroadcastReceiver {
 				//   final SmsMessage sms = SmsMessage.createFromPdu((byte[]) pdu);
 				// Instead use:
 				//   createFromPdu (byte[] pdu, String format)
+                //@SuppressWarnings("deprecation")
+                //@TargetApi(25)
 				if (Build.VERSION.SDK_INT >= 23) {
 					String format = extras.getString("format");
 					sms = SmsMessage.createFromPdu((byte[]) pdu, format);
@@ -49,11 +55,11 @@ public abstract class SmsReceiver extends BroadcastReceiver {
 				if (Constants.CALL_NUMBER.equals(originatingAddress) || Constants.CALLBACK_NUMBER.equals(originatingAddress)) {
 					MsdLog.i(TAG, "SMS Sender number matched verified, swallowing SMS");
 					swallowSms = true;
-				} else if (sms.getMessageBody().contains("GSMmap Test SMS")) {
+				} else if (sms.getMessageBody().contains(TEST_SMS)) {
 					// sms.getOriginatingAddress() sometimes returns the string
 					// "SMS" instead of the real number, so detect the GSMmap
 					// Test SMS via the message contents
-					MsdLog.i(TAG, "SMS contains 'GSMmap Test SMS', swallowing SMS");
+					MsdLog.i(TAG, "SMS contains '" + TEST_SMS + "', swallowing SMS");
 					swallowSms = true;
 				}
 				if (swallowSms)	onReceiveSms(sms);

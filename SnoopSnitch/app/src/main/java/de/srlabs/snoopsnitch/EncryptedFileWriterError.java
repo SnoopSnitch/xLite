@@ -1,15 +1,14 @@
 package de.srlabs.snoopsnitch;
 
-public class EncryptedFileWriterError extends Exception
-{
+public class EncryptedFileWriterError extends Exception {
 	/**
-	 * 
+	 * ToDo: get rid of this!
+	 * See: EncryptedFileWriter.OpensslErrorThread()
 	 */
 	private static final long serialVersionUID = 1L;
 	private Throwable e = null;
 
-	public EncryptedFileWriterError (String message, Throwable e)
-	{
+	public EncryptedFileWriterError (String message, Throwable e) {
 		super(message);
 		this.e = e;
 	}

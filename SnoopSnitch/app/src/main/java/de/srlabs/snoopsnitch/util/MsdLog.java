@@ -114,7 +114,7 @@ public class MsdLog {
 	 * @param key
 	 * @return property
      */
-	private static String osgetprop(String key) {
+	public static String osgetprop(String key) {
 		Process process;
 		String property;
 		try {
@@ -165,6 +165,8 @@ public class MsdLog {
 	public static String getDeviceProps() {
 		String prop;
 		try {
+            // ToDo: consider also adding the info from:
+            // (1) Utils.checkDiag()
             prop =    "AOS version:               " + Build.VERSION.RELEASE + "\n"
                     + "Kernel version:            " + System.getProperty("os.version") + "\n"
                     + "Manufacturer:              " + Build.MANUFACTURER + "\n"
@@ -211,6 +213,8 @@ public class MsdLog {
         result.append("----------------------------------------------------\n");
 		result.append(getDeviceProps());
 		result.append("----------------------------------------------------\n");
+        result.append("/dev/diag info: \n" + Utils.checkDiag() +"\n");
+        result.append("----------------------------------------------------\n");
 		return result.toString();
 	}
 }

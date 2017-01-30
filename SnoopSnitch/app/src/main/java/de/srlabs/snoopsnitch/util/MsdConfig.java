@@ -371,11 +371,13 @@ public class MsdConfig {
             if( pcapDir.exists() ) {
                 Log.i(TAG, "PCAP: path ok: " + pcapDir.toString());
             } else {
+                Log.i(TAG, "PCAP: pcapDir not found. Creating: " + pcapDir.toString());
                 // getDir() creates directory if it doesn't already exists. But,
                 // it seem that it adds an "app_" prefix to it in AOS 6.0+
                 //pcapPath = context.getDir(pcapDir,0);     // 0 = MODE_PRIVATE
-                pcapDir.mkdir(); //  /data/user/0/de.srlabs.snoopsnitch/pcaps
-                Log.i(TAG, "PCAP: pcapDir not found. Creating: " + pcapDir.toString());
+                if(!pcapDir.mkdir()) { //  /data/user/0/de.srlabs.snoopsnitch/pcaps
+                    Log.e(TAG, "PCAP: Failed to create pcapDir!");
+                }
             }
             File outFile = new File(pcapDir, filename);
         } catch (SecurityException e) {

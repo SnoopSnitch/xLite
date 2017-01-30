@@ -1354,9 +1354,11 @@ public class MsdService extends Service {
 			this.table = table;
 			this.values = values;
 		}
+
 		public boolean isShutdownMarker(){
 			return false;
 		}
+
 		public void run(SQLiteDatabase db) throws SQLException{
 			PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 			PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,TAG);
@@ -1598,6 +1600,7 @@ public class MsdService extends Service {
 						// TODO: Display error message or upload state to user
 						return;
 					}
+
 					int statusCode = resp.getStatusLine().getStatusCode();
 					if(statusCode == 200){ // OK
 						InputStream in = resp.getEntity().getContent();
@@ -1614,7 +1617,7 @@ public class MsdService extends Service {
 						}
 						in.close();
 						byte[] buf = byteArrayOutputStream.toByteArray();
-						info("Received new data.json, size=" + buf.length);
+						info("Received new app_data.json, size=" + buf.length);
 						FileOutputStream os = openFileOutput("app_data.json", 0);
 						os.write(buf);
 						// Update saved last modified time
@@ -1633,13 +1636,13 @@ public class MsdService extends Service {
 						//  FIXME: Should have a dedicated reason for changed data
 						sendStateChanged(StateChangedReason.ANALYSIS_DONE);
 					} else if(statusCode == 304){ // Not Modified
-						info("checkAndDownloadDataJs() received 304 not modified response");
+						info("checkAndDownloadDataJs() received 304: not modified response");
 					} else{ // Unexpected
 						MsdLog.e(TAG,"Unexpected HTTP response code" + statusCode + " in DownloadDataJsThread.run()");
 						return;
 					}				
 				} catch (Exception e) {
-					MsdLog.e(TAG,"Exception in DownloadDataJsThread.run()",e);
+					MsdLog.e(TAG,"Exception in DownloadDataJsThread.run(): ",e);
 					return;
 				}
 				// Update last check time
