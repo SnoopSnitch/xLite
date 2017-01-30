@@ -79,7 +79,7 @@ function setProgressPercent(newProgress){
 	progress = newProgress;
 	centerX = 50;
 	centerY = 50;
-	radius = 40;
+	radius = 32;
 	ctx = canvas.getContext('2d');
 	ctx.clearRect(0,0,100,100);
 	ctx.beginPath();
