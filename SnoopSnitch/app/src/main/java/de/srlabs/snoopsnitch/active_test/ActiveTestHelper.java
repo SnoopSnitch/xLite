@@ -249,12 +249,21 @@ public class ActiveTestHelper{
 	}
 
 	private void queryPhoneNumberAndStart(String msg){
-        // ToDo: Emi: Entry point for smarter number finder...
+
 		final String lastConfirmedOwnNumber = MsdConfig.getOwnNumber(context);
 		final EditText editText = new EditText(context);
 		editText.setHint("international notation using '+'");
 		editText.setInputType(InputType.TYPE_CLASS_PHONE);
-		final String text = lastConfirmedOwnNumber.isEmpty() ? "+" : lastConfirmedOwnNumber;
+
+        String cc = MsdConfig.getCountryCode(context);
+        if (cc != null) {
+            Log.i(TAG, ": getCountryCode() received: " + cc);
+            cc = "+" + cc;
+        } else {
+            cc = "+";
+        }
+
+		final String text = lastConfirmedOwnNumber.isEmpty() ? cc : lastConfirmedOwnNumber;
 		editText.setText(text);
 		editText.setSelection(text.length());
 
@@ -271,10 +280,22 @@ public class ActiveTestHelper{
 					return;
 				alreadyClicked = true;
 				String confirmedOwnNumber = editText.getText().toString().trim();
+
+                // Check for international prefix: + || 00
 				if(!( confirmedOwnNumber.startsWith("+") || confirmedOwnNumber.startsWith("00"))){
 					queryPhoneNumberAndStart("Please enter an international number (with '+' or '00' in the beginning)");
 					return;
 				}
+
+                // Check min number length:  +1 800 555-5555 = 11 digits, but we're nice...
+                // Shortest numbers are fixed (non mobile) numbers in Solomon Islands: 
+                // See: https://en.wikipedia.org/wiki/Telephone_numbers_in_the_Solomon_Islands
+                if(confirmedOwnNumber.length() < 9) {
+                    queryPhoneNumberAndStart("Your number is too short");
+                    return;
+                }
+
+                // Check number for garbage
 				String tmp = "";
 				for(int i=0;i<confirmedOwnNumber.length();i++){
 					char c = confirmedOwnNumber.charAt(i);
@@ -289,9 +310,12 @@ public class ActiveTestHelper{
 						return;
 					}
 				}
+
+                // Check if number is empty
 				confirmedOwnNumber = tmp;
 				if(confirmedOwnNumber.isEmpty())
 					return;
+
 				MsdConfig.setOwnNumber(context, confirmedOwnNumber);
 				// Not sure this is the best place to check for this.
 				// Also a dialog would be useful...

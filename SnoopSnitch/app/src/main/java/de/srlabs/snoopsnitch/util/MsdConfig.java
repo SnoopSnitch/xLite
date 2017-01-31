@@ -11,9 +11,13 @@ import android.util.Log;
 import android.telephony.TelephonyManager;
 
 import java.io.File;
+import java.util.Locale;
 
 import de.srlabs.snoopsnitch.BuildConfig;
 import de.srlabs.snoopsnitch.DashboardActivity;
+import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
+
+import android.database.DatabaseUtils;
 
 //import android.util.Log;
 //import android.preference.PreferenceManager;
@@ -27,6 +31,11 @@ public class MsdConfig {
 
 	private static final String TAG = "SNSN";
 	private static final String mTAG = "MsdConfig :";
+
+    //private TelephonyManager mTM;
+    //private MsdSQLiteOpenHelper helper;
+    //public TelephonyManager mTM;
+    //public MsdSQLiteOpenHelper helper;
 
 	private static SharedPreferences sharedPrefs(Context context) {
         // ToDo: Need better multi-process fix here. Consider:
@@ -137,37 +146,62 @@ public class MsdConfig {
 	// ========================================================================
 	// Own phone number Sanity check
 	// ========================================================================
-	/*
+
+    /**
 	 * We can check these:
 	 *   1. [ ] That the number starts with a valid country code (e.g. "+49" )
 	 *   2. [ ] We can attempt to get own number from various hacks, but not SIM nor API
 	 *
 	 *   For (2) we can cross check SIM country iso with one of the following:
 	 *   	[ ] asset CSV file  					- less coding
-	 *   	[x] asset JSON file 					- more coding but better portability (?)
-	 *      [ ] our own DB table "mcc" in msd.db 	- may break multi-threading!
-	 */
-	/**
+	 *   	[ ] asset JSON file 					- more coding but better portability (?)
+	 *      [x] our own DB table "mcc" in msd.db 	- may break multi-threading!
 	 *
-	 * Maybe this should be a JSON file reader instead?
+     *   To get the call_code from mcc, we need both mcc and iso, since US dialling codes
+     *   are different for the islands:  Bermuda (BU), Guam (GU) and mainland (US).
+	 *
+	 *
+     *
 	 * @param db
 	 * @param countryIso
      */
-	public static String getCountryCode(SQLiteDatabase db, String countryIso) {
+	public static String getCountryCode(Context context) {
+
+        TelephonyManager mTM = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        MsdSQLiteOpenHelper helper;
+
 		String sql;
 		String country_code = null;
-		//String simIso = tm.getSimCountryIso();
-		try {
-			/*
+
+        //String phone_number = mTM.getLine1Number();        // Rarely works: The phone number
+        //String networkOperator = mTM.getNetworkOperator(); // The currently connected MCC/MNC
+        String IMSI = mTM.getSubscriberId();                 // The IMSI for a GSM phone
+        String simOp = mTM.getSimOperator();                 // The SIM's MCC/MNC
+        String simIso = mTM.getSimCountryIso().toUpperCase(Locale.US); // The SIM country ISO code [2-chars]
+        Log.d(TAG, ": getSubscriberId: " + IMSI + " , getSimOperator: " + simOp + " , getSimCountryIso: " + simIso);
+
+        if(simOp.length() < 5){
+            Log.w(TAG, mTAG + "Invalid SIM Operator: " + simOp);
+            return null;
+        }
+        String mcc = simOp.substring(0,3);
+        sql = "SELECT call_code FROM mcc WHERE mcc=" + mcc + " AND iso=\"" + simIso + "\";";
+
+        helper = new MsdSQLiteOpenHelper(context);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Log.i(TAG, ": Trying SQL: " + sql );
+
+        try {
+            //db.rawQuery(sql, null).close();
+            //db.close();
+            //helper.close();
 			db.beginTransaction();
-			sql = "SELECT UNIQUE call_code FROM mcc WHERE iso = " + simIso + ";";
-			country_code = db.execSQL(sql);
+            country_code = DatabaseUtils.stringForQuery(db, sql, null);
 			db.setTransactionSuccessful();
-			*/
 		} catch (Exception ee) {
-			Log.e(TAG, mTAG + "getOwnNumber: Exeception from SQL execution:", ee);
-		}finally {
-			//db.endTransaction();
+			Log.e(TAG, mTAG + "getCountryCode(): Exception from SQL execution:", ee);
+		} finally {
+			db.endTransaction();
 		}
 		return country_code;
 	}
