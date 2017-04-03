@@ -1,33 +1,29 @@
 package de.srlabs.snoopsnitch;
 
 import java.text.DateFormat;
-//import java.util.Calendar;
-
-import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
-import de.srlabs.snoopsnitch.util.MsdDatabaseManager;
-//import de.srlabs.snoopsnitch.util.MsdLog;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
-//import android.os.Looper;
 import android.telephony.TelephonyManager;
-//import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
+import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
+import de.srlabs.snoopsnitch.util.MsdDatabaseManager;
+
+
 public class NetworkInfoActivity extends BaseActivity {
 	
-	protected final int refreshInterval = 60 * 1000;  // [ms] ?
+	protected final int refreshInterval = 3 * 1000;  // once every n seconds = n * 1000 [ms] // was 60*1000
 	private Context context;
 	private Handler handler = new Handler();
 	private NetworkInfoRunnable networkInfoRunnable = new NetworkInfoRunnable();
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) 
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_network_info);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -38,16 +34,14 @@ public class NetworkInfoActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onResume() 
-	{
+	protected void onResume() {
 		updateNetworkInfo();
 		handler.postDelayed(networkInfoRunnable, refreshInterval);
 		super.onResume();
 	}
 
 	@Override
-	protected void onPause()
-	{
+	protected void onPause() {
 		handler.removeCallbacks(networkInfoRunnable);
 		super.onPause();
 	}
@@ -55,12 +49,11 @@ public class NetworkInfoActivity extends BaseActivity {
 
 	class NetworkInfoRunnable implements Runnable{
 		@Override
-		public void run() 
-		{
+		public void run() {
 			updateNetworkInfo();
 			handler.postDelayed(this, refreshInterval);
 		}
-	};
+	}
 
 	private void updateNetworkInfo() {
 
@@ -69,10 +62,8 @@ public class NetworkInfoActivity extends BaseActivity {
 
 		//  TMSI
 		setCurrentTMSI(db);
-
 		//  USIM
 		setUSIM(db);
-		
 		//  Set transaction
 		setTransaction(db);
 		
@@ -88,8 +79,7 @@ public class NetworkInfoActivity extends BaseActivity {
 				("SELECT max(id), ifnull(ifnull(new_tmsi, tmsi), '???') FROM session_info " +
 		         "WHERE domain = 0 AND (tmsi NOT NULL OR new_tmsi NOT NULL) ORDER BY id", null);
 
-		if(query.moveToFirst())
-		{
+		if(query.moveToFirst()) {
 			tmsiText = query.getString(1);
 		}
 		tmsi.setText(tmsiText);
@@ -104,8 +94,7 @@ public class NetworkInfoActivity extends BaseActivity {
 		Cursor query = db.rawQuery
 				("SELECT ifnull(max(auth), 0) FROM session_info WHERE domain = 0 AND auth > 0 AND (rat = 1 OR auth > 1)", null);
 
-		if(query.moveToFirst())
-		{
+		if(query.moveToFirst())	{
 			int auth = query.getInt(0);
 			switch (auth)
 			{
@@ -125,11 +114,9 @@ public class NetworkInfoActivity extends BaseActivity {
 	
 	private void setTextView(int ID, String value) {
 		TextView view = (TextView) findViewById(ID);
-		if (value == null)
-		{
+		if (value == null) {
 			view.setText("-");
-		} else
-		{
+		} else {
 			view.setText(value);
 		}
 		view.invalidate();
@@ -197,17 +184,13 @@ public class NetworkInfoActivity extends BaseActivity {
 	}
 
 	private String toDirectionString(int mo, int mt) {
-		if (mo > 0 && mt > 0)
-		{
+		if (mo > 0 && mt > 0) {
 			return context.getResources().getString(R.string.common_invalid) + "(MO+MT)";
-		} else if (mt > 0)
-		{
+		} else if (mt > 0) {
 			return context.getResources().getString(R.string.network_info_mobile_terminated);
-		} else if (mo > 0)
-		{
+		} else if (mo > 0) {
 			return context.getResources().getString(R.string.network_info_mobile_originated);
-		} else
-		{
+		} else {
 			return context.getResources().getString(R.string.common_none);
 		}
 	}
@@ -226,37 +209,21 @@ public class NetworkInfoActivity extends BaseActivity {
 	private String toTypeString(int locupd, int abort, int call, int sms) {
 
 		String result = "";
-
-		if (locupd > 0) {
-			result += "location update ";
-		}
-
-		if (abort > 0) {
-			result += "aborted ";
-		}
-
-		if (call > 0) {
-			result += "call ";
-		}
-
-		if (sms > 0) {
-			result += "sms ";
-		}
+		if (locupd > 0)     result += "location update ";
+		if (abort > 0) 		result += "aborted ";
+		if (call > 0) 		result += "call ";
+		if (sms > 0) 		result += "sms ";
 		return result;
 	}
 
 	private String toLUResultString(int lu_acc, int lu_reject) {
-		if (lu_acc > 0 && lu_reject > 0)
-		{
+		if (lu_acc > 0 && lu_reject > 0) {
 			return context.getResources().getString(R.string.common_invalid);
-		} else if (lu_acc > 0)
-		{
+		} else if (lu_acc > 0) {
 			return context.getResources().getString(R.string.network_info_lu_accepted);
-		} else if (lu_reject > 0)
-		{
+		} else if (lu_reject > 0) {
 			return context.getResources().getString(R.string.network_info_lu_rejected);
-		} else
-		{
+		} else {
 			return null;
 		}
 	}
@@ -410,5 +377,4 @@ public class NetworkInfoActivity extends BaseActivity {
 		}
 		query.close();
 	}
-
 }

@@ -29,6 +29,7 @@
 # 		[x] Add auto-check for git submodules (see above)
 # 		[ ] Add auto-import of git submodules
 # 		[ ] Add automatic run of copy.sh script after compile.
+#       [ ] Add automatic "host" installation (e.g. /usr/local/lib/gsm-parser/)
 # 
 # NOTE: 
 # 		1) To import forgotten or missing git submodules, do this: 
@@ -199,7 +200,9 @@ case ${target} in
 		export RANLIB=arm-linux-androideabi-ranlib
 		export CFLAGS="--sysroot=${SYSROOT} -nostdlib"
 		export CPPFLAGS="-I${NDK_DIR}/platforms/android-19/arch-arm/usr/include/"
-		export LDFLAGS="--sysroot=${SYSROOT} -Wl,-rpath-link=${NDK_DIR}/platforms/android-19/arch-arm/usr/lib/,-L${NDK_DIR}/platforms/android-19/arch-arm/usr/lib/"
+		# "rpath" is not used in Android and can lead to DT_RPATH warnings.. 
+		# export LDFLAGS="--sysroot=${SYSROOT} -Wl,-rpath-link=${NDK_DIR}/platforms/android-19/arch-arm/usr/lib/,-L${NDK_DIR}/platforms/android-19/arch-arm/usr/lib/"
+		export LDFLAGS="--sysroot=${SYSROOT} -Wl,-L${NDK_DIR}/platforms/android-19/arch-arm/usr/lib/"
 		export LIBS="-lc -lm"
 		export GSM_PARSER_MAKE_ARGS="TARGET=android PCAP=1 PREFIX=${MSD_DESTDIR} DESTDIR=${MSD_DESTDIR}/gsm-parser SYSROOT=${SYSROOT} install"
 		;;
@@ -294,6 +297,18 @@ if [ "$target" == "android" ]; then
 
 	# The clean hack is to use: rename
 	rename -v 's/\.[0-9]$//' ${PARSER_DIR}/*.so.*
+
+elif [ "$target" == "host" ]; then
+	#lecho "Installing files to: ${PARSER_DIR}/ ..."
+	lecho "Starting host installation script..."
+	# Install parser
+	if ${BASE_DIR}/host_install.sh ;then
+		cecho green "\nok\n";
+	else
+		cecho red "Host installation script Failed!\n"
+		echo "Please copy library files manually..."
+		#exit 1
+	fi
 fi
 
 ln -sf ${BUILD_DIR} ../${LATEST}
