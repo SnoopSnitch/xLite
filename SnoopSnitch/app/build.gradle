@@ -11,11 +11,12 @@ android {
     useLibrary 'org.apache.http.legacy'     //
 
     defaultConfig {
-        applicationId "de.srlabs.snoopsnitch"   // Can be referenced with: BuildConfig.APPLICATION_ID;
+        //applicationId "de.srlabs.snoopsnitch"   // Can be referenced with: BuildConfig.APPLICATION_ID;
+        applicationId "zz.snsn.xlite"           // Can be referenced with: BuildConfig.APPLICATION_ID;
         minSdkVersion 18                        // 16 (4.1) .. 19 (4.4)
         targetSdkVersion 25                     // 25 (7.1)
-        versionCode 16                          // In GooglePlay:  Ant: 15- ;  AS(Gradle): 16+
-        versionName "1.1.23"                    // 1.0.x (old aunt), 1.1.x (new Grechen)
+        versionCode 1                          // In GooglePlay:  Ant: 15- ;  AS(Gradle): 16+
+        versionName "2.0.0330"                  // 1.0.x (old aunt), 1.1.x (new Grechen), Last: "1.1.0215"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        externalNativeBuild {
 //            cmake {
@@ -25,16 +26,16 @@ android {
 
         // For Java 1.8 compile compatibility
         // NOTE: jack currently does not work with AS "InstantRun" functionality
-        /*jackOptions {
+        jackOptions {
             enabled true
-        }*/
+        }
     }
 
     // To use this, you also need to enable "jack", above.
-    /*compileOptions {
+    compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }*/
+    }
 
 
     // This is for automatic code-signing of the resulting APK
@@ -170,13 +171,13 @@ dependencies {
     //compile group: 'cz.msebera.android', name: 'httpclient', version: '4.4.1.1'                   // API 23+
 
     // Android Support Libraries
-    compile 'com.android.support:support-v4:25.1.0'             // v4 :
-    compile 'com.android.support:support-compat:25.1.0'         // v4 :
-    compile "com.android.support:support-core-utils:25.1.0"     // v4 : Needed for M permission checker
+    compile 'com.android.support:support-v4:25.3.1'             // v4 :
+    compile 'com.android.support:support-compat:25.3.1'         // v4 :
+    compile "com.android.support:support-core-utils:25.3.1"     // v4 : Needed for M permission checker
     //compile "com.android.support:support-core-ui:25.0.1"      // v4 :
     //compile "com.android.support:support-media-compat:25.0.1" // v4 :
     //compile "com.android.support:support-fragment:25.0.1"     // v4 :
-    compile 'com.android.support:appcompat-v7:25.1.0'           // depends on v4 ?
+    compile 'com.android.support:appcompat-v7:25.3.1'           // depends on v4 ?
 
     // A better way to handle new M permission system
     // PermissionDsipatcher: https://github.com/hotchemi/PermissionsDispatcher
