@@ -26,7 +26,11 @@ import de.srlabs.snoopsnitch.util.MsdLog;
 import de.srlabs.snoopsnitch.util.Utils;
 
 public abstract class BaseActivity extends FragmentActivity {
-	// Attributes
+
+    private static final String TAG = "SNSN";
+    private static final String mTAG = "BaseActivity :";
+
+    // Attributes
 	protected MSDServiceHelperCreator msdServiceHelperCreator;
 	protected TextView messageText;
 	protected View messageLayout;
@@ -50,7 +54,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		// Get MsdService Helper
 		msdServiceHelperCreator = MSDServiceHelperCreator.getInstance(this.getApplicationContext(), true);
 		MsdLog.init(msdServiceHelperCreator.getMsdServiceHelper());
-		MsdLog.i("MSD","MSD_ACTIVITY_CREATED: " + getClass().getCanonicalName());
+		MsdLog.i(TAG, mTAG + "MSD_ACTIVITY_CREATED: " + getClass().getCanonicalName());
 
 		handler = new Handler();
 	}
@@ -165,7 +169,7 @@ public abstract class BaseActivity extends FragmentActivity {
 				NavUtils.navigateUpFromSameTask(this);
 				break;
 			default:
-				MsdLog.e("BaseActivity","Invalid menu entry pressed,  id=" + item.getItemId());
+				MsdLog.e(TAG, mTAG + "Invalid menu entry pressed,  id=" + item.getItemId());
 				break;
 		}
 		return true;
@@ -236,7 +240,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	}
 
 	protected void quitApplication () {
-		MsdLog.i("MSD","BaseActivity.quitApplication() called");
+        MsdLog.i(TAG, mTAG + "quitApplication() called");
 		msdServiceHelperCreator.getMsdServiceHelper().stopRecording();
 		msdServiceHelperCreator.getMsdServiceHelper().stopService();
 		// If we call System.exit() here from an activity launched by

@@ -12,7 +12,11 @@ import android.util.Log;
 import de.srlabs.snoopsnitch.util.Utils;
 
 public class MsdSQLiteOpenHelper extends SQLiteOpenHelper {
-	private static final String DATABASE_NAME = "msd.db";
+
+    private static final String TAG = "SNSN";
+    private static final String mTAG = "MsdSQLiteOpenHelper :";
+
+    private static final String DATABASE_NAME = "msd.db";
 	private static final int DATABASE_VERSION = 22;
 	private static final boolean verbose = false;
 	private Context context;
@@ -27,29 +31,29 @@ public class MsdSQLiteOpenHelper extends SQLiteOpenHelper {
 		PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, file);
 
 		Long tmp = System.currentTimeMillis();
-		Log.i(MsdService.TAG,"MsdSQLiteOpenHelper.readSQLAsset(" + file + ") called");
+		Log.i(TAG, mTAG + "readSQLAsset(" + file + ") called");
 
 		try {
 			wl.acquire();
 			db.beginTransaction();
 			String sql = Utils.readFromAssets(context, file);
 			if (verbose) {
-				Log.i(MsdService.TAG,"MsdSQLiteOpenHelper.readSQLAsset(" + file + "): " + sql);
+                Log.i(TAG, mTAG + "readSQLAsset(" + file + "): " + sql);
 			}
 			for(String statement:sql.split(";")) {
 				if (statement.trim().length() > 0 && !statement.trim().startsWith("/*!")) {
 					if (verbose) {
-						Log.i(MsdService.TAG,"MsdSQLiteOpenHelper.readSQLAsset(" + file + "): statement=" + statement);
+                        Log.i(TAG, mTAG + "readSQLAsset(" + file + "): statement=" + statement);
 					}
 					long startTime = System.currentTimeMillis();
 					try {
 						db.execSQL(statement);
 					} catch (SQLException ee) {
-						Log.e(MsdService.TAG, "SQLException in MsdSQLiteOpenHelper.readSQLAsset:\n"+ ee.toString());
+                        Log.i(TAG, mTAG + "SQLException in readSQLAsset:\n"+ ee.toString());
 					}
 					if (verbose) {
 						long durationMs = System.currentTimeMillis() - startTime;
-						Log.i(MsdService.TAG,"MsdSQLiteOpenHelper.readSQLAsset(" + file + "): statement took " + durationMs);
+                        Log.i(TAG, mTAG + "readSQLAsset(" + file + "): statement took " + durationMs);
 					}
 				}
 			}
@@ -58,12 +62,12 @@ public class MsdSQLiteOpenHelper extends SQLiteOpenHelper {
 			db.endTransaction();
 			wl.release();
 		}
-		Log.i(MsdService.TAG,"MsdSQLiteOpenHelper.readSQLAsset(" + file + ") done, took " + (System.currentTimeMillis() - tmp) + "ms");
+        Log.i(TAG, mTAG + "readSQLAsset(" + file + ") done, took " + (System.currentTimeMillis() - tmp) + "ms");
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		Log.i(MsdService.TAG,"MsdSQLiteOpenHelper.onCreate() called");
+        Log.i(TAG, mTAG + "onCreate() called");
 		try{
 			readSQLAsset(context, db, "si.sql", verbose);
 			readSQLAsset(context, db, "si_loc.sql", verbose);
@@ -78,9 +82,9 @@ public class MsdSQLiteOpenHelper extends SQLiteOpenHelper {
 			readSQLAsset(context, db, "local.sqlx", verbose);
 			readSQLAsset(context, db, "files.sql", verbose);
 		} catch(Exception e){
-			Log.e("MSD","Failed to create database",e);
+            Log.e(TAG, mTAG + "Failed to create database",e);
 		}
-		Log.i(MsdService.TAG,"MsdSQLiteOpenHelper.onCreate() done");
+        Log.i(TAG, mTAG + "onCreate() done");
 	}
 
 	@Override
@@ -131,7 +135,7 @@ public class MsdSQLiteOpenHelper extends SQLiteOpenHelper {
 				readSQLAsset(context, db, "mnc.sql", verbose);
 				readSQLAsset(context, db, "analysis_tables.sql", verbose);
 			} catch(Exception e){
-				Log.e("MSD","Failed to update database",e);
+                Log.e(TAG, mTAG + "Failed to update database",e);
 			}
 
 		}
@@ -139,7 +143,7 @@ public class MsdSQLiteOpenHelper extends SQLiteOpenHelper {
 			try {
 				readSQLAsset(context, db, "config.sql", verbose);
 			} catch(Exception e){
-				Log.e("MSD","Failed to update database",e);
+                Log.e(TAG, mTAG + "Failed to update database",e);
 			}
 		}
 	}

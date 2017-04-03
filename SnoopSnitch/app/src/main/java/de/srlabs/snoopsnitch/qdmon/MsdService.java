@@ -730,7 +730,7 @@ public class MsdService extends Service {
 					if(toDiagThread != null){
 						Log.i(TAG, mTAG + "shutdown() libdiag-helper still running, sending DisableLoggingCmds...");
 						for(byte[] singleCmd:DisableLoggingCmds.cmds){
-							this.toDiagMsgQueue.add(new QueueElementWrapper<byte[]>(singleCmd));
+							this.toDiagMsgQueue.add(new QueueElementWrapper<>(singleCmd));
 						}
 					}
 				}
@@ -1457,13 +1457,15 @@ public class MsdService extends Service {
 		public void onCellLocationChanged(CellLocation location) {
 			if (location instanceof GsmCellLocation) {
 				GsmCellLocation gsmLoc = (GsmCellLocation) location;
-				String networkOperator = telephonyManager.getNetworkOperator();
+
+                String networkOperator = telephonyManager.getNetworkOperator();
 				if(networkOperator.length() < 5){
 					warn("Invalid networkOperator: " + networkOperator);
 					return;
 				}
 				String mcc = networkOperator.substring(0,3);
 				String mnc = networkOperator.substring(3);
+
 				ContentValues values = new ContentValues();
 				values.put("mcc", mcc);
 				values.put("mnc", mnc);
@@ -1508,6 +1510,7 @@ public class MsdService extends Service {
 			String msg = "onCellInfoChanged(" + cellInfo.size() + ")";
 			info(msg);
 		}
+
 		void doCellinfoList(List<CellInfo> cellInfo){
 			if(cellInfo != null){
 				if(last_sc_insert != null){
@@ -1837,6 +1840,7 @@ public class MsdService extends Service {
 		this.diagStdout = new DataInputStream(helper.getInputStream());
 		this.diagStdin = new DataOutputStream(helper.getOutputStream());
 		this.diagStderr = new BufferedReader(new InputStreamReader(helper.getErrorStream()));
+
 		byte[] handshakeBytes = new byte[4];
 		MsdService.this.diagStdout.read(handshakeBytes);
 		String handshake = new String(handshakeBytes, "ASCII");
@@ -1858,7 +1862,7 @@ public class MsdService extends Service {
 		this.toDiagThread = new ToDiagThread();
 		this.toDiagThread.start();
 		for(byte[] singleCmd:SetupLoggingCmds.cmds){
-			this.toDiagMsgQueue.add(new QueueElementWrapper<byte[]>(singleCmd));
+			this.toDiagMsgQueue.add(new QueueElementWrapper<>(singleCmd));
 		}
 	}
 
@@ -2459,11 +2463,11 @@ public class MsdService extends Service {
 	private void cleanupFiles(SQLiteDatabase db){
 		// Read all files to a HashMap and then iterate over a directory listing, saves doing an SQL query for each file
 		Vector<DumpFile> dbFiles = DumpFile.getFiles(db, "");
-		HashMap<String,DumpFile> filesByName = new HashMap<String,DumpFile>();
+		HashMap<String,DumpFile> filesByName = new HashMap<>();
 		for(DumpFile df:dbFiles){
 			filesByName.put(df.getFilename(), df);
 		}
-		HashSet<String> existingFiles = new HashSet<String>();
+		HashSet<String> existingFiles = new HashSet<>();
 		// Iterate over all files and delete if:
 		// * There is no database entry for the file
 		// * The file is older than the configured keep duration, doesn't contain an event and is not pending for upload

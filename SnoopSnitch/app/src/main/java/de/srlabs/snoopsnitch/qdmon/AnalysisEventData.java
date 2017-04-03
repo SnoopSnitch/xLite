@@ -38,7 +38,8 @@ public class AnalysisEventData implements AnalysisEventDataInterface{
 	}
 
 	private static String[] events_cols =
-			new String[] {"strftime('%s',timestamp)", "id", "mcc", "mnc", "lac", "cid", "latitude", "longitude", "valid", "msisdn", "smsc", "event_type"};
+			new String[] {"strftime('%s',timestamp)", "id", "mcc", "mnc", "lac", "cid",
+                          "latitude", "longitude", "valid", "msisdn", "smsc", "event_type"};
 
 	static private Event eventFromCursor(Cursor c, Context context) {
 		Type event_type;

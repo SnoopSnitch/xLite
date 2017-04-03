@@ -288,7 +288,7 @@ public class ActiveTestHelper{
 				}
 
                 // Check min number length:  +1 800 555-5555 = 11 digits, but we're nice...
-                // Shortest numbers are fixed (non mobile) numbers in Solomon Islands: 
+                // Shortest numbers are fixed (non mobile) numbers in Solomon Islands:
                 // See: https://en.wikipedia.org/wiki/Telephone_numbers_in_the_Solomon_Islands
                 if(confirmedOwnNumber.length() < 9) {
                     queryPhoneNumberAndStart("Your number is too short");
