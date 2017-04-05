@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
 
+//def keystorePropertiesFile = rootProject.file("$HOME/.android/keystore.properties")
+def keystorePropertiesFile = rootProject.file("../../keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion 25                    // 25 (AOS 7.1)
     buildToolsVersion "25.0.2"              // Always use latest build-tools unless otherwise required by app (what's that?)
@@ -11,12 +16,12 @@ android {
     useLibrary 'org.apache.http.legacy'     //
 
     defaultConfig {
-        //applicationId "de.srlabs.snoopsnitch"   // Can be referenced with: BuildConfig.APPLICATION_ID;
+        //applicationId "de.srlabs.snoopsnitch" // Can be referenced with: BuildConfig.APPLICATION_ID;
         applicationId "zz.snsn.xlite"           // Can be referenced with: BuildConfig.APPLICATION_ID;
         minSdkVersion 18                        // 16 (4.1) .. 19 (4.4)
         targetSdkVersion 25                     // 25 (7.1)
-        versionCode 1                          // In GooglePlay:  Ant: 15- ;  AS(Gradle): 16+
-        versionName "2.0.0330"                  // 1.0.x (old aunt), 1.1.x (new Grechen), Last: "1.1.0215"
+        versionCode 1                           // In GooglePlay:  Ant: 15- ;  AS(Gradle): 16+
+        versionName "2.0.0405"                  // 1.0.x (old aunt), 1.1.x (new Grechen), Last: "1.1.0215"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        externalNativeBuild {
 //            cmake {
@@ -38,38 +43,62 @@ android {
     }
 
 
-    // This is for automatic code-signing of the resulting APK
-    // Keys should be stored in:  build.gradle  (and obviously excluded from any VCS)
-//    signingConfigs {
-//        release {
-//            try {
-//                storeFile file("myreleasekey.keystore")
-//                storePassword KEYSTORE_PASSWORD
-//                keyAlias "MyReleaseKey"
-//                keyPassword KEY_PASSWORD
-//                // v2SigningEnabled false     // Can be "true" on Android-N (AOS 7.0+ / API 24)
-//            }
-//            catch (ex) {
-//                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
-//            }
-//        }
-//    }
+    // This is for automatic code-signing of the resulting APK,
+    // using the variables stored inthe keystoreProperties file.
+    signingConfigs {
+        release {
+            // try {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            // v2SigningEnabled false     // Can be "true" on Android-N (AOS 7.0+ / API 24)
+            // }
+            // catch (ex) {
+            //     throw new InvalidUserDataException("Signing Exception: Check your credentials in the keystoreProperties file.")
+            // }
+        }
+    }
 
     buildTypes {
-        release {
+        debug {
+            //applicationIdSuffix ".debug"
+            debuggable true
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            signingConfig signingConfigs.release
+            zipAlignEnabled false
         }
+        release {
+            minifyEnabled true              // Enables code shrinking for the release build type
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            //zipAlignEnabled true
+        }
+        beta.initWith(buildTypes.release)   // Use "release" builds for beta builds.
+        beta {
+            applicationIdSuffix ".beta"
+            debuggable true
+        }
+
         applicationVariants.all { variant ->
            variant.outputs.each { output ->
                def file = output.outputFile
-               def filename = file.name.replace("app", "SnoopSnitch")
+               def filename = file.name.replace("app", "SnoopSnitch")  // "SnoopSnitch xLite", also change name="app_name" in strings.xml
                output.outputFile = new File(file.parent, filename)
 
            }
        }
     }
+/*
+    splits {
+        abi {
+            enable true         // Enable the ABI split mechanism
+            reset()             // Reset the list of ABIs to be included to an empty string
+            include 'arm64-v8a', 'armeabi-v7a', 'x86'
+            universalApk true
+        }
+    }
+*/
+
 
 //    externalNativeBuild {
 //        cmake {
