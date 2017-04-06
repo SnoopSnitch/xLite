@@ -1,31 +1,41 @@
-SnoopSnitch
-===========
 
-This is the SnoopSnitch source repository. SnoopSnitch collects and analyzes
-mobile radio data to make you aware of your mobile network security and to warn
-you about threats like fake base stations (IMSI catchers), user tracking and
-over-the-air updates.
+-----------------------------------------------------------------------
+Status:     WIP (Need uregnt update)
+Date:       2017-04-06
+-----------------------------------------------------------------------
+
+
+SnoopSnitch xLite
+=================
+
+This is the SnoopSnitch xLite source-code repository. SnoopSnitch xLite is a
+light weight and independently funded, extended support version of the
+original SnoopSnitch from Security Research Labs.
+
+SnoopSnitch collects and analyzes mobile radio data to make you aware of your
+mobile network security and to warn you about threats like fake base stations
+(IMSI catchers), user tracking and over-the-air updates.
+
 
 License
 -------
 
-Copyright (C) 2014, 2015  Security Research Labs
+Copyright (C) 2014-2016  GPLv3  Security Research Labs
+Copyright (C) 2017       GPLv3  EFF
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
 Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-See COPYING for details.
+version. See COPYING for details.
 
 Resources
 ---------
 
-Project website:       https://opensource.srlabs.de/projects/snoopsnitch
+Project Website:       https://opensource.srlabs.de/projects/snoopsnitch
 Public Git repository: https://opensource.srlabs.de/git/snoopsnitch.git
 Mailing list:          https://lists.srlabs.de/cgi-bin/mailman/listinfo/gsmmap
 Email:			       snoopsnitch@srlabs.de 
-                       (PGP: 9728 A7F9 D457 1FBB 746F  5381 D52C AC10 634A 9561)
+PGP:                   9728 A7F9 D457 1FBB 746F  5381 D52C AC10 634A 9561
 
 Building from source
 --------------------
