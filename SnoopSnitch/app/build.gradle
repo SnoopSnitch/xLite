@@ -21,7 +21,7 @@ android {
         minSdkVersion 18                        // 16 (4.1) .. 19 (4.4)
         targetSdkVersion 25                     // 25 (7.1)
         versionCode 1                           // In GooglePlay:  Ant: 15- ;  AS(Gradle): 16+
-        versionName "2.0.0405"                  // 1.0.x (old aunt), 1.1.x (new Grechen), Last: "1.1.0215"
+        versionName "2.0.0406"                  // 1.0.x (old aunt), 1.1.x (new Grechen), Last: "1.1.0215"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        externalNativeBuild {
 //            cmake {
@@ -52,7 +52,7 @@ android {
             keyPassword keystoreProperties['keyPassword']
             storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
-            // v2SigningEnabled false     // Can be "true" on Android-N (AOS 7.0+ / API 24)
+            v2SigningEnabled false     // Can be "true" on Android-N (AOS 7.0+ / API 24)
             // }
             // catch (ex) {
             //     throw new InvalidUserDataException("Signing Exception: Check your credentials in the keystoreProperties file.")

@@ -1,0 +1,71 @@
+
+#============================================================================
+# ChangeLog for SnoopSnitch xLite
+#============================================================================
+This is the source-code version of our change log. Ultimately this should
+be an exact copy of the GitHub Wiki entry named: ChangeLog.md. 
+Until then...
+
+The format is: 
+
+-----------------------------------------------------------------------
+Date: 			versionName (versionCode):	APK Name: 
+-----------------------------------------------------------------------
+
+
+-----------------------------------------------------------------------
+2017-04-06		2.0.0406 (1)				zzsnsn_0406a.apk
+-----------------------------------------------------------------------
+
+This is a major refactoring of the previous release (1.0.1) from
+December 2015. Not only is this entirely based and buildt on Gradle in
+Android Studio, but a huge number of bugs have been resoved and the
+minimum API has  been pushed up, and improved compatibility with the
+latest AOS API's.  In addition, since S.R.Labs are have put the
+updates on hold and no  longer actively maintain SnoopSnitch. A
+private developer has forked  and decided to excercise the apps FOSS
+status to be able to continue  to provide the community with regular
+updates. As this endaveor is  privately sponsored, the app is
+available for a small fee on Google  Play store, but freely available
+for forking and buiding on yur own.
+
+As many improvements was made internally at SRLabs several months ago, 
+there are many changes which has been forgotten and therefore not 
+mentioned below.
+
+New Improvements: 
+
+- Migrated all builds to Gradle and Android Studio
+- AOS 6.0+ native compatibility
+- AOS 6.0+ permissions and storage compatible
+- Kernel 3.10+ diag_helper baseband compatible
+- Alarm and vibration on event detection  
+- Alarm and vibration on lost baseband
+- Improved settings menu layout and descriptions
+- Improved Detailed Test descriptions and explnantion
+- Graceful Airplane Mode handling
+- Updated "About" items with phone OS/baseband detials 
+- Updated "_debug_" items with phone OS/baseband details
+- Many text adjustments: clarifications, grammatics, spelling, additions
+- Improved logcat and several other logs by using consistent TAGs
+- Prevent installation on non-compatible devices
+- Enabled move app to SD card
+
+Resolved (SRLabs Redmine) Bugs and Tasks:
+
+- #2068	 Saving PCAP trace files to internal or external SDcard
+- #2003  Error when submitting feedback with no e-mail
+- #2001  Crash on 'Network' button
+- #1538	 Network is displayed as "unknown" when on LTE
+- #1517  Network info truncated and no scrollbar  
+- #1514  SnoopSnitch does not work on low resolution phone
+- #1480  No notification displayed on Android 5
+- #2050  Catcher false positives at call setup?
+- #2042  SnoopSnitch: Improve the text descriptions in active test
+- #2039  SnoopSnitch: Add info text of what AP/BP
+- #2031  SnoopSnitch: Problematic Qulacomm phones
+- #2027  Google Play Warning: vulnerable OpenSSL library in latest app
+- #2000  Allow multiple test runs
+- #1570  Allow moving the App to SD card
+
+
