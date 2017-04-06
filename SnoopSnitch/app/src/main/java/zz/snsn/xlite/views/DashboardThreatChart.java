@@ -1,18 +1,17 @@
-package de.srlabs.snoopsnitch.views;
+package zz.snsn.xlite.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
-import de.srlabs.snoopsnitch.R;
-import de.srlabs.snoopsnitch.DashboardActivity;
-import de.srlabs.snoopsnitch.util.MSDServiceHelperCreator;
+import zz.snsn.xlite.R;
+import zz.snsn.xlite.DashboardActivity;
+import zz.snsn.xlite.util.MSDServiceHelperCreator;
 
 public class DashboardThreatChart extends View {
 	// Attributes

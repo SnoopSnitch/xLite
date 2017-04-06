@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.views;
+package zz.snsn.xlite.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.support.v4.content.ContextCompat;
 
-import de.srlabs.snoopsnitch.R;
-import de.srlabs.snoopsnitch.DetailChartActivity;
-import de.srlabs.snoopsnitch.util.MSDServiceHelperCreator;
+import zz.snsn.xlite.R;
+import zz.snsn.xlite.DetailChartActivity;
+import zz.snsn.xlite.util.MSDServiceHelperCreator;
 
 public class DetailThreatChart extends View {
 	int _timePeriod;

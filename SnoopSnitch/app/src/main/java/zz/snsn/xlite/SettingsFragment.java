@@ -1,9 +1,8 @@
-package de.srlabs.snoopsnitch;
+package zz.snsn.xlite;
 
-import de.srlabs.snoopsnitch.R;
-import de.srlabs.snoopsnitch.qdmon.MsdServiceHelper;
-import de.srlabs.snoopsnitch.util.MsdConfig;
-import de.srlabs.snoopsnitch.util.MSDServiceHelperCreator;
+import zz.snsn.xlite.qdmon.MsdServiceHelper;
+import zz.snsn.xlite.util.MsdConfig;
+import zz.snsn.xlite.util.MSDServiceHelperCreator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;

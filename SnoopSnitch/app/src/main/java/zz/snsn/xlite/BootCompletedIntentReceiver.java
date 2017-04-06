@@ -1,7 +1,7 @@
-package de.srlabs.snoopsnitch;
+package zz.snsn.xlite;
 
-import de.srlabs.snoopsnitch.qdmon.MsdService;
-import de.srlabs.snoopsnitch.util.MsdConfig;
+import zz.snsn.xlite.qdmon.MsdService;
+import zz.snsn.xlite.util.MsdConfig;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

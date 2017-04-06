@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch;
+package zz.snsn.xlite;
 
 import org.junit.Test;
 

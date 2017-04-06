@@ -1,12 +1,9 @@
-package de.srlabs.snoopsnitch;
+package zz.snsn.xlite;
 
 import android.os.Bundle;
-import android.view.Menu;
 import android.widget.TextView;
 
-import de.srlabs.snoopsnitch.R;
-import de.srlabs.snoopsnitch.BuildConfig;
-import de.srlabs.snoopsnitch.util.MsdLog;
+import zz.snsn.xlite.util.MsdLog;
 
 /**
  *  Display content of the About screen

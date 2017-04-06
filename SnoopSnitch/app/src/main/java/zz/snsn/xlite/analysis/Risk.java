@@ -1,8 +1,8 @@
-package de.srlabs.snoopsnitch.analysis;
+package zz.snsn.xlite.analysis;
 
 import java.util.Vector;
 
-import de.srlabs.snoopsnitch.qdmon.Operator;
+import zz.snsn.xlite.qdmon.Operator;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

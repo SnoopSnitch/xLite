@@ -1,6 +1,6 @@
-package de.srlabs.snoopsnitch.qdmon;
+package zz.snsn.xlite.qdmon;
 
-import de.srlabs.snoopsnitch.qdmon.IMsdServiceCallback;
+import zz.snsn.xlite.qdmon.IMsdServiceCallback;
 
 interface IMsdService {
 	// Recording

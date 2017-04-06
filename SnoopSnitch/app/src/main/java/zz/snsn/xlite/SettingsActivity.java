@@ -1,11 +1,10 @@
-package de.srlabs.snoopsnitch;
+package zz.snsn.xlite;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import de.srlabs.snoopsnitch.R;
-import de.srlabs.snoopsnitch.util.MsdConfig;
-import de.srlabs.snoopsnitch.util.Utils;
+
+import zz.snsn.xlite.util.MsdConfig;
+import zz.snsn.xlite.util.Utils;
 
 public class SettingsActivity extends PreferenceActivity
 {	

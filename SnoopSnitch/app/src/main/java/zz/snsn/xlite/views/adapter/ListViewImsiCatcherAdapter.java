@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.views.adapter;
+package zz.snsn.xlite.views.adapter;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -20,11 +20,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import de.srlabs.snoopsnitch.EncryptedFileWriterError;
-import de.srlabs.snoopsnitch.R;
-import de.srlabs.snoopsnitch.DetailChartActivity;
-import de.srlabs.snoopsnitch.analysis.ImsiCatcher;
-import de.srlabs.snoopsnitch.util.MsdDialog;
+import zz.snsn.xlite.EncryptedFileWriterError;
+import zz.snsn.xlite.R;
+import zz.snsn.xlite.DetailChartActivity;
+import zz.snsn.xlite.analysis.ImsiCatcher;
+import zz.snsn.xlite.util.MsdDialog;
 
 public class ListViewImsiCatcherAdapter extends ArrayAdapter<ImsiCatcher> {
 

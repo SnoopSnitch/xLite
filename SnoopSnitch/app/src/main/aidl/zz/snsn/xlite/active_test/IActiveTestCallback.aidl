@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.active_test;
+package zz.snsn.xlite.active_test;
 
 interface IActiveTestCallback {
 	void testResultsChanged(in Bundle b);

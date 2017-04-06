@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch;
+package zz.snsn.xlite;
 
 import java.io.File;
 
@@ -11,14 +11,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 
-import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
-import de.srlabs.snoopsnitch.qdmon.MsdServiceCallback;
-import de.srlabs.snoopsnitch.qdmon.MsdServiceHelper;
-import de.srlabs.snoopsnitch.qdmon.StateChangedReason;
-import de.srlabs.snoopsnitch.upload.DumpFile;
-import de.srlabs.snoopsnitch.util.Constants;
-import de.srlabs.snoopsnitch.util.MsdDatabaseManager;
-import de.srlabs.snoopsnitch.util.MsdDialog;
+import zz.snsn.xlite.qdmon.MsdSQLiteOpenHelper;
+import zz.snsn.xlite.qdmon.MsdServiceCallback;
+import zz.snsn.xlite.qdmon.MsdServiceHelper;
+import zz.snsn.xlite.qdmon.StateChangedReason;
+import zz.snsn.xlite.upload.DumpFile;
+import zz.snsn.xlite.util.Constants;
+import zz.snsn.xlite.util.MsdDatabaseManager;
+import zz.snsn.xlite.util.MsdDialog;
 
 /**
  * This Activity can be opened from an Android Notification after a fatal error

@@ -1,11 +1,11 @@
-package de.srlabs.snoopsnitch.views.adapter;
+package zz.snsn.xlite.views.adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import de.srlabs.snoopsnitch.R;
-import de.srlabs.snoopsnitch.views.ChartSlidePageFragment;
+import zz.snsn.xlite.R;
+import zz.snsn.xlite.views.ChartSlidePageFragment;
 
 public class DetailChartGalleryAdapter extends FragmentStatePagerAdapter
 {

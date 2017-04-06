@@ -1,6 +1,6 @@
-package de.srlabs.snoopsnitch.active_test;
+package zz.snsn.xlite.active_test;
 
-import de.srlabs.snoopsnitch.active_test.IActiveTestCallback;
+import zz.snsn.xlite.active_test.IActiveTestCallback;
 
 interface IActiveTestService {
 	void registerCallback(IActiveTestCallback callback);

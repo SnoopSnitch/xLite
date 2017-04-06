@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch;
+package zz.snsn.xlite;
 
 import android.Manifest;
 import android.app.Activity;
@@ -24,11 +24,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
-import de.srlabs.snoopsnitch.util.DeviceCompatibilityChecker;
-import de.srlabs.snoopsnitch.util.MsdConfig;
-import de.srlabs.snoopsnitch.util.MsdDialog;
-import de.srlabs.snoopsnitch.util.Utils;
+import zz.snsn.xlite.qdmon.MsdSQLiteOpenHelper;
+import zz.snsn.xlite.util.DeviceCompatibilityChecker;
+import zz.snsn.xlite.util.MsdConfig;
+import zz.snsn.xlite.util.MsdDialog;
+import zz.snsn.xlite.util.Utils;
 
 //import permissions.dispatcher.NeedsPermission;
 //import permissions.dispatcher.RuntimePermissions;
@@ -342,7 +342,7 @@ public class StartupActivity extends Activity {
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
                         //  permissionsclass.requestPermission(type,code);
                         startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                                Uri.parse("package:de.srlabs.snoopsnitch")));
+                                Uri.parse("package:zz.snsn.xlite")));
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

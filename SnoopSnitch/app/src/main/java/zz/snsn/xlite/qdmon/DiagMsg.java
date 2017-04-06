@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.qdmon;
+package zz.snsn.xlite.qdmon;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

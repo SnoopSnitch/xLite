@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch;
+package zz.snsn.xlite;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,11 +12,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 
-import de.srlabs.snoopsnitch.active_test.ActiveTestCallback;
-import de.srlabs.snoopsnitch.active_test.ActiveTestHelper;
-import de.srlabs.snoopsnitch.active_test.ActiveTestResults;
-import de.srlabs.snoopsnitch.util.MsdLog;
-import de.srlabs.snoopsnitch.util.Utils;
+import zz.snsn.xlite.active_test.ActiveTestCallback;
+import zz.snsn.xlite.active_test.ActiveTestHelper;
+import zz.snsn.xlite.active_test.ActiveTestResults;
+import zz.snsn.xlite.util.MsdLog;
+import zz.snsn.xlite.util.Utils;
 
 public class ActiveTestAdvanced extends BaseActivity{
 

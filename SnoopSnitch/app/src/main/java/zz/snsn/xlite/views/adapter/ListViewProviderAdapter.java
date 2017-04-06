@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.views.adapter;
+package zz.snsn.xlite.views.adapter;
 
 import java.util.Collections;
 import java.util.Vector;
@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import de.srlabs.snoopsnitch.R;
-import de.srlabs.snoopsnitch.analysis.Risk;
-import de.srlabs.snoopsnitch.util.MSDServiceHelperCreator;
-import de.srlabs.snoopsnitch.views.DashboardProviderList;
+import zz.snsn.xlite.R;
+import zz.snsn.xlite.analysis.Risk;
+import zz.snsn.xlite.util.MSDServiceHelperCreator;
+import zz.snsn.xlite.views.DashboardProviderList;
 
 public class ListViewProviderAdapter extends ArrayAdapter<Risk> {
     private Context context;

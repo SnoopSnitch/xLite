@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.upload;
+package zz.snsn.xlite.upload;
 
 public enum FileState {
 	STATE_INVALID,

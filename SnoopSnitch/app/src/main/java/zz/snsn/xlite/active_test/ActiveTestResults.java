@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.active_test;
+package zz.snsn.xlite.active_test;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -10,9 +10,9 @@ import java.util.Vector;
 import android.content.Context;
 import android.telephony.TelephonyManager;
 
-import de.srlabs.snoopsnitch.R;
-import de.srlabs.snoopsnitch.util.MsdLog;
-import de.srlabs.snoopsnitch.util.Utils;
+import zz.snsn.xlite.R;
+import zz.snsn.xlite.util.MsdLog;
+import zz.snsn.xlite.util.Utils;
 
 public class ActiveTestResults implements Serializable {
 

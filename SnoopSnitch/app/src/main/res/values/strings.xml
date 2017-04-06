@@ -2,7 +2,7 @@
 <resources>
     
     <!-- General -->
-	<string name="app_name">SnoopSnitch</string>
+	<string name="app_name">SnoopSnitch xLite</string>
     <string name="common_events">Events</string>
     <string name="common_silent_sms">Silent SMS</string>
     <string name="common_binary_sms">Binary SMS</string>
@@ -11,7 +11,7 @@
     <string name="common_3g_title">3G</string>
     
     <!-- Action Bar Titles -->
-    <string name="actionBar_title">SnoopSnitch</string>
+    <string name="actionBar_title">SnoopSnitch xLite</string>
     <string name="actionBar_subTitle">App ID:</string>
    	
    	<!-- Action Bar Buttons -->
@@ -408,7 +408,7 @@
     <!-- ToDo: Current implementation of text views does not recognize <b>,<i> and <u> XML tags! -->
 
     <string name="copyright_text">
-    Copyright &#169; 2014, 2015, 2016  Security Research Labs
+    Copyright &#169; 2014-2017  Security Research Labs
 
     \n\nThis program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

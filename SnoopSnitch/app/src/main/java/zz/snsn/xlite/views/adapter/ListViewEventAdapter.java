@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.views.adapter;
+package zz.snsn.xlite.views.adapter;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -17,11 +17,11 @@ import android.widget.Filterable;
 import android.widget.TextView;
 import android.support.v4.content.ContextCompat;
 
-import de.srlabs.snoopsnitch.R;
-import de.srlabs.snoopsnitch.DetailChartActivity;
-import de.srlabs.snoopsnitch.analysis.Event;
-import de.srlabs.snoopsnitch.analysis.Event.Type;
-import de.srlabs.snoopsnitch.util.MsdDialog;
+import zz.snsn.xlite.R;
+import zz.snsn.xlite.DetailChartActivity;
+import zz.snsn.xlite.analysis.Event;
+import zz.snsn.xlite.analysis.Event.Type;
+import zz.snsn.xlite.util.MsdDialog;
 
 public class ListViewEventAdapter extends ArrayAdapter<Event> implements Filterable {
 	// Attributes

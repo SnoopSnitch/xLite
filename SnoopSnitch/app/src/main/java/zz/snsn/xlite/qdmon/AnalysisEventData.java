@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.qdmon;
+package zz.snsn.xlite.qdmon;
 
 import java.util.Vector;
 
@@ -6,14 +6,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.telephony.TelephonyManager;
-import de.srlabs.snoopsnitch.analysis.Event;
-import de.srlabs.snoopsnitch.analysis.GSMmap;
-import de.srlabs.snoopsnitch.analysis.ImsiCatcher;
-import de.srlabs.snoopsnitch.analysis.RAT;
-import de.srlabs.snoopsnitch.analysis.Risk;
-import de.srlabs.snoopsnitch.analysis.Event.Type;
-import de.srlabs.snoopsnitch.util.MsdDatabaseManager;
-import de.srlabs.snoopsnitch.util.Utils;
+import zz.snsn.xlite.analysis.Event;
+import zz.snsn.xlite.analysis.GSMmap;
+import zz.snsn.xlite.analysis.ImsiCatcher;
+import zz.snsn.xlite.analysis.RAT;
+import zz.snsn.xlite.analysis.Risk;
+import zz.snsn.xlite.analysis.Event.Type;
+import zz.snsn.xlite.util.MsdDatabaseManager;
+import zz.snsn.xlite.util.Utils;
 
 public class AnalysisEventData implements AnalysisEventDataInterface{
 	private SQLiteDatabase db;

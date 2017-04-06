@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.analysis;
+package zz.snsn.xlite.analysis;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -7,8 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
-import de.srlabs.snoopsnitch.util.MsdDatabaseManager;
+import zz.snsn.xlite.qdmon.MsdSQLiteOpenHelper;
+import zz.snsn.xlite.util.MsdDatabaseManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;

@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.upload;
+package zz.snsn.xlite.upload;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -12,8 +12,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import de.srlabs.snoopsnitch.util.MsdLog;
-import de.srlabs.snoopsnitch.util.Utils;
+import zz.snsn.xlite.util.MsdLog;
+import zz.snsn.xlite.util.Utils;
 
 /**
  * This class provides some manual object relational mapping to entries of the database table files.

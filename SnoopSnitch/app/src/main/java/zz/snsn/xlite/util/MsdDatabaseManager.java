@@ -1,9 +1,9 @@
-package de.srlabs.snoopsnitch.util;
+package zz.snsn.xlite.util;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 import android.database.sqlite.SQLiteDatabase;
-import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
+import zz.snsn.xlite.qdmon.MsdSQLiteOpenHelper;
 
 // Class for concurrent database access.
 // https://web.archive.org/web/20160112020818/http://www.dmytrodanylyk.com/pages/blog/concurrent-database.html

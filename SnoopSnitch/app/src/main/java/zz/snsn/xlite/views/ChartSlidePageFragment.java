@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.views;
+package zz.snsn.xlite.views;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import de.srlabs.snoopsnitch.R;
-import de.srlabs.snoopsnitch.util.TimeSpace;
+import zz.snsn.xlite.R;
+import zz.snsn.xlite.util.TimeSpace;
 
 public class ChartSlidePageFragment extends Fragment 
 {

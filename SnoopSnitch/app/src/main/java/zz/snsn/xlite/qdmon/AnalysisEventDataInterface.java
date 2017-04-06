@@ -1,11 +1,11 @@
-package de.srlabs.snoopsnitch.qdmon;
+package zz.snsn.xlite.qdmon;
 
 import java.util.Vector;
 
-import de.srlabs.snoopsnitch.analysis.Event;
-import de.srlabs.snoopsnitch.analysis.ImsiCatcher;
-import de.srlabs.snoopsnitch.analysis.RAT;
-import de.srlabs.snoopsnitch.analysis.Risk;
+import zz.snsn.xlite.analysis.Event;
+import zz.snsn.xlite.analysis.ImsiCatcher;
+import zz.snsn.xlite.analysis.RAT;
+import zz.snsn.xlite.analysis.Risk;
 
 public interface AnalysisEventDataInterface {
 	public Event getEvent(long id);

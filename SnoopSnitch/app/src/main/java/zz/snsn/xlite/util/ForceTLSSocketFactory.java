@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.util;
+package zz.snsn.xlite.util;
 
 import java.io.IOException;
 import java.io.InputStream;

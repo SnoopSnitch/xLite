@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.upload;
+package zz.snsn.xlite.upload;
 
 import java.io.Serializable;
 import java.util.Vector;

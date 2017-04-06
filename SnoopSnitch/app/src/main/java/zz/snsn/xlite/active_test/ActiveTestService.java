@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.active_test;
+package zz.snsn.xlite.active_test;
 
 import java.lang.reflect.Method;
 import java.util.Calendar;
@@ -12,7 +12,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -21,29 +20,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
-import android.telephony.CellLocation;
 import android.telephony.PhoneStateListener;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
-import android.telephony.cdma.CdmaCellLocation;
-import android.telephony.gsm.GsmCellLocation;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.internal.telephony.ITelephony;
 
-import de.srlabs.snoopsnitch.active_test.ActiveTestResults.SingleTestState;
-import de.srlabs.snoopsnitch.analysis.GSMmap;
-import de.srlabs.snoopsnitch.qdmon.MsdServiceHelper;
-import de.srlabs.snoopsnitch.qdmon.Operator;
-import de.srlabs.snoopsnitch.util.Constants;
-import de.srlabs.snoopsnitch.util.MSDServiceHelperCreator;
-import de.srlabs.snoopsnitch.util.MsdConfig;
-import de.srlabs.snoopsnitch.util.MsdDialog;
-import de.srlabs.snoopsnitch.util.MsdLog;
-import de.srlabs.snoopsnitch.util.Utils;
+import zz.snsn.xlite.active_test.ActiveTestResults.SingleTestState;
+import zz.snsn.xlite.analysis.GSMmap;
+import zz.snsn.xlite.qdmon.MsdServiceHelper;
+import zz.snsn.xlite.qdmon.Operator;
+import zz.snsn.xlite.util.Constants;
+import zz.snsn.xlite.util.MSDServiceHelperCreator;
+import zz.snsn.xlite.util.MsdConfig;
+import zz.snsn.xlite.util.MsdLog;
+import zz.snsn.xlite.util.Utils;
 
 public class ActiveTestService extends Service{
 

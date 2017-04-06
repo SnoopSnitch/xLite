@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.qdmon;
+package zz.snsn.xlite.qdmon;
 
 public enum StateChangedReason{
 	RECORDING_STATE_CHANGED,

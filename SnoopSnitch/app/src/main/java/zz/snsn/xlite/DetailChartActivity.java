@@ -1,10 +1,8 @@
-package de.srlabs.snoopsnitch;
+package zz.snsn.xlite;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,14 +14,13 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import de.srlabs.snoopsnitch.R;
-import de.srlabs.snoopsnitch.analysis.Event;
-import de.srlabs.snoopsnitch.analysis.Event.Type;
-import de.srlabs.snoopsnitch.qdmon.StateChangedReason;
-import de.srlabs.snoopsnitch.util.TimeSpace;
-import de.srlabs.snoopsnitch.views.adapter.DetailChartGalleryAdapter;
-import de.srlabs.snoopsnitch.views.adapter.ListViewEventAdapter;
-import de.srlabs.snoopsnitch.views.adapter.ListViewImsiCatcherAdapter;
+import zz.snsn.xlite.analysis.Event;
+import zz.snsn.xlite.analysis.Event.Type;
+import zz.snsn.xlite.qdmon.StateChangedReason;
+import zz.snsn.xlite.util.TimeSpace;
+import zz.snsn.xlite.views.adapter.DetailChartGalleryAdapter;
+import zz.snsn.xlite.views.adapter.ListViewEventAdapter;
+import zz.snsn.xlite.views.adapter.ListViewImsiCatcherAdapter;
 
 public class DetailChartActivity extends BaseActivity {
 	// Attributes

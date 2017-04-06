@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.qdmon;
+package zz.snsn.xlite.qdmon;
 
 import android.content.Context;
 import android.telephony.TelephonyManager;

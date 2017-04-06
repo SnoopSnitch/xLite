@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch;
+package zz.snsn.xlite;
 
 import java.util.Vector;
 
@@ -11,12 +11,12 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 
-import de.srlabs.snoopsnitch.analysis.Event;
-import de.srlabs.snoopsnitch.analysis.ImsiCatcher;
-import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
-import de.srlabs.snoopsnitch.upload.FileState;
-import de.srlabs.snoopsnitch.util.MsdDatabaseManager;
-import de.srlabs.snoopsnitch.util.MsdDialog;
+import zz.snsn.xlite.analysis.Event;
+import zz.snsn.xlite.analysis.ImsiCatcher;
+import zz.snsn.xlite.qdmon.MsdSQLiteOpenHelper;
+import zz.snsn.xlite.upload.FileState;
+import zz.snsn.xlite.util.MsdDatabaseManager;
+import zz.snsn.xlite.util.MsdDialog;
 
 
 public class EnableAutoUploadModeActivity extends BaseActivity
@@ -57,8 +57,8 @@ public class EnableAutoUploadModeActivity extends BaseActivity
 
 	private void enableAutoUploadMode() {
 		// ToDo: Fix deprecated use: See MsdConfig.java
-		//SharedPreferences sharedPrefs = this.getSharedPreferences("de.srlabs.snoopsnitch_preferences", Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);;
-		SharedPreferences sharedPrefs = this.getSharedPreferences("de.srlabs.snoopsnitch_preferences", Context.MODE_PRIVATE);
+		//SharedPreferences sharedPrefs = this.getSharedPreferences("zz.snsn.xlite_preferences", Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);;
+		SharedPreferences sharedPrefs = this.getSharedPreferences("zz.snsn.xlite_preferences", Context.MODE_PRIVATE);
 		Editor editor = sharedPrefs.edit();
 		editor.putBoolean("settings_auto_upload_mode", true);
 		editor.commit();

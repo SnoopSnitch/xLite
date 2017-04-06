@@ -1,16 +1,15 @@
-package de.srlabs.snoopsnitch.views;
+package zz.snsn.xlite.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import android.support.v4.content.ContextCompat;
-import android.support.v4.app.ActivityCompat;
 //import android.support.v4.R;
 
 import android.util.AttributeSet;
 import android.view.View;
-import de.srlabs.snoopsnitch.R;
+import zz.snsn.xlite.R;
 
 public class DashboardProviderList extends View {
 	private Canvas canvas;

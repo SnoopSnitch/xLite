@@ -1,10 +1,10 @@
-package de.srlabs.snoopsnitch.analysis;
+package zz.snsn.xlite.analysis;
 
 import java.util.Vector;
 
 import android.database.sqlite.SQLiteDatabase;
-import de.srlabs.snoopsnitch.upload.DumpFile;
-import de.srlabs.snoopsnitch.upload.FileState;
+import zz.snsn.xlite.upload.DumpFile;
+import zz.snsn.xlite.upload.FileState;
 
 public interface AnalysisEvent {
 	public static final int STATE_AVAILABLE = 0;

@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.active_test;
+package zz.snsn.xlite.active_test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -13,10 +13,10 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-import de.srlabs.snoopsnitch.util.Constants;
-import de.srlabs.snoopsnitch.util.MsdConfig;
-import de.srlabs.snoopsnitch.util.MsdLog;
-import de.srlabs.snoopsnitch.util.Utils;
+import zz.snsn.xlite.util.Constants;
+import zz.snsn.xlite.util.MsdConfig;
+import zz.snsn.xlite.util.MsdLog;
+import zz.snsn.xlite.util.Utils;
 
 public abstract class ApiCall extends Thread {
 	private static final String TAG = "msd-active-test-service-api";

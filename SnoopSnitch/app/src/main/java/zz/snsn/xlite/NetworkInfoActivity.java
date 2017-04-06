@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch;
+package zz.snsn.xlite;
 
 import java.text.DateFormat;
 
@@ -11,8 +11,8 @@ import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.TextView;
 
-import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
-import de.srlabs.snoopsnitch.util.MsdDatabaseManager;
+import zz.snsn.xlite.qdmon.MsdSQLiteOpenHelper;
+import zz.snsn.xlite.util.MsdDatabaseManager;
 
 
 public class NetworkInfoActivity extends BaseActivity {

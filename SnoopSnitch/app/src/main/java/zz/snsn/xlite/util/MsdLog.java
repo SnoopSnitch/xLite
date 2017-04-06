@@ -1,8 +1,7 @@
-package de.srlabs.snoopsnitch.util;
+package zz.snsn.xlite.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import java.text.SimpleDateFormat;
@@ -11,13 +10,12 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.os.Build;
-import android.provider.Settings;
 import android.util.Log;
 
-import de.srlabs.snoopsnitch.BuildConfig;
-import de.srlabs.snoopsnitch.EncryptedFileWriterError;
-import de.srlabs.snoopsnitch.qdmon.MsdService;
-import de.srlabs.snoopsnitch.qdmon.MsdServiceHelper;
+import zz.snsn.xlite.BuildConfig;
+import zz.snsn.xlite.EncryptedFileWriterError;
+import zz.snsn.xlite.qdmon.MsdService;
+import zz.snsn.xlite.qdmon.MsdServiceHelper;
 
 public class MsdLog {
 

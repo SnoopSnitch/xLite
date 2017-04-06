@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.qdmon;
+package zz.snsn.xlite.qdmon;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -69,19 +69,19 @@ import android.telephony.gsm.GsmCellLocation;
 import android.text.TextUtils;
 import android.util.Log;
 
-import de.srlabs.snoopsnitch.EncryptedFileWriterError;
-import de.srlabs.snoopsnitch.analysis.Event;
-import de.srlabs.snoopsnitch.analysis.GSMmap;
-import de.srlabs.snoopsnitch.analysis.ImsiCatcher;
-import de.srlabs.snoopsnitch.upload.DumpFile;
-import de.srlabs.snoopsnitch.upload.FileState;
-import de.srlabs.snoopsnitch.upload.MsdServiceUploadThread;
-import de.srlabs.snoopsnitch.util.Constants;
-import de.srlabs.snoopsnitch.util.DeviceCompatibilityChecker;
-import de.srlabs.snoopsnitch.util.MsdConfig;
-import de.srlabs.snoopsnitch.util.MsdDatabaseManager;
-import de.srlabs.snoopsnitch.util.MsdLog;
-import de.srlabs.snoopsnitch.util.Utils;
+import zz.snsn.xlite.EncryptedFileWriterError;
+import zz.snsn.xlite.analysis.Event;
+import zz.snsn.xlite.analysis.GSMmap;
+import zz.snsn.xlite.analysis.ImsiCatcher;
+import zz.snsn.xlite.upload.DumpFile;
+import zz.snsn.xlite.upload.FileState;
+import zz.snsn.xlite.upload.MsdServiceUploadThread;
+import zz.snsn.xlite.util.Constants;
+import zz.snsn.xlite.util.DeviceCompatibilityChecker;
+import zz.snsn.xlite.util.MsdConfig;
+import zz.snsn.xlite.util.MsdDatabaseManager;
+import zz.snsn.xlite.util.MsdLog;
+import zz.snsn.xlite.util.Utils;
 
 public class MsdService extends Service {
 

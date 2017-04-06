@@ -1,6 +1,5 @@
-package de.srlabs.snoopsnitch.active_test;
+package zz.snsn.xlite.active_test;
 
-import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +7,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
-import de.srlabs.snoopsnitch.util.Constants;
-import de.srlabs.snoopsnitch.util.MsdLog;
+import zz.snsn.xlite.util.Constants;
+import zz.snsn.xlite.util.MsdLog;
 
 /**
  * @author Andreas Schildbach

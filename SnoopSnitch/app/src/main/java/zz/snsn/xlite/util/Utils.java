@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.util;
+package zz.snsn.xlite.util;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -39,14 +39,13 @@ import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
-import de.srlabs.snoopsnitch.EncryptedFileWriterError;
-import de.srlabs.snoopsnitch.R;
-import de.srlabs.snoopsnitch.StartupActivity;
-import de.srlabs.snoopsnitch.analysis.ImsiCatcher;
-import de.srlabs.snoopsnitch.BuildConfig;
-import de.srlabs.snoopsnitch.qdmon.EncryptedFileWriter;
-import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
-import de.srlabs.snoopsnitch.upload.DumpFile;
+import zz.snsn.xlite.EncryptedFileWriterError;
+import zz.snsn.xlite.R;
+import zz.snsn.xlite.analysis.ImsiCatcher;
+import zz.snsn.xlite.BuildConfig;
+import zz.snsn.xlite.qdmon.EncryptedFileWriter;
+import zz.snsn.xlite.qdmon.MsdSQLiteOpenHelper;
+import zz.snsn.xlite.upload.DumpFile;
 
 
 public class Utils {

@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.upload;
+package zz.snsn.xlite.upload;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,13 +12,13 @@ import javax.net.ssl.HttpsURLConnection;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
-import de.srlabs.snoopsnitch.qdmon.MsdService;
-import de.srlabs.snoopsnitch.util.Constants;
-import de.srlabs.snoopsnitch.util.MsdConfig;
-import de.srlabs.snoopsnitch.util.MsdDatabaseManager;
-import de.srlabs.snoopsnitch.util.MsdLog;
-import de.srlabs.snoopsnitch.util.Utils;
+import zz.snsn.xlite.qdmon.MsdSQLiteOpenHelper;
+import zz.snsn.xlite.qdmon.MsdService;
+import zz.snsn.xlite.util.Constants;
+import zz.snsn.xlite.util.MsdConfig;
+import zz.snsn.xlite.util.MsdDatabaseManager;
+import zz.snsn.xlite.util.MsdLog;
+import zz.snsn.xlite.util.Utils;
 
 public class MsdServiceUploadThread extends Thread {
 

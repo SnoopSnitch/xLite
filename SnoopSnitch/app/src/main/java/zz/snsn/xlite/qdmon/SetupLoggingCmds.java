@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.qdmon;
+package zz.snsn.xlite.qdmon;
 
 class SetupLoggingCmds {
 	static final byte[][] cmds = {

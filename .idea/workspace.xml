@@ -4,268 +4,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6975c2d7-b080-436d-acf4-941ad67b110c" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/assets/.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/assets/active_test_advanced.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/assets/active_test_advanced.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/assets/app_data.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/assets/keystore.bks" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/assets/local.sqlx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/assets/upgrade_18.sqlx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/build.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/custom_rules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/ic_launcher-web.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/jni/Android.mk" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/jni/Application.mk" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/jni/diag-helper.c" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/proguard-project.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/project.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-hdpi/bt_content_contributedata_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-hdpi/bt_content_contributedata_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-hdpi/graph_content_colorgradient_left.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-hdpi/graph_content_colorgradient_right.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-hdpi/ic_content_checkmark.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-hdpi/ic_content_imsi_event.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-hdpi/ic_content_imsi_ok.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-hdpi/ic_content_network.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-hdpi/ic_content_sms_event.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-hdpi/ic_content_sms_ok.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-hdpi/ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-hdpi/ic_menu_map_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-hdpi/ic_menu_map_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-hdpi/ic_menu_notrecord_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-hdpi/ic_menu_notrecord_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-hdpi/ic_menu_record_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-hdpi/ic_menu_record_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-ldpi/bt_content_contributedata_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-ldpi/bt_content_contributedata_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-ldpi/ic_content_checkmark.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-ldpi/ic_content_imsi_event.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-ldpi/ic_content_imsi_ok.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-ldpi/ic_content_network.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-ldpi/ic_content_sms_event.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-ldpi/ic_content_sms_ok.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-ldpi/ic_menu_map_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-ldpi/ic_menu_map_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-ldpi/ic_menu_notrecord_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-ldpi/ic_menu_notrecord_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-ldpi/ic_menu_record_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-ldpi/ic_menu_record_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-mdpi/bt_content_contributedata_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-mdpi/bt_content_contributedata_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-mdpi/graph_content_colorgradient_left.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-mdpi/graph_content_colorgradient_right.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-mdpi/ic_content_checkmark.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-mdpi/ic_content_imsi_event.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-mdpi/ic_content_imsi_ok.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-mdpi/ic_content_network.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-mdpi/ic_content_sms_event.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-mdpi/ic_content_sms_ok.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-mdpi/ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-mdpi/ic_menu_map_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-mdpi/ic_menu_map_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-mdpi/ic_menu_notrecord_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-mdpi/ic_menu_notrecord_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-mdpi/ic_menu_record_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-mdpi/ic_menu_record_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/bt_content_contributedata_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/bt_content_contributedata_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/graph_content_colorgradient_left.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/graph_content_colorgradient_right.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/ic_content_checkmark.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/ic_content_imsi_event.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/ic_content_imsi_ok.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/ic_content_network.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/ic_content_network_gray.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/ic_content_sms_event.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/ic_content_sms_ok.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/ic_menu_map_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/ic_menu_map_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/ic_menu_notrecord_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/ic_menu_notrecord_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/ic_menu_record_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xhdpi/ic_menu_record_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxhdpi/bt_content_contributedata_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxhdpi/bt_content_contributedata_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxhdpi/graph_content_colorgradient_left.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxhdpi/graph_content_colorgradient_right.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxhdpi/ic_content_checkmark.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxhdpi/ic_content_imsi_event.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxhdpi/ic_content_imsi_ok.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxhdpi/ic_content_network.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxhdpi/ic_content_sms_event.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxhdpi/ic_content_sms_ok.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxhdpi/ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxhdpi/ic_menu_map_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxhdpi/ic_menu_map_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxhdpi/ic_menu_notrecord_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxhdpi/ic_menu_notrecord_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxhdpi/ic_menu_record_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxhdpi/ic_menu_record_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxxhdpi/bt_content_contributedata_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxxhdpi/bt_content_contributedata_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxxhdpi/graph_content_colorgradient_left.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxxhdpi/graph_content_colorgradient_right.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxxhdpi/ic_content_checkmark.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxxhdpi/ic_content_imsi_event.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxxhdpi/ic_content_imsi_ok.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxxhdpi/ic_content_network.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxxhdpi/ic_content_sms_event.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxxhdpi/ic_content_sms_ok.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxxhdpi/ic_menu_map_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxxhdpi/ic_menu_map_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxxhdpi/ic_menu_notrecord_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxxhdpi/ic_menu_notrecord_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxxhdpi/ic_menu_record_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable-xxxhdpi/ic_menu_record_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable/bt_content_contributedata_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable/bt_content_contributedata_enable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable/custom_upload_button_background.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/drawable/custom_upload_button_color.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/activity_about.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/activity_active_test_advanced.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/activity_chart_detail.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/activity_dashboard.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/activity_local_map.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/activity_main.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/activity_map.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/activity_msd_service_helper_test.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/activity_network_info.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/activity_upload_debug.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/custom_message_popdown.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/custom_row_layout_imsicatcher.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/custom_row_layout_own_provider.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/custom_row_layout_provider.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/custom_row_layout_sms.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/fragment_chart_slide_page_day.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/fragment_chart_slide_page_hour.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/fragment_chart_slide_page_month.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/layout/fragment_chart_slide_page_week.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/menu/main.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values-de/arrays.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values-de/strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values-hdpi/dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values-ldpi/dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values-mdpi/dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values-nl/arrays.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values-nl/strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values-sw600dp/dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values-sw720dp-land/dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values-v11/styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values-v14/styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values-xhdpi/dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values-xxhdpi/dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values/arrays.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values/attrs.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values/colors.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values/dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values/strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values/styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/values/version.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/res/xml/preferences.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/com/android/internal/telephony/ITelephony.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/AboutActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/ActiveTestAdvanced.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/BaseActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/BootCompletedIntentReceiver.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/CrashUploadActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/DashboardActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/DetailChartActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/EnableAutoUploadModeActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/EncryptedFileWriterError.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/LocalMapActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/MapActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/MsdServiceHelperTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/NetworkInfoActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/SettingsActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/SettingsFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/StartupActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/UploadDebugActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/active_test/ActiveTestCallback.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/active_test/ActiveTestHelper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/active_test/ActiveTestResults.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/active_test/ActiveTestService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/active_test/ApiCall.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/active_test/IActiveTestCallback.aidl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/active_test/IActiveTestService.aidl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/active_test/SmsReceiver.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/active_test/TestType.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/analysis/AnalysisEvent.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/analysis/Event.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/analysis/GSMmap.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/analysis/ImsiCatcher.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/analysis/RAT.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/analysis/Risk.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/analysis/Score.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/qdmon/AnalysisEventData.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/qdmon/AnalysisEventDataInterface.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/qdmon/DiagMsg.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/qdmon/DisableLoggingCmds.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/qdmon/EncryptedFileWriter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/qdmon/IMsdService.aidl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/qdmon/IMsdServiceCallback.aidl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/qdmon/MsdSQLiteOpenHelper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/qdmon/MsdService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/qdmon/MsdServiceAnalysis.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/qdmon/MsdServiceCallback.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/qdmon/MsdServiceHelper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/qdmon/MsdServiceNotifications.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/qdmon/Operator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/qdmon/SetupLoggingCmds.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/qdmon/StateChangedReason.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/qdmon/TlsSniSocketFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/upload/DumpFile.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/upload/FileState.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/upload/MsdServiceUploadThread.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/upload/UploadState.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/util/Constants.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/util/DeviceCompatibilityChecker.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/util/ForceTLSSocketFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/util/MSDServiceHelperCreator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/util/MsdConfig.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/util/MsdDatabaseManager.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/util/MsdDialog.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/util/MsdLog.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/util/TimeSpace.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/util/Utils.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/views/ChartSlidePageFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/views/DashboardProviderChart.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/views/DashboardProviderList.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/views/DashboardThreatChart.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/views/DetailThreatChart.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/views/DetailThreatChartDay.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/views/DetailThreatChartHour.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/views/DetailThreatChartMonth.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/views/DetailThreatChartWeek.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/views/adapter/DetailChartGalleryAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/views/adapter/ListViewEventAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/views/adapter/ListViewImsiCatcherAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SnoopSnitch/src/de/srlabs/snoopsnitch/views/adapter/ListViewProviderAdapter.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/prebuilt/libasn1c.so" afterPath="$PROJECT_DIR$/contrib/prebuilt/libasn1c.so" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/prebuilt/libcompat.so" afterPath="$PROJECT_DIR$/contrib/prebuilt/libcompat.so" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/prebuilt/libdiag_import.so" afterPath="$PROJECT_DIR$/contrib/prebuilt/libdiag_import.so" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/prebuilt/libopenssl.so" afterPath="$PROJECT_DIR$/contrib/prebuilt/libopenssl.so" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/prebuilt/libosmo-asn1-rrc.so" afterPath="$PROJECT_DIR$/contrib/prebuilt/libosmo-asn1-rrc.so" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/prebuilt/libosmocore.so" afterPath="$PROJECT_DIR$/contrib/prebuilt/libosmocore.so" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/prebuilt/libosmogsm.so" afterPath="$PROJECT_DIR$/contrib/prebuilt/libosmogsm.so" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SnoopSnitch/.gitignore" afterPath="$PROJECT_DIR$/SnoopSnitch/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/compile.sh" afterPath="$PROJECT_DIR$/contrib/compile.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/libasn1c/configure.ac" afterPath="$PROJECT_DIR$/contrib/libasn1c/configure.ac" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/libasn1c/include/asn1c/asn_internal.h" afterPath="$PROJECT_DIR$/contrib/libasn1c/include/asn1c/asn_internal.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/libosmocore/include/osmocom/gsm/gsm0808.h" afterPath="$PROJECT_DIR$/contrib/libosmocore/include/osmocom/gsm/gsm0808.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/libosmocore/include/osmocom/gsm/gsm48.h" afterPath="$PROJECT_DIR$/contrib/libosmocore/include/osmocom/gsm/gsm48.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/libosmocore/include/osmocom/gsm/protocol/gsm_04_08.h" afterPath="$PROJECT_DIR$/contrib/libosmocore/include/osmocom/gsm/protocol/gsm_04_08.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/libosmocore/src/gsm/gsm0411_smc.c" afterPath="$PROJECT_DIR$/contrib/libosmocore/src/gsm/gsm0411_smc.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/libosmocore/src/gsm/gsm0808.c" afterPath="$PROJECT_DIR$/contrib/libosmocore/src/gsm/gsm0808.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/libosmocore/src/gsm/gsm48.c" afterPath="$PROJECT_DIR$/contrib/libosmocore/src/gsm/gsm48.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/libosmocore/src/gsm/gsm48_ie.c" afterPath="$PROJECT_DIR$/contrib/libosmocore/src/gsm/gsm48_ie.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/libosmocore/src/gsm/gsm_utils.c" afterPath="$PROJECT_DIR$/contrib/libosmocore/src/gsm/gsm_utils.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/libosmocore/src/macaddr.c" afterPath="$PROJECT_DIR$/contrib/libosmocore/src/macaddr.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/libosmocore/src/socket.c" afterPath="$PROJECT_DIR$/contrib/libosmocore/src/socket.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/contrib/scripts/compile_openssl.sh" afterPath="$PROJECT_DIR$/contrib/scripts/compile_openssl.sh" />
-    </list>
+    <list default="true" id="6975c2d7-b080-436d-acf4-941ad67b110c" name="Default" comment="" />
     <ignored path="snoopsnitch.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -275,7 +14,6 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
@@ -415,64 +153,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="AndroidView">
-        <subPane />
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="snoopsnitch" />
+              <option name="myItemId" value="xLite" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="snoopsnitch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="snoopsnitch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="snoopsnitch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="snoopsnitch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SnoopSnitch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="snoopsnitch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="snoopsnitch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SnoopSnitch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="AndroidView">
+        <subPane />
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -504,86 +200,23 @@
       <option name="PM_INSTALL_OPTIONS" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
-      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
       <option name="PREFERRED_AVD" value="" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
       <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="DEBUGGER_TYPE" value="Auto" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
       <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <Auto>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-      </Auto>
-      <Hybrid>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-      </Hybrid>
+      <option name="DEBUGGER_TYPE" value="Auto" />
       <Java />
-      <Native>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-      </Native>
       <Profilers>
         <option name="ENABLE_ADVANCED_PROFILING" value="false" />
-        <option name="GAPID_ENABLED" value="false" />
-        <option name="GAPID_DISABLE_PCS" value="false" />
         <option name="SUPPORT_LIB_ENABLED" value="true" />
         <option name="INSTRUMENTATION_ENABLED" value="true" />
       </Profilers>
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
-      <module name="" />
-      <option name="TESTING_TYPE" value="0" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="EXTRA_OPTIONS" value="" />
-      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="DEBUGGER_TYPE" value="Auto" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <Auto>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-      </Auto>
-      <Hybrid>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-      </Hybrid>
-      <Java />
-      <Native>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-      </Native>
-      <Profilers>
-        <option name="ENABLE_ADVANCED_PROFILING" value="true" />
-        <option name="GAPID_ENABLED" value="false" />
-        <option name="GAPID_DISABLE_PCS" value="false" />
-        <option name="SUPPORT_LIB_ENABLED" value="true" />
-        <option name="INSTRUMENTATION_ENABLED" value="true" />
-      </Profilers>
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -635,27 +268,6 @@
       <setting name="params" value="" />
       <setting name="workDir" value="file://$PROJECT_DIR$" />
       <setting name="debug" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
       <method />
     </configuration>
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
@@ -751,6 +363,50 @@
         <item index="0" class="java.lang.String" itemvalue="Groovy.build" />
       </list>
     </recent_temporary>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="EXTRA_OPTIONS" value="" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+      </Native>
+      <Profilers>
+        <option name="ENABLE_ADVANCED_PROFILING" value="true" />
+        <option name="GAPID_ENABLED" value="false" />
+        <option name="GAPID_DISABLE_PCS" value="false" />
+        <option name="SUPPORT_LIB_ENABLED" value="true" />
+        <option name="INSTRUMENTATION_ENABLED" value="true" />
+      </Profilers>
+      <method />
+    </configuration>
     <configuration name="&lt;template&gt;" type="Applet" default="true" selected="false">
       <option name="MAIN_CLASS_NAME" />
       <option name="HTML_FILE_NAME" />
@@ -791,36 +447,36 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="110" y="17" width="1400" height="880" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287858" sideWeight="0.49704143" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24283765" sideWeight="0.5029586" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24180327" sideWeight="0.5029586" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287858" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287858" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287858" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287858" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25369823" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24945454" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32988167" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -839,6 +495,54 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/contrib/compile.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/contrib/scripts/compile_openssl.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SnoopSnitch/copy.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SnoopSnitch/local.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SnoopSnitch/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SnoopSnitch/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/contrib/compile.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1785">
@@ -940,7 +644,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -948,7 +651,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -956,23 +658,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SnoopSnitch/Snoopsnitch.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/SnoopSnitch/Snoopsnitch.iml" />
     <entry file="file://$PROJECT_DIR$/contrib/README">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -980,7 +673,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1028,7 +720,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>

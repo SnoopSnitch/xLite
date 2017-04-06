@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.analysis;
+package zz.snsn.xlite.analysis;
 
 import java.util.Vector;
 
@@ -6,10 +6,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
-import de.srlabs.snoopsnitch.upload.DumpFile;
-import de.srlabs.snoopsnitch.upload.FileState;
-import de.srlabs.snoopsnitch.util.MsdDatabaseManager;
+import zz.snsn.xlite.qdmon.MsdSQLiteOpenHelper;
+import zz.snsn.xlite.upload.DumpFile;
+import zz.snsn.xlite.upload.FileState;
+import zz.snsn.xlite.util.MsdDatabaseManager;
 
 
 public class Event implements AnalysisEvent{

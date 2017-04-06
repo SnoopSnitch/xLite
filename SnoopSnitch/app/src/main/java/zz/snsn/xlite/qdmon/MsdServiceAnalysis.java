@@ -1,11 +1,11 @@
-package de.srlabs.snoopsnitch.qdmon;
+package zz.snsn.xlite.qdmon;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import de.srlabs.snoopsnitch.analysis.Risk;
+import zz.snsn.xlite.analysis.Risk;
 
 public class MsdServiceAnalysis {
 

@@ -1,16 +1,16 @@
-package de.srlabs.snoopsnitch.util;
+package zz.snsn.xlite.util;
 
 import java.util.Vector;
 
 import android.app.Activity;
 import android.content.Context;
-import de.srlabs.snoopsnitch.BaseActivity;
-import de.srlabs.snoopsnitch.analysis.AnalysisEvent;
-import de.srlabs.snoopsnitch.analysis.Event;
-import de.srlabs.snoopsnitch.qdmon.MsdServiceCallback;
-import de.srlabs.snoopsnitch.qdmon.MsdServiceHelper;
-import de.srlabs.snoopsnitch.qdmon.StateChangedReason;
-import de.srlabs.snoopsnitch.upload.FileState;
+import zz.snsn.xlite.BaseActivity;
+import zz.snsn.xlite.analysis.AnalysisEvent;
+import zz.snsn.xlite.analysis.Event;
+import zz.snsn.xlite.qdmon.MsdServiceCallback;
+import zz.snsn.xlite.qdmon.MsdServiceHelper;
+import zz.snsn.xlite.qdmon.StateChangedReason;
+import zz.snsn.xlite.upload.FileState;
 
 
 public class MSDServiceHelperCreator implements MsdServiceCallback

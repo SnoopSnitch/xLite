@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.qdmon;
+package zz.snsn.xlite.qdmon;
 
 import java.io.BufferedReader;
 import java.io.EOFException;
@@ -14,8 +14,8 @@ import android.os.PowerManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-import de.srlabs.snoopsnitch.util.MsdLog;
-import de.srlabs.snoopsnitch.EncryptedFileWriterError;
+import zz.snsn.xlite.util.MsdLog;
+import zz.snsn.xlite.EncryptedFileWriterError;
 
 public class EncryptedFileWriter{
 

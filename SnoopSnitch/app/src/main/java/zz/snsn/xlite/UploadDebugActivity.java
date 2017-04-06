@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch;
+package zz.snsn.xlite;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -14,14 +14,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import de.srlabs.snoopsnitch.BuildConfig;
-import de.srlabs.snoopsnitch.qdmon.EncryptedFileWriter;
-import de.srlabs.snoopsnitch.upload.DumpFile;
-import de.srlabs.snoopsnitch.util.MsdConfig;
-import de.srlabs.snoopsnitch.util.MsdDatabaseManager;
-import de.srlabs.snoopsnitch.util.MsdDialog;
-import de.srlabs.snoopsnitch.util.MsdLog;
-import de.srlabs.snoopsnitch.util.Utils;
+import zz.snsn.xlite.qdmon.EncryptedFileWriter;
+import zz.snsn.xlite.upload.DumpFile;
+import zz.snsn.xlite.util.MsdConfig;
+import zz.snsn.xlite.util.MsdDatabaseManager;
+import zz.snsn.xlite.util.MsdDialog;
+import zz.snsn.xlite.util.MsdLog;
+import zz.snsn.xlite.util.Utils;
 
 public class UploadDebugActivity extends BaseActivity {
 

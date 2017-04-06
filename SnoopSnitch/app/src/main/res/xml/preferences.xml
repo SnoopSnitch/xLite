@@ -216,7 +216,7 @@
             <EditTextPreference
                 android:visible="true"
                 android:enabled="false"
-                android:defaultValue="/data/user/0/de.srlabs.snoopsnitch/files/pcaps/"
+                android:defaultValue="/data/user/0/zz.snsn.xlite/files/pcaps/"
                 android:dependency="settings_enable_pcap_recording"
                 android:key="settings_pcap_file_path"
                 android:summary="@string/settings_pcap_file_path_summary"

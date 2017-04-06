@@ -1,10 +1,9 @@
-package de.srlabs.snoopsnitch.views;
+package zz.snsn.xlite.views;
 
 import java.util.Collections;
 import java.util.Vector;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,15 +13,14 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.Shader.TileMode;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 
-import de.srlabs.snoopsnitch.R;
-import de.srlabs.snoopsnitch.analysis.Risk;
-import de.srlabs.snoopsnitch.util.MSDServiceHelperCreator;
+import zz.snsn.xlite.R;
+import zz.snsn.xlite.analysis.Risk;
+import zz.snsn.xlite.util.MSDServiceHelperCreator;
 
 public class DashboardProviderChart extends View {
 

@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.qdmon;
+package zz.snsn.xlite.qdmon;
 
 import java.io.IOException;
 
@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.PowerManager;
 import android.util.Log;
 
-import de.srlabs.snoopsnitch.util.Utils;
+import zz.snsn.xlite.util.Utils;
 
 public class MsdSQLiteOpenHelper extends SQLiteOpenHelper {
 

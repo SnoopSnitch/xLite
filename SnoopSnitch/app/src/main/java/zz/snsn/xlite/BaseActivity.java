@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch;
+package zz.snsn.xlite;
 
 import android.app.ActionBar;
 import android.content.DialogInterface;
@@ -18,12 +18,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import de.srlabs.snoopsnitch.qdmon.StateChangedReason;
-import de.srlabs.snoopsnitch.util.MSDServiceHelperCreator;
-import de.srlabs.snoopsnitch.util.MsdConfig;
-import de.srlabs.snoopsnitch.util.MsdDialog;
-import de.srlabs.snoopsnitch.util.MsdLog;
-import de.srlabs.snoopsnitch.util.Utils;
+import zz.snsn.xlite.qdmon.StateChangedReason;
+import zz.snsn.xlite.util.MSDServiceHelperCreator;
+import zz.snsn.xlite.util.MsdConfig;
+import zz.snsn.xlite.util.MsdDialog;
+import zz.snsn.xlite.util.MsdLog;
+import zz.snsn.xlite.util.Utils;
 
 public abstract class BaseActivity extends FragmentActivity {
 

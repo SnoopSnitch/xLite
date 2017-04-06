@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.qdmon;
+package zz.snsn.xlite.qdmon;
 
 interface IMsdServiceCallback {
 	void stateChanged(String reason);

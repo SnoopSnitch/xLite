@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch;
+package zz.snsn.xlite;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -9,8 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Typeface;
-import android.media.AudioAttributes;
-import android.media.AudioTrack;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -28,21 +26,20 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import de.srlabs.snoopsnitch.active_test.ActiveTestCallback;
-import de.srlabs.snoopsnitch.active_test.ActiveTestHelper;
-import de.srlabs.snoopsnitch.active_test.ActiveTestResults;
-import de.srlabs.snoopsnitch.analysis.Risk;
-import de.srlabs.snoopsnitch.qdmon.StateChangedReason;
-import de.srlabs.snoopsnitch.util.MSDServiceHelperCreator;
-import de.srlabs.snoopsnitch.util.MsdDialog;
-import de.srlabs.snoopsnitch.util.Utils;
-import de.srlabs.snoopsnitch.views.DashboardProviderChart;
-import de.srlabs.snoopsnitch.views.DashboardThreatChart;
-import de.srlabs.snoopsnitch.views.adapter.ListViewProviderAdapter;
+import zz.snsn.xlite.active_test.ActiveTestCallback;
+import zz.snsn.xlite.active_test.ActiveTestHelper;
+import zz.snsn.xlite.active_test.ActiveTestResults;
+import zz.snsn.xlite.analysis.Risk;
+import zz.snsn.xlite.qdmon.StateChangedReason;
+import zz.snsn.xlite.util.MSDServiceHelperCreator;
+import zz.snsn.xlite.util.MsdDialog;
+import zz.snsn.xlite.util.Utils;
+import zz.snsn.xlite.views.DashboardProviderChart;
+import zz.snsn.xlite.views.DashboardThreatChart;
+import zz.snsn.xlite.views.adapter.ListViewProviderAdapter;
 
 //import permissions.dispatcher.RuntimePermissions;
 
-import static android.media.AudioAttributes.USAGE_NOTIFICATION_EVENT;
 
 public class DashboardActivity extends BaseActivity implements ActiveTestCallback {
 

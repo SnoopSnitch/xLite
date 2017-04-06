@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch;
+package zz.snsn.xlite;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,11 +10,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import de.srlabs.snoopsnitch.R;
-import de.srlabs.snoopsnitch.qdmon.MsdServiceCallback;
-import de.srlabs.snoopsnitch.qdmon.MsdServiceHelper;
-import de.srlabs.snoopsnitch.qdmon.StateChangedReason;
-import de.srlabs.snoopsnitch.util.DeviceCompatibilityChecker;
+import zz.snsn.xlite.qdmon.MsdServiceCallback;
+import zz.snsn.xlite.qdmon.MsdServiceHelper;
+import zz.snsn.xlite.qdmon.StateChangedReason;
+import zz.snsn.xlite.util.DeviceCompatibilityChecker;
 
 public class MsdServiceHelperTest extends Activity implements MsdServiceCallback{
 

@@ -1,11 +1,11 @@
-package de.srlabs.snoopsnitch.views;
+package zz.snsn.xlite.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import de.srlabs.snoopsnitch.R;
-import de.srlabs.snoopsnitch.util.MSDServiceHelperCreator;
+import zz.snsn.xlite.R;
+import zz.snsn.xlite.util.MSDServiceHelperCreator;
 
 public class DetailThreatChartHour extends DetailThreatChart 
 {	

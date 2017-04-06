@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.util;
+package zz.snsn.xlite.util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -7,7 +7,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 
-import de.srlabs.snoopsnitch.R;
+import zz.snsn.xlite.R;
 
 public class MsdDialog extends DialogFragment
 {	

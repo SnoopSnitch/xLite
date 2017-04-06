@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.util;
+package zz.snsn.xlite.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,7 +9,7 @@ import java.util.HashSet;
 import android.content.Context;
 import android.util.Log;
 
-import de.srlabs.snoopsnitch.R;
+import zz.snsn.xlite.R;
 
 public class DeviceCompatibilityChecker {
 

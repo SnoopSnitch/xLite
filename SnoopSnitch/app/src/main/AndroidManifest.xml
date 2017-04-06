@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.srlabs.snoopsnitch"
+    package="zz.snsn.xlite"
     android:installLocation="auto" >
 
     <!-- For detailed info on the Manifest layout, please consult:
@@ -129,7 +129,7 @@
         android:theme="@style/AppTheme" >
 
         <receiver
-            android:name="de.srlabs.snoopsnitch.BootCompletedIntentReceiver">
+            android:name="zz.snsn.xlite.BootCompletedIntentReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -138,7 +138,7 @@
 
         <!-- Launch Activity ??  -->
         <activity
-            android:name="de.srlabs.snoopsnitch.StartupActivity"
+            android:name="zz.snsn.xlite.StartupActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:launchMode="singleTop" >
@@ -150,7 +150,7 @@
 
         <!-- Main/Dashboard Activity (?) -->
         <activity
-            android:name="de.srlabs.snoopsnitch.DashboardActivity"
+            android:name="zz.snsn.xlite.DashboardActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:launchMode="singleTop" >
@@ -167,92 +167,92 @@
              -->
 
         <!-- activity
-            android:name="de.srlabs.snoopsnitch.BaseActivity"
+            android:name="zz.snsn.xlite.BaseActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName="de.srlabs.snoopsnitch.BaseActivity">
+            android:parentActivityName="zz.snsn.xlite.BaseActivity">
         </activity -->
 
         <!-- Detailed Chart Activity -->
         <activity
-             android:name="de.srlabs.snoopsnitch.DetailChartActivity"
+             android:name="zz.snsn.xlite.DetailChartActivity"
              android:screenOrientation="portrait"
-             android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity">     
+             android:parentActivityName="zz.snsn.xlite.DashboardActivity">
         </activity>
         
         <!-- Map Activity -->
         <activity
-             android:name="de.srlabs.snoopsnitch.MapActivity"
+             android:name="zz.snsn.xlite.MapActivity"
              android:screenOrientation="portrait"
-             android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity">     
+             android:parentActivityName="zz.snsn.xlite.DashboardActivity">
         </activity>
         
         <!-- Local Map Activity -->
         <activity
-             android:name="de.srlabs.snoopsnitch.LocalMapActivity"
+             android:name="zz.snsn.xlite.LocalMapActivity"
              android:screenOrientation="portrait"
-             android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity">     
+             android:parentActivityName="zz.snsn.xlite.DashboardActivity">
         </activity>
 
         <!-- Test Activity -->
         <activity
-            android:name="de.srlabs.snoopsnitch.MsdServiceHelperTest"
+            android:name="zz.snsn.xlite.MsdServiceHelperTest"
             android:label="@string/app_name"
             android:screenOrientation="portrait" 
-            android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity">
+            android:parentActivityName="zz.snsn.xlite.DashboardActivity">
         </activity>
 
         <!-- Active Test Advanced Mode -->
         <activity
-            android:name="de.srlabs.snoopsnitch.ActiveTestAdvanced"
+            android:name="zz.snsn.xlite.ActiveTestAdvanced"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity" >
+            android:parentActivityName="zz.snsn.xlite.DashboardActivity" >
         </activity>
 
 
         <!-- Settings Activity -->
         <activity
-            android:name="de.srlabs.snoopsnitch.SettingsActivity"
+            android:name="zz.snsn.xlite.SettingsActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <!-- android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity" -->
+            <!-- android:parentActivityName="zz.snsn.xlite.DashboardActivity" -->
         </activity>
         
         <!-- About Activity -->
         <activity
-            android:name="de.srlabs.snoopsnitch.AboutActivity"
+            android:name="zz.snsn.xlite.AboutActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity" >
+            android:parentActivityName="zz.snsn.xlite.DashboardActivity" >
         </activity>
         
         <!-- Network Info Activity -->
         <activity
-            android:name="de.srlabs.snoopsnitch.NetworkInfoActivity"
+            android:name="zz.snsn.xlite.NetworkInfoActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity" >
+            android:parentActivityName="zz.snsn.xlite.DashboardActivity" >
         </activity>
 
         <!-- Upload Debug Activity -->
         <activity
-            android:name="de.srlabs.snoopsnitch.UploadDebugActivity"
+            android:name="zz.snsn.xlite.UploadDebugActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity" >
+            android:parentActivityName="zz.snsn.xlite.DashboardActivity" >
         </activity>
 
         <!-- Dialog for enabling Auto-Upload Mode from Notification -->
         <activity
-            android:name="de.srlabs.snoopsnitch.EnableAutoUploadModeActivity"
+            android:name="zz.snsn.xlite.EnableAutoUploadModeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:parentActivityName="de.srlabs.snoopsnitch.DashboardActivity" >
+            android:parentActivityName="zz.snsn.xlite.DashboardActivity" >
         </activity>
 
         <!-- Crash Upload Activity -->
         <activity
-            android:name="de.srlabs.snoopsnitch.CrashUploadActivity"
+            android:name="zz.snsn.xlite.CrashUploadActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"
@@ -272,13 +272,13 @@
              https://developer.android.com/reference/android/R.styleable.html#AndroidManifestService
              -->
         <service
-            android:name="de.srlabs.snoopsnitch.qdmon.MsdService"
+            android:name="zz.snsn.xlite.qdmon.MsdService"
             android:exported="false"
             android:process=".snoopsnitch_service" />
 
         <!-- ?? -->
         <service
-            android:name="de.srlabs.snoopsnitch.active_test.ActiveTestService"
+            android:name="zz.snsn.xlite.active_test.ActiveTestService"
             android:exported="false" />
 
     </application>

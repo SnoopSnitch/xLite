@@ -1,10 +1,9 @@
-package de.srlabs.snoopsnitch.util;
+package zz.snsn.xlite.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
@@ -13,9 +12,7 @@ import android.telephony.TelephonyManager;
 import java.io.File;
 import java.util.Locale;
 
-import de.srlabs.snoopsnitch.BuildConfig;
-import de.srlabs.snoopsnitch.DashboardActivity;
-import de.srlabs.snoopsnitch.qdmon.MsdSQLiteOpenHelper;
+import zz.snsn.xlite.qdmon.MsdSQLiteOpenHelper;
 
 import android.database.DatabaseUtils;
 
@@ -43,7 +40,7 @@ public class MsdConfig {
         //       https://github.com/grandcentrix/tray
         //       https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo
 		//Deprecated: return context.getSharedPreferences("de.srlabs.snoopsnitch_preferences", Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
-        return context.getSharedPreferences("de.srlabs.snoopsnitch_preferences", Context.MODE_PRIVATE);
+        return context.getSharedPreferences("zz.snsn.xlite_preferences", Context.MODE_PRIVATE);
 	}
 
 	// ========================================================================
@@ -363,9 +360,9 @@ public class MsdConfig {
      *
      *  After installation, we have app related files in:
      *
-     *      /data/user/0/de.srlabs.snoopsnitch/files
-     *      /data/data/de.srlabs.snoopsnitch/files/
-     *      /data/app/de.srlabs.snoopsnitch-1/
+     *      /data/user/0/zz.snsn.xlite/files
+     *      /data/data/zz.snsn.xlite/files/
+     *      /data/app/zz.snsn.xlite-1/
      *
      * 	New options:
      *
@@ -399,8 +396,8 @@ public class MsdConfig {
         File pcapPath;                  // Path to (created) PCAP directory
 
         try {
-            File appDir = context.getFilesDir();            //  /data/user/0/de.srlabs.snoopsnitch/files
-            File pcapDir = new File(appDir, pcapDirName);   //  /data/user/0/de.srlabs.snoopsnitch/files/pcaps
+            File appDir = context.getFilesDir();            //  /data/user/0/zz.snsn.xlite/files
+            File pcapDir = new File(appDir, pcapDirName);   //  /data/user/0/zz.snsn.xlite/files/pcaps
             // check if we have already created a directory:
             if( pcapDir.exists() ) {
                 Log.i(TAG, "PCAP: path ok: " + pcapDir.toString());
@@ -409,7 +406,7 @@ public class MsdConfig {
                 // getDir() creates directory if it doesn't already exists. But,
                 // it seem that it adds an "app_" prefix to it in AOS 6.0+
                 //pcapPath = context.getDir(pcapDir,0);     // 0 = MODE_PRIVATE
-                if(!pcapDir.mkdir()) { //  /data/user/0/de.srlabs.snoopsnitch/pcaps
+                if(!pcapDir.mkdir()) { //  /data/user/0/zz.snsn.xlite/pcaps
                     Log.e(TAG, "PCAP: Failed to create pcapDir!");
                 }
             }
@@ -433,10 +430,10 @@ public class MsdConfig {
         }
 
         Log.i(TAG, "PCAP: getExternalStorageDirectory: " + Environment.getExternalStorageDirectory().getPath()); // /storage/emulated/0/
-        Log.i(TAG, "PCAP: getExternalFilesDir: "  + dumbpath);                                  //  /storage/emulated/0/Android/data/de.srlabs.snoopsnitch/files/dummy.txt
-        Log.i(TAG, "PCAP: getExternalCacheDir: "  + context.getExternalCacheDir());             //  /storage/emulated/0/Android/data/de.srlabs.snoopsnitch/cache
+        Log.i(TAG, "PCAP: getExternalFilesDir: "  + dumbpath);                                  //  /storage/emulated/0/Android/data/zz.snsn.xlite/files/dummy.txt
+        Log.i(TAG, "PCAP: getExternalCacheDir: "  + context.getExternalCacheDir());             //  /storage/emulated/0/Android/data/zz.snsn.xlite/cache
         Log.i(TAG, "PCAP: getDataDirectory: "     + Environment.getDataDirectory().getPath());  //  /data/
-        Log.i(TAG, "PCAP: getFilesDir: "          + context.getFilesDir());                     //  /data/user/0/de.srlabs.snoopsnitch/files
+        Log.i(TAG, "PCAP: getFilesDir: "          + context.getFilesDir());                     //  /data/user/0/zz.snsn.xlite/files
 
 
         String app_files_dir = context.getFilesDir().getPath();

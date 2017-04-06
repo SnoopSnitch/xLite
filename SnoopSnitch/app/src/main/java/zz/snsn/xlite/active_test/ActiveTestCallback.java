@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.active_test;
+package zz.snsn.xlite.active_test;
 
 public interface ActiveTestCallback {
 	public void handleTestResults(ActiveTestResults results);

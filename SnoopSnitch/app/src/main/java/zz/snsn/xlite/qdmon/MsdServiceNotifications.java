@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.qdmon;
+package zz.snsn.xlite.qdmon;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -10,13 +10,13 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
-import de.srlabs.snoopsnitch.BuildConfig;
-import de.srlabs.snoopsnitch.CrashUploadActivity;
-import de.srlabs.snoopsnitch.DashboardActivity;
-import de.srlabs.snoopsnitch.EnableAutoUploadModeActivity;
-import de.srlabs.snoopsnitch.R;
-import de.srlabs.snoopsnitch.util.Constants;
-import de.srlabs.snoopsnitch.util.MsdConfig;
+import zz.snsn.xlite.BuildConfig;
+import zz.snsn.xlite.CrashUploadActivity;
+import zz.snsn.xlite.DashboardActivity;
+import zz.snsn.xlite.EnableAutoUploadModeActivity;
+import zz.snsn.xlite.R;
+import zz.snsn.xlite.util.Constants;
+import zz.snsn.xlite.util.MsdConfig;
 
 public class MsdServiceNotifications {
 	Service service;

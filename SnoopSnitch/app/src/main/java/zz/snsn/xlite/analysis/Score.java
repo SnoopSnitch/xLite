@@ -1,4 +1,4 @@
-package de.srlabs.snoopsnitch.analysis;
+package zz.snsn.xlite.analysis;
 
 public class Score {
 

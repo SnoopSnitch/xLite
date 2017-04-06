@@ -1,9 +1,7 @@
-package de.srlabs.snoopsnitch;
+package zz.snsn.xlite;
 
-import de.srlabs.snoopsnitch.R;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.webkit.WebView;
 
 public class MapActivity extends BaseActivity 
