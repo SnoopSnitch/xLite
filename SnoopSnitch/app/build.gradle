@@ -123,6 +123,7 @@ android {
         //disable 'deprecation'         // Does this exists (as shown in -Xlint gradle output)?
         //disable 'unchecked'           // Does this exists (as shown in -Xlint gradle output)?
 
+        disable 'ApplySharedPref'       // We want our preference changes to be immediate
         disable 'AppCompatResource'     // Menu namespace: appcompat library resources should refer "showAsAction" in the app:namespace
         disable 'MissingTranslation'    // Strings declared in one language should also be translated in all other languages
 	    //disable 'ExtraTranslation'    // Make sure all labelled strings appear in all locales
@@ -176,7 +177,6 @@ android {
         //disable 'NewApi'              // If there are new API calls used on older minSdkVersion
         disable 'LabelFor'              // API 17+ : Text fields should be labelled with a "labelFor" attribute
         disable 'SSLCertificateSocketFactoryCreateSocket' // ToDo: Fix? ./qdmon/TlsSniSocketFactory.java
-        //disable '' //
         //disable '' //
 
         //--- lint ------------------------------------

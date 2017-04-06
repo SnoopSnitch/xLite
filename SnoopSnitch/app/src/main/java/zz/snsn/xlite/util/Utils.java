@@ -510,7 +510,7 @@ public class Utils {
             String databaseName = "msd.db";
 
             if (sd.canWrite()) {
-                //  /data/data/de.srlabs.snoopsnitch/databases/msd.db
+                //  /data/data/zz.snsn.xlite/databases/msd.db
                 String currentDBPath = "//data//" + getPackageName() + "//databases//" + databaseName + "";
                 String backupDBPath = "msd_backup.db";
                 File currentDB = new File(data, currentDBPath);

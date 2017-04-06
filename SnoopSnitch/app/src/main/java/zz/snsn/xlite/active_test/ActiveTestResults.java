@@ -17,7 +17,7 @@ import zz.snsn.xlite.util.Utils;
 public class ActiveTestResults implements Serializable {
 
     private static final String TAG = "SNSN";
-    private static final String mTAG = "ActiveTestResults :";
+    private static final String mTAG = "ActiveTestResults: ";
 
 	private static final long serialVersionUID = 1L;
 
@@ -563,7 +563,7 @@ public class ActiveTestResults implements Serializable {
 		Date date = new Date(System.currentTimeMillis());
 		String timestampStr = dateFormat.format(date);
 		Utils.formatTimestamp(0);
-		MsdLog.i("msd-active-test-service","STATE_INFO: " + logMsg);
+		MsdLog.i(TAG, mTAG + "STATE_INFO: " + logMsg);
 		errorLog += timestampStr + "  " + logMsg + "\n";
 	}
 

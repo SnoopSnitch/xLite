@@ -19,7 +19,9 @@ import zz.snsn.xlite.util.MsdLog;
 import zz.snsn.xlite.util.Utils;
 
 public abstract class ApiCall extends Thread {
-	private static final String TAG = "msd-active-test-service-api";
+	//private static final String TAG = "msd-active-test-service-api";
+	private static final String TAG = "SNSN:API";
+    private static final String mTAG = "ApiCall: ";
 
 	public enum Action {
 		CALL, SMS, IGNORE
