@@ -119,23 +119,23 @@
 
     <!-- LOG FILE CLEANUP -->
     <string name="settings_basebandlogkeepduration_title">Baseband log clean interval</string>
-    <string name="settings_basebandlogkeepduration_summary">Radio traces are purged from the phone that often</string>
+    <string name="settings_basebandlogkeepduration_summary">Radio traces are purged from the phone every XX days.</string>
     <string name="settings_basebandlogkeepduration_dialogtitle">Select interval:</string>
 
     <string name="settings_locationlogkeepduration_title">Location log clean interval</string>
-    <string name="settings_locationlogkeepduration_summary">Information about your location is purged from the phone that often</string>
+    <string name="settings_locationlogkeepduration_summary">Your location information is purged from the phone every XX days.</string>
     <string name="settings_locationlogkeepduration_dialogtitle">Select interval:</string>
 
     <string name="settings_analysiskeepduration_title">Analysis data clean interval</string>
-    <string name="settings_analysiskeepduration_summary">Data from catcher and event analysis is purged from the phone that often</string>
+    <string name="settings_analysiskeepduration_summary">Data from catcher and event analysis is purged from the phone every XX days.</string>
     <string name="settings_analysiskeepduration_dialogtitle">Select interval:</string>
 
     <string name="settings_debuglogkeepduration_title">Debug log clean interval</string>
-    <string name="settings_debuglogkeepduration_summary">Debug logs are purged from the phone that often</string>
+    <string name="settings_debuglogkeepduration_summary">Debug logs are purged from the phone every XX days.</string>
     <string name="settings_debuglogkeepduration_dialogtitle">Select interval:</string>
 
     <string name="settings_metadatakeepduration_title">Metadata clean interval</string>
-    <string name="settings_metadatakeepduration_summary">Catcher and event metadata is purged from the phone that often</string>
+    <string name="settings_metadatakeepduration_summary">Catcher and event metadata is purged from the phone every XX days.</string>
     <string name="settings_metadatakeepduration_dialogtitle">Select interval:</string>
 
     <!-- LOCATION RECORDING -->
@@ -440,7 +440,7 @@
     \n\nIf you have questions or want to contribute to SnoopSnitch, please send an email to
     our mailing list at https://lists.srlabs.de/cgi-bin/mailman/listinfo/gsmmap. For a
     private conversation with the SnoopSnitch xLite app maintainer, please contact
-    aab2f8f6@opayq.com. For all other non-app development related inquiries contact
+    emigenix@gmail.com. For all other non-app development related inquiries contact
     snoopsnitch@srlabs.de with PGP fingerprint:
     \n9728 A7F9 D457 1FBB 746F 5381 D52C AC10 634A 9561
 

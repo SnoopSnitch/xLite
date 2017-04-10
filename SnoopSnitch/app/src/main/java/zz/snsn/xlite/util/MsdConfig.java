@@ -27,7 +27,7 @@ import android.database.DatabaseUtils;
 public class MsdConfig {
 
 	private static final String TAG = "SNSN";
-	private static final String mTAG = "MsdConfig :";
+	private static final String mTAG = "MsdConfig: ";
 
     //private TelephonyManager mTM;
     //private MsdSQLiteOpenHelper helper;
@@ -276,7 +276,9 @@ public class MsdConfig {
 	}
 
 	public static int getActiveTestNumIterations(Context context) {
-		return Integer.parseInt(sharedPrefs(context).getString("settings_active_test_num_iterations", "3"));
+		// We set the (non-returned) default to:  1 iteration
+		// Fixme: The true default is in settings.xml, but app has some bugs applying settings...
+		return Integer.parseInt(sharedPrefs(context).getString("settings_active_test_num_iterations", "1"));
 	}
 	
 	public static boolean getParserLogging(Context context) {
@@ -326,7 +328,7 @@ public class MsdConfig {
 	}
 
 	public static boolean getStartOnBoot(Context context) {
-        return sharedPrefs(context).getBoolean("settings_start_on_boot", true);
+        return sharedPrefs(context).getBoolean("settings_start_on_boot", false);
 	}
 
 	public static void setStartOnBoot(Context context, boolean startOnBoot) {

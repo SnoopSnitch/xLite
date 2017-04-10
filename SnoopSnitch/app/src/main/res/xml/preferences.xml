@@ -22,7 +22,7 @@
             android:summary="@string/settings_applicationid_summary"
             android:title="@string/settings_applicationid_title" />
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="settings_active_test_disable_upload"
             android:summary="@string/settings_active_test_disable_upload_summary"
             android:title="@string/settings_active_test_disable_upload_title" />
@@ -61,7 +61,7 @@
             android:summary="@string/settings_analysiskeepduration_summary"
             android:title="@string/settings_analysiskeepduration_title" />
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="7"
             android:dialogTitle="@string/settings_debuglogkeepduration_dialogtitle"
             android:entries="@array/settings_durations_entries"
             android:entryValues="@array/settings_durations_values"
@@ -102,7 +102,7 @@
             android:summary="@string/settings_active_test_force_offline_summary"
             android:title="@string/settings_active_test_force_offline_title" />
         <ListPreference
-            android:defaultValue="3"
+            android:defaultValue="1"
             android:dialogTitle="@string/settings_active_test_num_iterations_dialogtitle"
             android:entries="@array/settings_active_test_num_iterations_entries"
             android:entryValues="@array/settings_active_test_num_iterations_values"
@@ -144,7 +144,7 @@
             android:key="cat_log_encryption"
             android:title="@string/settings_cat_log_encryption" >
             <CheckBoxPreference
-                android:defaultValue="false"
+                android:defaultValue="true"
                 android:dependency="settings_enable_devel_options"
                 android:key="settings_recordUnencryptedLogfiles"
                 android:summary="@string/settings_unencryptedlogfilesrecording_summary"
