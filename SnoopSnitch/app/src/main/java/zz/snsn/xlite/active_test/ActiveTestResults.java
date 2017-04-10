@@ -130,7 +130,7 @@ public class ActiveTestResults implements Serializable {
 				}
 			}
 		}
-		public void clearResults() {
+		public void clearResults() { // ToDo: replace <>...
 			tests = new HashMap<TestType, Vector<SingleTestState>>();
 			tests.put(TestType.SMS_MO, new Vector<ActiveTestResults.SingleTestState>());
 			tests.put(TestType.CALL_MO, new Vector<ActiveTestResults.SingleTestState>());
@@ -310,13 +310,17 @@ public class ActiveTestResults implements Serializable {
 		public void updateTimeout(long timeoutMillisFromNow) {
 			timeoutEndTime = System.currentTimeMillis() + timeoutMillisFromNow;
 		}
+
+		// ToDo:  What is this? (purpose?)
 		public int getNum() {
 			return num;
 		}
+
 		public int getProgressPercent() {
 			long currentTime = System.currentTimeMillis();
 			double progress = (double)(currentTime - timeoutStartTime) / (double)(timeoutEndTime - timeoutStartTime);
-			MsdLog.i("ActiveTestResults","TIMEOUT_CALC: current=" + currentTime + "  timeoutStartTime=" + timeoutStartTime + "  timeoutEndTime=" + timeoutEndTime + "  => progress=" + progress);
+            // This is the "debug_" output of the spinner values. Resource intensive!
+			//MsdLog.i(TAG, "TIMEOUT_CALC: current=" + currentTime + "  timeoutStartTime=" + timeoutStartTime + "  timeoutEndTime=" + timeoutEndTime + "  => progress=" + progress);
 			if(progress > 1.0)
 				progress = 1.0;
 			return (int)(100.0*progress);
@@ -405,8 +409,8 @@ public class ActiveTestResults implements Serializable {
 			}
 		}
 		String mode = (onlineMode ? "Setting: Online, " : "Setting: Offline, ") +
-				numIterations + " iterations of 4 tests" +
-				(smsMoDisabled ? ", " + "no SMS out" : "");
+				                        numIterations + " iterations of 4 tests" +
+				                        (smsMoDisabled ? ", " + "no SMS out" : "");
 		result.append("setTestMode(" + escape(mode) + ");\n");
         if(currentNetworkOperator != null){
 			result.append("updateBuckets({");

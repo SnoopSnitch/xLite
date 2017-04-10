@@ -29,9 +29,8 @@ import zz.snsn.xlite.util.MsdLog;
 
 public class ActiveTestHelper{
 
-	//private static String TAG = "msd-active-test-helper";
-	private static final String TAG = "SNSN";
-	private static final String mTAG = "ActiveTestHelper";
+	private static final String TAG = "SNSN";               // old: "msd-active-test-helper";
+	private static final String mTAG = "ActiveTestHelper: ";
 
 	private ActiveTestCallback callback;
 	private Activity context;
@@ -62,7 +61,7 @@ public class ActiveTestHelper{
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
-			MsdLog.i(TAG,"MsdServiceHelper.MyServiceConnection.onServiceDisconnected() called");
+			MsdLog.i(TAG, mTAG + "MyServiceConnection.onServiceDisconnected() called");
 			context.unbindService(this);
 			mIActiveTestService = null;
 			connected = false;
@@ -72,7 +71,7 @@ public class ActiveTestHelper{
 		}
 	}
 
-	class  MyActiveTestCallback extends IActiveTestCallback.Stub{
+	class MyActiveTestCallback extends IActiveTestCallback.Stub{
 		@Override
 		public void testResultsChanged(Bundle b) throws RemoteException {
 			try{
@@ -80,7 +79,7 @@ public class ActiveTestHelper{
 				// MsdLog.i(TAG,"testResultsChanged:" + results.formatTextTable());
 				callback.handleTestResults(results);
 			} catch(Exception e){
-				MsdLog.e(TAG,"Exception in ActiveTestHelper.MyActiveTestCallback.testResultsChanged():\n", e);
+				MsdLog.e(TAG, mTAG + "Exception in MyActiveTestCallback.testResultsChanged():\n", e);
 			}
 		}
 		@Override
@@ -126,10 +125,12 @@ public class ActiveTestHelper{
 		return connected;
 	}
 
+    //===================================================================================
 	/**
 	 * This checks the current status of AirplaneMode
-	 * Log:		Emi	2016-12-22
-	 * Note:	We directly suppress warnings here as this code is now valid for all API's.
+	 * Date:	2017-04-07
+	 * Note:	Since we updated min API to 19, we no longer need SDK API checks...
+	 * OLD:		We directly suppress warnings here as this code is now valid for all API's.
 	 *
 	 * [1] http://stackoverflow.com/questions/37135913/how-to-know-if-airplane-mode-is-turned-on-or-turned-off-in-broadcastreceiver
 	 * [2] http://stackoverflow.com/questions/34904567/app-to-turn-off-airplane-mode-on-android
@@ -159,38 +160,19 @@ public class ActiveTestHelper{
              ----------------------------
      */
 
-	@SuppressWarnings("deprecation")
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	public static boolean isAirplaneModeOn(Context context) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-			return Settings.System.getInt(context.getContentResolver(),
-					Settings.System.AIRPLANE_MODE_ON, 0) != 0;
-		} else {
-			return Settings.Global.getInt(context.getContentResolver(),
-					Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
-		}
+		return Settings.Global.getInt(context.getContentResolver(),	Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
 	}
 
 	// Take user to Airplane Mode settings
 	public static boolean toAirplaneModeSettings(Context context) {
-		if (android.os.Build.VERSION.SDK_INT < 17) {
-			try {
-				Intent iAPM1 = new Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS);
-				iAPM1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				context.startActivity(iAPM1);
-				return true;
-			} catch (ActivityNotFoundException ae) {
-				Log.e(TAG, mTAG + ":toAirplaneModeSettings(): Error opening the AirPlaneMode settings activity:\n" + ae);
-			}
-		} else { // API >16 (AOS 4.1?)
-			try {
-				Intent iAPM2 = new Intent("android.settings.WIRELESS_SETTINGS");
-				iAPM2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				context.startActivity(iAPM2);
-				return true;
-			} catch (ActivityNotFoundException ae) {
-				Log.e(TAG, mTAG + ":toAirplaneModeSettings(): Error opening the AirPlaneMode settings activity:\n" + ae);
-			}
+		try {
+			Intent iAPM2 = new Intent("android.settings.WIRELESS_SETTINGS");
+			iAPM2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(iAPM2);
+			return true;
+		} catch (ActivityNotFoundException ae) {
+			Log.e(TAG, mTAG + ":toAirplaneModeSettings(): Error opening the AirPlaneMode settings activity:\n" + ae);
 		}
 		return false;
 	}
@@ -206,7 +188,7 @@ public class ActiveTestHelper{
 		} catch (RemoteException e) {
 			handleFatalError("RemoteException while calling mIActiveTestService.isTestRunning() in MsdServiceHelper.startRecording()", e);
 		}
-		MsdLog.i(TAG,"mIActiveTestService.isTestRunning() returns " + activeTestRunning);
+		MsdLog.i(TAG,"mIActiveTestService.isTestRunning() returns: " + activeTestRunning);
 		return activeTestRunning;
 	}
 
@@ -237,7 +219,7 @@ public class ActiveTestHelper{
 		try {
 			mIActiveTestService.clearResults();
 		} catch (Exception e) {
-			handleFatalError("Exception in ActiveTestHelper.clearCurrentResults()",e);
+			handleFatalError("Exception in ActiveTestHelper.clearResults()",e);
 		}
 	}
 

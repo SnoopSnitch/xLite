@@ -28,7 +28,7 @@ import zz.snsn.xlite.util.Utils;
 public abstract class BaseActivity extends FragmentActivity {
 
     private static final String TAG = "SNSN";
-    private static final String mTAG = "BaseActivity :";
+    private static final String mTAG = "BaseActivity: ";
 
     // Attributes
 	protected MSDServiceHelperCreator msdServiceHelperCreator;
@@ -38,7 +38,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	protected Menu menu;
 	protected Boolean isInForeground = false;
 	protected Handler handler;
-	protected final int refresh_intervall = 1000; // [ms] ??
+	protected final int refresh_intervall = 2000; // in [ms] for use in postDelayed()
 	// Static variable so that it is common to all Activities of the App
 	private static boolean exitFlag = false;
 
@@ -71,7 +71,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		// Set title/subtitle of the action bar...
 		ActionBar ab = getActionBar();
 		ab.setTitle(R.string.actionBar_title);
-		ab.setSubtitle(setAppId ());
+		ab.setSubtitle(setAppId());
 		handler.postDelayed(runnable, refresh_intervall);
 		setRecordingIcon ();
 		super.onResume();
@@ -85,27 +85,29 @@ public abstract class BaseActivity extends FragmentActivity {
 	}
 
 	@Override
-	protected void onDestroy() 
-	{	
+	protected void onDestroy() {
 		super.onDestroy();
+		// Fixme: Do we need to unbindService here?
+		//unbindService(m_serviceConnection);
+		//Toast.makeText(BaseActivity.this, "Service Un-Binded", Toast.LENGTH_LONG).show();
 	}
 
-	protected void showMap () {
+	protected void showMap() {
 		Intent intent = new Intent(this, MapActivity.class);
 		startActivity(intent);
 	}
 
-	protected void showTestScreen () {
+	protected void showTestScreen() {
 		Intent intent = new Intent(this, MsdServiceHelperTest.class);
 		startActivity(intent);
 	}
 
-	protected void showSettings () {
+	protected void showSettings() {
 		Intent intent = new Intent(this, SettingsActivity.class);
 		startActivity(intent);
 	}
 
-	protected void showAbout ()	{
+	protected void showAbout()	{
 		Intent intent = new Intent(this, AboutActivity.class);
 		startActivity(intent);
 	}
@@ -115,7 +117,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		startActivity(intent);
 	}
 
-	protected void toggleRecording () {
+	protected void toggleRecording() {
 		Boolean isRecording = msdServiceHelperCreator.getMsdServiceHelper().isRecording();
 
 		if (isRecording) {
@@ -125,7 +127,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	}
 
-	public MSDServiceHelperCreator getMsdServiceHelperCreator () {
+	public MSDServiceHelperCreator getMsdServiceHelperCreator() {
 		return msdServiceHelperCreator;
 	}
 
@@ -169,13 +171,13 @@ public abstract class BaseActivity extends FragmentActivity {
 				NavUtils.navigateUpFromSameTask(this);
 				break;
 			default:
-				MsdLog.e(TAG, mTAG + "Invalid menu entry pressed,  id=" + item.getItemId());
+				MsdLog.e(TAG, mTAG + "Invalid menu entry pressed, id=" + item.getItemId());
 				break;
 		}
 		return true;
 	}
 
-	private void showMessage (String message) {
+	private void showMessage(String message) {
 		if (isInForeground) {
 			messageText.setText(message);
 			messageToast.setGravity(Gravity.FILL_HORIZONTAL|Gravity.TOP, 0, getActionBar().getHeight());
@@ -208,28 +210,27 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	}
 
-	private String setAppId () {
+	private String setAppId() {
 		if (MsdConfig.getAppId(this).equals("")) {
 			MsdConfig.setAppId(this, Utils.generateAppId());
 		}
 		return getResources().getText(R.string.actionBar_subTitle) + " " + MsdConfig.getAppId(this);
 	}
 
-	protected Runnable runnable = new Runnable() 
-	{
+	protected Runnable runnable = new Runnable() {
 		@Override
 		public void run() 
 		{
-			/* do what you need to do */
+			// do what you need to do
 			refreshView();
-			/* and here comes the "trick" */
+			// and here comes the "trick"
 			handler.postDelayed(runnable, refresh_intervall);
 		}
 	};
 
-	protected void refreshView () {}
+	protected void refreshView() {}
 
-	private void setRecordingIcon () {
+	private void setRecordingIcon() {
 		if (menu != null) {
 			if (msdServiceHelperCreator.getMsdServiceHelper().isRecording()) {
 				menu.getItem(0).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu_record_disable, null));
@@ -239,7 +240,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	}
 
-	protected void quitApplication () {
+	protected void quitApplication() {
         MsdLog.i(TAG, mTAG + "quitApplication() called");
 		msdServiceHelperCreator.getMsdServiceHelper().stopRecording();
 		msdServiceHelperCreator.getMsdServiceHelper().stopService();

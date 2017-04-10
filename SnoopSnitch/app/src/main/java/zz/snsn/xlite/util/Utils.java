@@ -502,7 +502,7 @@ public class Utils {
      * Reference:  Redmine Task #1542  -- Add local database export
      *
      */
-    public void exportDatabase() {
+    public void exportDatabase() throws IOException {
         try {
             File sd = Environment.getExternalStorageDirectory(); //  /storage/emulated/0/
             File data = Environment.getDataDirectory();          //  /data/
@@ -516,13 +516,37 @@ public class Utils {
                 File currentDB = new File(data, currentDBPath);
                 File backupDB = new File(sd, backupDBPath);
 
-                if (currentDB.exists()) {
+                if (!currentDB.exists()) { // This should never happen!
+                    Log.e(TAG, mTAG + "The DB:" + databaseName + "doesn't exist yet!");
+                    return;
+                }
+
+                /*if (!backupDB.exists()) {
+                    backupDB.createNewFile();
+                }*/
+
+                /*if (currentDB.exists()) {
                     FileChannel src = new FileInputStream(currentDB).getChannel();
                     FileChannel dst = new FileOutputStream(backupDB).getChannel();
                     dst.transferFrom(src, 0, src.size());
                     src.close();
                     dst.close();
+                }*/
+
+                FileInputStream  is = new FileInputStream(currentDB);
+                FileOutputStream os = new FileOutputStream(backupDB);
+                FileChannel src = is.getChannel();
+                FileChannel dst = os.getChannel();
+                try {
+                    dst.transferFrom(src, 0, src.size());
+                } catch (IOException e) {
+                    Log.e(TAG, mTAG + ":exportDatabase() Failed with IOException: " + e);
+                } finally {
+                    src.close();
+                    dst.close();
                 }
+                is.close();
+                os.close();
             }
         } catch (Exception e) {
             Log.e(TAG, mTAG + ":exportDatabase() Failed with exception: " + e);

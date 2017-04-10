@@ -3,6 +3,7 @@ package zz.snsn.xlite;
 import zz.snsn.xlite.qdmon.MsdServiceHelper;
 import zz.snsn.xlite.util.MsdConfig;
 import zz.snsn.xlite.util.MSDServiceHelperCreator;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -18,15 +19,11 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
 	private boolean settingsChanged = false;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) 
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.preferences);
-
 		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-
 		Preference appIDPref = findPreference("settings_appId");
 		appIDPref.setOnPreferenceClickListener(new OnPreferenceClickListener() 
 		{
@@ -40,11 +37,8 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
 	}
 	
 	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-			String key) 
-	{
-		if(this.getActivity() != null)
-			this.getActivity().invalidateOptionsMenu();
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		if(this.getActivity() != null) this.getActivity().invalidateOptionsMenu();
 
 		if (key.equals("settings_basebandLogKeepDuration")
 		 || key.equals("settings_debugLogKeepDuration")
@@ -53,13 +47,11 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
 		{
 			MsdConfig.setLastCleanupTime(sharedPreferences, 0);
 		}
-
 		settingsChanged = true;
 	}
 	
-	private void showCleanupDialog ()
-	{
-
+	private void showCleanupDialog() {
+		// ToDo: I don't know what, but someone intended something...
 	}
 
 	private void showgenerateAppIdDialog() {
@@ -85,9 +77,8 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
 	      new DialogInterface.OnClickListener() 
 	      {		
 	         @Override
-	         public void onClick(DialogInterface dialog, int which) 
-	         {
-
+	         public void onClick(DialogInterface dialog, int which) {
+                // ToDo: I don't know what, but someone intended something...
 			 }
 	      });
 		    
@@ -103,8 +94,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
 		MsdServiceHelper msdServiceHelper = msdServiceHelperCreator.getMsdServiceHelper();
 
 		if (settingsChanged){
-			if (msdServiceHelper.isRecording())
-			{
+			if (msdServiceHelper.isRecording()) {
 				msdServiceHelper.stopRecording();
 				msdServiceHelper.startRecording();
 			}

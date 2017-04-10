@@ -23,6 +23,23 @@ import zz.snsn.xlite.analysis.Event;
 import zz.snsn.xlite.analysis.Event.Type;
 import zz.snsn.xlite.util.MsdDialog;
 
+/**
+ * ToDO: WARNING:
+ *       It's possible we need to rewrite this entire block using ArrayLists instead of Vectors.
+ *       Apparently Vector is outdated and deprecated since 19 years and causes cast problems
+ *       for the compiler and ClassCastException during runtime. See:
+ *       http://www.w3resource.com/java-tutorial/java-arraylist-and-vector.php
+ *
+ *  "Earlier versions of Java have one legacy collection class called Vector
+ *   which is very much similar to ArrayList. Vector implements a dynamic
+ *   array. A Vector is basically the same as an ArrayList, but Vector
+ *   methods are synchronized for thread safety. You'll normally want to use
+ *   ArrayList instead of Vector because the synchronized methods add a
+ *   performance hit you might not need. In this tutorial, we will discuss
+ *   ArrayList only considering all is applicable to Vector as well."
+ *
+ */
+
 public class ListViewEventAdapter extends ArrayAdapter<Event> implements Filterable {
 	// Attributes
 	private final Context context;
@@ -145,17 +162,19 @@ public class ListViewEventAdapter extends ArrayAdapter<Event> implements Filtera
 	public Filter getFilter() {
 		return new Filter() {
 			@Override
+			//@SuppressWarnings("unchecked")
 			protected void publishResults(CharSequence constraint, FilterResults results) {
-				// ToDo: Fix this! What is it supposed to do?
+				// ToDo: Fix this! What is it supposed to do? (See original code ~2016-11)
 				// In addition, this gives an [unchecked] cast warning.
 				//if (results.count == 0) {
-				//	//notifyDataSetInvalidated();
+				//	notifyDataSetInvalidated();
+					//values = (Vector<Event>) results.values;
+					//notifyDataSetChanged();
+				//} else {
+				if (results.count != 0) {
 					values = (Vector<Event>) results.values;
 					notifyDataSetChanged();
-				//} else {
-				//	values = (Vector<Event>) results.values;
-				//	notifyDataSetChanged();
-				//}
+				}
 			}
 		
 			@Override
@@ -168,16 +187,13 @@ public class ListViewEventAdapter extends ArrayAdapter<Event> implements Filtera
 					results.count = allEvents.size();
 					return results;
 				}
-
 				for (Event event : allEvents) {
 					if (event.getType().toString().equals(smsType))	{
 						eventList.add(event);
 					}
 				}
-
 				results.values = eventList;
 				results.count = eventList.size();
-				
 				return results;
 			}
 		};

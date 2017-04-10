@@ -1487,9 +1487,10 @@ public class MsdService extends Service {
 				// NOTE:
 				//  getAllCellInfo()           require API >= 17
 				//  getNeighboringCellInfo()   require API <= 23
-				if (Build.VERSION.SDK_INT > 16) {
-					doCellinfoList(telephonyManager.getAllCellInfo());
-				}
+                //
+				//if (Build.VERSION.SDK_INT > 16) {
+                doCellinfoList(telephonyManager.getAllCellInfo());
+				//}
 				// else {
 				//	doCellinfoList(telephonyManager.getNeighboringCellInfo());
 				//}
@@ -1596,10 +1597,12 @@ public class MsdService extends Service {
 						resp = httpClient.execute(httpGet);
 					} catch(SSLPeerUnverifiedException e){
 						MsdLog.e(TAG,"SSLPeerUnverifiedException " + e + " in DownloadDataJsThread.run()");
+						Log.e(TAG,"SSLPeerUnverifiedException " + e + " in DownloadDataJsThread.run() [duplicate]");
 						// TODO: Display error message or upload state to user
 						return;
 					} catch(HttpHostConnectException e){
 						MsdLog.e(TAG,"HttpHostConnectException " + e + " in DownloadDataJsThread.run()");
+                        Log.e(TAG,"HttpHostConnectException " + e + " in DownloadDataJsThread.run() [duplicate]");
 						// TODO: Display error message or upload state to user
 						return;
 					}
@@ -1693,7 +1696,7 @@ public class MsdService extends Service {
 			Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 			// Note: (1) Calendar.MONTH starts counting with 0
 			//       (2) pcap file prefix is in settings and should be unique: snoopsnitch_...
-			String filename = pcapBaseFileName + "_" + String.format(Locale.US, "%04d-%02d-%02d_%02d-%02d-%02dUTC",
+			String filename = pcapBaseFileName + "_" + String.format(Locale.US, "%04d-%02d-%02d_%02d-%02d-%02d_UTC",
 					c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH),
 					c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND)) + ".pcap";
 			vCmd.add(filename);
@@ -2205,7 +2208,7 @@ public class MsdService extends Service {
 		c.setTimeInMillis(timestamp);
 
 		// Calendar.MONTH starts counting with 0
-		String baseFilename = String.format(Locale.US, "qdmon_%04d-%02d-%02d_%02d-%02dUTC",
+		String baseFilename = String.format(Locale.US, "qdmon_%04d-%02d-%02d_%02d-%02d_UTC",
 				c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH),
 				c.get(Calendar.HOUR_OF_DAY), 10*(c.get(Calendar.MINUTE) / 10));
 
@@ -2222,7 +2225,7 @@ public class MsdService extends Service {
 
 		// Get the filename for the new file
 		// When restarting recording within a 10 minutes interval, the file may
-		// already exist. Since smime files can't simply be appended (like gzip
+		// already exist. Since SMIME files can't simply be appended (like gzip
 		// files), we have to create a new filename e.g. by appending a number
 		String encryptedFilename = null;
 		String plaintextFilename = null;
@@ -2347,7 +2350,7 @@ public class MsdService extends Service {
 		// the user	switches between different timezones.
 		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		// Calendar.MONTH starts counting with 0
-		String timestampStr = String.format(Locale.US, "%04d-%02d-%02d_%02d-%02d-%02dUTC",
+		String timestampStr = String.format(Locale.US, "%04d-%02d-%02d_%02d-%02d-%02d_UTC",
 				c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH),
 				c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND));
 

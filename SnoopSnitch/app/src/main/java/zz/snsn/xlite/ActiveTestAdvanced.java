@@ -21,7 +21,7 @@ import zz.snsn.xlite.util.Utils;
 public class ActiveTestAdvanced extends BaseActivity{
 
 	private static final String TAG = "SNSN";
-	private static final String mTAG = "ActiveTestAdvanced :";
+	private static final String mTAG = "ActiveTestAdvanced: ";
 
 	private Button btnStartStop;    // "Start" the test (or "Stop" if already started)
 	private Button btnMode;         // "Mode"    go to settings: for Wireless and Network
@@ -33,7 +33,7 @@ public class ActiveTestAdvanced extends BaseActivity{
 	private WebView activeTestWebView;
 	private ActiveTestResults lastResults;
 
-    // ToDo: (Emi) Consider adding a "Reset" button, for resetting previous test results.
+    // ToDo: Consider adding a "Reset" button, for resetting previous test results.
 	private enum StartButtonMode {
 		START, STOP, CONTINUE, STARTOVER
 	}
@@ -101,7 +101,7 @@ public class ActiveTestAdvanced extends BaseActivity{
 		this.btnMode = (Button) findViewById(R.id.btnMode);
 		this.btnNetwork = (Button) findViewById(R.id.btnNetwork);
 		this.activeTestWebView = (WebView)findViewById(R.id.activeTestWebView);
-        // TEST: Emi trying to get settings to update (Not working here!)
+        // ToDo: Trying to get settings to update...but NOT working here!?
         //activeTestHelper.applySettings();
         loadWebView();
 		activeTestHelper = new ActiveTestHelper(this, activeTestCallback);
@@ -145,8 +145,18 @@ public class ActiveTestAdvanced extends BaseActivity{
 		activeTestHelper.applySettings();
 	}
 
+	// Fixme: Trying to prevent the following error:
+    // "Activity zz.snsn.xlite.ActiveTestAdvanced has leaked ServiceConnection"
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		//unbindService(m_serviceConnection);
+        Log.i(TAG, mTAG + "Service Un-Binded");
+        //Toast.makeText(ActiveTestAdvanced.this, "Service Un-Binded", Toast.LENGTH_LONG).show();
+	}
+
 	protected void updateButtons() {
-		Log.i("ActiveTestAdvanced", "updateButtons()");
+		Log.i(TAG, mTAG + "updateButtons()");
 		boolean testRunning = activeTestHelper.isActiveTestRunning();
 		if(testRunning){
 			startButtonMode = StartButtonMode.STOP;
@@ -170,7 +180,7 @@ public class ActiveTestAdvanced extends BaseActivity{
 
 	//@SuppressLint("SetJavaScriptEnabled")
 	private void loadWebView(){
-		MsdLog.i(TAG, "loadWebView() called");
+		MsdLog.i(TAG, mTAG + "loadWebView() called");
 		activeTestWebView.getSettings().setJavaScriptEnabled(true);
 		// activeTestWebView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
 		activeTestWebView.setOnTouchListener(new View.OnTouchListener() {
@@ -179,19 +189,20 @@ public class ActiveTestAdvanced extends BaseActivity{
 				// lint (ClickableViewAccessibility) require performClick
 				if (event.getAction() == MotionEvent.ACTION_MOVE) {
 					v.performClick();
-					return (true);
+					return true;
 				} else {
-					return (false);
+					return false;
 				}
 			}
 		});
-		activeTestWebView.setWebViewClient(new WebViewClient(){
+		activeTestWebView.setWebViewClient(new WebViewClient() {
 			boolean done = false;
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				// Call update javascript code after the page has finished loading
 				if(!done){
-					MsdLog.i(TAG, "onPageFinished() calls updateWebView()");
+					MsdLog.i(TAG, mTAG + "onPageFinished() calling updateWebView()");
+                    Log.i(TAG, mTAG + "onPageFinished() calling updateWebView() [remove log duplicate]");
 					updateWebView();
 					done = true;
 				}
