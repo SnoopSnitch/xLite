@@ -31,8 +31,7 @@ import android.util.Log;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class TlsSniSocketFactory implements LayeredSocketFactory {
 
-    // Previous tag was too long:  TAG = "davdroid.SNISocketFactory";
-    private static final String TAG = "SNSN";
+    private static final String TAG = "SNSN";                   // old: "davdroid.SNISocketFactory"
     private static final String mTAG = "TlsSniSocketFactory";
 
     final static HostnameVerifier hostnameVerifier = new StrictHostnameVerifier();
@@ -74,10 +73,10 @@ public class TlsSniSocketFactory implements LayeredSocketFactory {
             ssl.setEnabledProtocols(ssl.getSupportedProtocols());
 
             // set up SNI before the handshake
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                     Log.i(TAG, mTAG +"Setting SNI hostname");
                     sslSocketFactory.setHostname(ssl, host);
-            } else {
+           /* } else {
                     Log.i(TAG, mTAG + "No documented SNI support on Android <4.2, trying with reflection");
                     try {
                          java.lang.reflect.Method setHostnameMethod = ssl.getClass().getMethod("setHostname", String.class);
@@ -85,7 +84,7 @@ public class TlsSniSocketFactory implements LayeredSocketFactory {
                     } catch (Exception e) {
                             Log.w(TAG, mTAG + "SNI not usable: ", e);
                     }
-            }
+            }*/
 
             // verify hostname and certificate
             SSLSession session = ssl.getSession();
