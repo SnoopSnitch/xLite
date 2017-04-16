@@ -1,9 +1,9 @@
-(2) Compiling using Android-Studio and Gradle (Linux)
-=====================================================
+## (2) Compiling using Android-Studio and Gradle (Linux) ##
 
+* STATUS:     **WIP**
+* DATE:       `2017-04-16`
 
-Requirements
-------------
+### Requirements
 
 You need to have a working installation of:
 
@@ -11,10 +11,9 @@ You need to have a working installation of:
 -   Android SDK
 -   Android NDK
 
-To install, first follow [these instructions].
+To install, first follow [these instructions](https://github.com/SnoopSnitch/xLite/blob/master/INSTALL_AS.md).
 
-Minimal Gradle Background
--------------------------
+### Minimal Gradle Background
 
 At first sight, Gradle can seem rather non-intuitive. The greatest difference
 from other scripting languages, is that it is modular and task oriented. Thus
@@ -23,8 +22,7 @@ in the order as expected, if at all. However, as Gradle has become a de-facto
 Android developer standard, the answers can usually be found by Googling on
 sites like Stackexchange or [stackoverflow] .
 
-To run Gradle you also need a project
--------------------------------------
+### To run Gradle you also need a project
 
 If you don’t already have your own fresh new project, the first thing to do
 is to download your Gradle supported project. In our case, it is the latest
@@ -61,8 +59,8 @@ You directory structure should look something like this:
         ├── build
         └── gradle
 
-Configuring Gradle
-------------------
+
+### Configuring Gradle
 
 In and below the *./SnoopSnitch/* directory there are 4 important (\*) Gradle configuration files:
 
@@ -90,8 +88,9 @@ You also want to make sure that the *gradle.properties* files contain the line:
     # Make Gradle run in daemon mode for faster execution:
     org.gradle.daemon=true
 
-Compile native parser library files with NDK
---------------------------------------------
+
+### Compile native parser library files with NDK
+
 
 Before we can compile our app with Gradle, we have to compile all its binary dependencies
 that are used to:
@@ -161,8 +160,8 @@ The debug and unsigned release APK will be found under:
 
 NOTE: **You cannot install the unsigned APK.** Only the debug one.
 
-Adding release signatures to the build files
---------------------------------------------
+
+### Adding release signatures to the build files
 
 **WIP**
 
@@ -184,8 +183,9 @@ These two files should look like this:
     # (Unsigned releases are not installable unless signed after.)
     #./gradlew assembleRelease
 
-More Gradle commands
---------------------
+
+#### More Gradle commands
+
 
 To manually start/stop the Gradle daemon (use for faster execution):
 
@@ -222,7 +222,7 @@ Once imported and synced, you should be able to go to the AS menu: **Build >> Bu
 
 
   [these instructions]: https://github.com/SnoopSnitch/xLite/AS_INSTALL.md
-  [stackoverflow]: http://stackoverflow.com
+  [stackoverflow]: http://stackoverflow.com/
   [SnoopSnitch]: .
 
 ---

@@ -1,10 +1,18 @@
-IMSI Catcher Score
+### IMSI Catcher Score
+
+---
+* Status:     **WIP** (Need urgent update)
+* Date:       `2017-04-16`
+---
+
+
+#### How does it work?
 
 The IMSI catcher heuristic calculates an overall score (sum) out of a number of sub-scores. If this overall score exceeds a specified maximum value, an alarm is raised in the app. In the detailed event view the sub-scores are displayed together with the overall score to allow the user to derive more details from an incident. The following sections outline all sub-scores used in SnoopSnitch.
 
 
 
-A1 - Different LAC/CID for the same ARFCN (Removed)
+> A1 - Different LAC/CID for the same ARFCN (Removed)
 
 The LAC/CID recently seen on a frequency suddenly changed.
 Rationale
@@ -17,7 +25,9 @@ As associating an frequency/LAC/CID combination with a precise location reliably
 False Positives
 
 Multiple base stations operating on the same frequency may be receivable in the same locations, e.g. in elevated places. Furthermore, an operator may reconfigure the cell to use a different LAC/CID.
-A2 - Inconsistent LAC
+
+
+> A2 - Inconsistent LAC
 
 The LAC of the current base station differs from the LAC of many neighboring cells.
 Rationale
@@ -26,7 +36,9 @@ A mobile will only perform a normal location update when changing to a different
 False Positives
 
 Femto cells may or may not announce a LAC different from all their neighboring cells. Their may be other special situations, like in-house cells where this is the case.
-A4 - Same LAC/CID on different ARFCNs
+
+
+> A4 - Same LAC/CID on different ARFCNs
 
 A cell is received on different ARFCNs within a short time.
 Rationale
@@ -35,7 +47,9 @@ To avoid leaving traces of a new, non-existent cell, an IMSI catcher may choose 
 False Positives
 
 A cell may be reconfigured to use a different frequency, but this should happen very rarely.
-A5 - Lonesome location area
+
+
+> A5 - Lonesome location area
 
 A cell is the only cell observed in its location area
 Rationale
@@ -45,7 +59,9 @@ False Positives
 
 When traveling at high speeds or in areas with poor coverage the mobile may record system information for only a single cell of location area.
 "Unexpected neighbors also do happen often with subway cells. In some cases the BTS is in a central place, and the RF heads are far away, connected with optical fiber. In these cases cell IDs and LACs are carried over many kilometers into places where they usually do not belong, and often not all neighbors are set correctly, due to restrictions in neighbor list size. I can imagine that such circumstances could trigger a false positive." (source)
-K1 - No neighboring cells
+
+
+> K1 - No neighboring cells
 
 The serving cell is not advertising any neighbor cells.
 Rationale
@@ -54,7 +70,9 @@ Active IMSI catchers which record voice and data will try to prevent an MS from 
 False Positives
 
 Only few regular situations, like small islands with only a single call, are thinkable where no neighboring cells may be announced.
-K2 - High cell reselect offset
+
+
+> K2 - High cell reselect offset
 
 The cell reselect offset is high.
 Rationale
@@ -63,7 +81,9 @@ The goal of announcing a large CELL RESELECT OFFSET is similar to K1. The CELL R
 False Positives
 
 Networks may announce a high CELL RESELECTION OFFSET in areas with poor coverage.
-C1 - Encryption Downgrade
+
+
+> C1 - Encryption Downgrade
 
 After using an encryption algorithm with a cell previously, encryption got downgraded to a weaker algorithm.
 Rationale
@@ -76,7 +96,9 @@ This metric is relevant and applicable only when an existing LAC/CID is reused f
 False Positives
 
 An operator may mis-configure some of its base stations to use a weaker encryption algorithm. In rare cases A5/0 transaction are observed, most likely caused by hardware faults.
-C2 - Delayed CIPHER MODE COMPLETE ack.
+
+
+> C2 - Delayed CIPHER MODE COMPLETE ack.
 
 In the CIPHER MODE COMMAND message from the network no IMEISV was requested and subsequent CIPHER MODE COMPLETE messages are acknowledged with significant delay.
 Rationale
@@ -90,7 +112,9 @@ False Positives
 Lost CIPHER MODE COMPLETE packets due to bad network reception.
 
 Not requesting the IMEISV is normal behavior in some networks, as the IMEI may be retrieved through a subsequent IDENTITY REQUEST at any later time.
-C3 - CIPHER MODE CMD msg. without IMEISV (removed)
+
+
+> C3 - CIPHER MODE CMD msg. without IMEISV (removed)
 
 IMEISV is not requested during the encryption handshake.
 
@@ -101,7 +125,9 @@ The IMEISV is different for each phone. When it is not requested within the encr
 Notes
 
 The metric has been moved into C2, because the fact that no IMEISV is requested is not conclusive if no other parameters are taken into account.
-C4 - ID requests during location update
+
+
+> C4 - ID requests during location update
 
 The network queries identity information (like IMSI and IMEI) after a LOCATION UPDATE REQUEST and then rejects that request.
 Rationale
@@ -113,7 +139,9 @@ False Positives
 
 Unknown.
 
-C5 - Cipher setting out of average
+
+
+> C5 - Cipher setting out of average
 
 A cell does not offer encryption in a network that normally encrypts
 
@@ -124,7 +152,9 @@ False Positives
 
 Unknown.
 
-T1 - Low registration timer
+
+
+> T1 - Low registration timer
 
 The initial value of the registration timer T3212 is low.
 
@@ -137,7 +167,9 @@ An IMSI catcher might broadcast an initialization value for the registration tim
 False Positives
 
 Common value for T3212 are 1-4 hours. Operators may lower T3212 to e.g. 30 minutes to reallocate subscribers from one MSC/VLR to another for maintenance or upgrade.
-T3 - Paging without transaction
+
+
+> T3 - Paging without transaction
 
 The MS is paged without entering a transaction.
 
@@ -148,7 +180,9 @@ Paging by IMSI and subsequently releasing the transaction without SMS or call da
 False Positives
 
 A similar pattern occurs when a MS is called, but the caller releases the call quickly enough such that the MS is paged, but no ALARM is signaled.
-T4 - Orphaned traffic channel
+
+
+> T4 - Orphaned traffic channel
 
 A traffic channel is assigned, but no call control state is entered or text message received for a long time.
 
@@ -159,7 +193,9 @@ False Positives
 
 Unknown.
 
-R1 - Inconsistent neighbor list
+
+
+> R1 - Inconsistent neighbor list
 
 The neighbor list of most neighboring cells does not contain serving cell.
 
@@ -172,7 +208,9 @@ False Positives
 
 Unknown.
 
-R2 - High number of paging groups
+
+
+> R2 - High number of paging groups
 
 The cell is configured in a way that maximizes the number of paging groups.
 
@@ -183,7 +221,9 @@ False Positives
 
 Unknown.
 
-F1 - Few paging requests (removed)
+
+
+> F1 - Few paging requests (removed)
 
 Rate of paging requests suddenly drops.
 Rationale
@@ -195,13 +235,5 @@ False Positives
 The metric was discarded because the required information could not be gathered reliably.
 
 
-
-
-
-
-
-
-
-
-
-
+---
+EOF

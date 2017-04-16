@@ -1,7 +1,10 @@
 
-# Privacy Policy
+## Privacy Policy ##
 
 ![Privacy image](http://www.smilemultimedia.com/sites/default/files/styles/home_slider/public/page-banner/privacy_policy.jpg?itok=PCYhFx9H)
+
+* Last Update: `2017-04-16`
+
 
 ### Introduction
 
@@ -107,12 +110,7 @@ This Privacy Policy may be updated from time to time for any reason. We will not
 
 ### Contact
 
-If you have questions or concerns regarding this policy, please contact us at: snoopsnitch@srlabs.de
+If you have questions or concerns regarding this policy, please contact us via email given in README.
 
-
-Last Update: 2017-04-06
-
-
-===================================================================================================
-===================================================================================================
-
+---
+EOF
