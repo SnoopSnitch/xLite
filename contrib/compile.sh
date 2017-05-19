@@ -297,7 +297,7 @@ if [ "$target" == "android" ]; then
 
 	# The clean hack is to use: rename
 	# rename -v 's/\.[0-9]$//' ${PARSER_DIR}/*.so.*
-	# this fails on systems where "rename" is an executable from util-linux-nh
+	# this fails on systems where "rename" is an executable from util-linux-ng
 	# in this situation, rename wants 3 arguments - expression to search for; rename target; file list
 	# my version of rename did not want to behave with regexps, nor did it even work when using *.so.*
 	# so the next best option was a for loop, sed, a regexp and the mv command
