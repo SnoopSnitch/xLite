@@ -85,7 +85,7 @@ by editing your **~./bashrc** and add the following lines to the end of the file
   [installation instructions]: https://developer.android.com/studio/install.html
   
   
-      #----------------------------------------------------------
+    #----------------------------------------------------------
     # Android Development
     #----------------------------------------------------------
     export ANDROID_NDK=/opt/android/ndk

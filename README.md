@@ -3,44 +3,8 @@
 
 ---
 * Status:     **WIP**
-* Date:       `2017-04-16`
+* Date:       `2017-05-28`
 ---
-
-#### DUMMY TEMPLATE (start remove) ####
-
-This README would normally document whatever steps are necessary to get your application up and running.
-
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
-
-
-#### DUMMY TEMPLATE (end remove) ####
-
----
-
 
 
 ### SnoopSnitch xLite ###
@@ -58,7 +22,7 @@ mobile network security and to warn you about threats like fake base stations
 ### License ###
 
 
-   * Copyright (C) 2017       GPLv3  emigenix
+   * Copyright (C) 2017       GPLv3  5GSD
    * Copyright (C) 2014-2016  GPLv3  Security Research Labs
 
    This program is free software; you can redistribute it and/or modify
@@ -70,6 +34,8 @@ mobile network security and to warn you about threats like fake base stations
 
 ### Resources ###
 
+Useful GitHub [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+
 TBA
 
 
@@ -78,7 +44,7 @@ TBA
 * Project Website:       https://github.com/SnoopSnitch/xLite/
 * Public Git repository: https://github.com/SnoopSnitch/xLite.git
 * Email:                 emigenix@gmail.com
-* PGP:                   XXXXX  YYYYY
+* PGP:                   950B 7745 565A 4A48 1D66  D699 4923 6E35 27D8 F4E6
 
 
 #### Original work: ####
@@ -139,6 +105,21 @@ The following permissions are required to run SnoopSnitch:
    * `ACCESS_COARSE_LOCATION`: record location of IMSI catchers and security events if configured
    * `INTERNET`:               Download new data from gsmmap.org, upload radio traces and debug logs upon request
    * `ACCESS_NETWORK_STATE`:   Postpone uploads until network is available
+
+| Permission               | Our Usage |
+|:------------------------ |:--------- |
+| `ACCESS_SUPERUSER`       | Open Qualcomm diagnosis interface to capture radio data |
+| `CALL_PHONE,`            |  |
+| `READ_PHONE_STATE,`      |  |
+| `SEND_SMS,`              |  |
+| `RECEIVE_SMS`            | Generate mobile network traffic recorded in active tests |
+| `GET_TASKS`              | Retrieve state of helper processes interacting with diagnosis interface |
+| `WAKE_LOCK`              | Acquire CPU for long-running analysis steps |
+| `ACCESS_FINE_LOCATION,`  |  |
+| `ACCESS_COARSE_LOCATION` | Record location of IMSI catchers and security events if configured |
+| `INTERNET`               | Download new data from gsmmap.org, upload radio traces and debug logs upon request |
+| `ACCESS_NETWORK_STATE`   | Postpone uploads until network is available |
+
 
 In addition, the app requires root privileges, which are only used to access 
 the */dev/diag* interface from which the baseband netwrok information is read.
