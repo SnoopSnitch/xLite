@@ -3,7 +3,7 @@
 
 ---
 * Status:     **WIP**
-* Date:       `2017-05-28`
+* Date:       `2017-06-15`
 ---
 
 
@@ -94,18 +94,6 @@ perform a release build.
 
 The following permissions are required to run SnoopSnitch:
 
-   * `ACCESS_SUPERUSER`:       Open Qualcomm diagnosis interface to capture radio data
-   * `CALL_PHONE,` 
-   * `READ_PHONE_STATE,` 
-   * `SEND_SMS,` 
-   * `RECEIVE_SMS`:            Generate mobile network traffic recorded in active tests
-   * `GET_TASKS`:              Retrieve state of helper processes interacting with diagnosis interface
-   * `WAKE_LOCK`:              Acquire CPU for long-running analysis steps
-   * `ACCESS_FINE_LOCATION,` 
-   * `ACCESS_COARSE_LOCATION`: record location of IMSI catchers and security events if configured
-   * `INTERNET`:               Download new data from gsmmap.org, upload radio traces and debug logs upon request
-   * `ACCESS_NETWORK_STATE`:   Postpone uploads until network is available
-
 | Permission               | Our Usage |
 |:------------------------ |:--------- |
 | `ACCESS_SUPERUSER`       | Open Qualcomm diagnosis interface to capture radio data |
@@ -128,7 +116,7 @@ the */dev/diag* interface from which the baseband netwrok information is read.
 
 ### Known Bugs ###
 
-For the most recent list of bugs, please refer to the currently [open GitHb issues]().
+For the most recent list of bugs, please refer to the currently [open GitHb issues](https://github.com/SnoopSnitch/xLite/issues).
 
 For technical bugs, and limitations please refer to the GitHub Wiki article "Bugs and Limitations".
 
