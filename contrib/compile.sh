@@ -296,7 +296,16 @@ if [ "$target" == "android" ]; then
 	#perl -i -pe 's/libasn1c\.so\.0/libasn1c.so\0\0/gs;s/libosmo-asn1-rrc\.so\.0/libosmo-asn1-rrc.so\0\0/gs;s/libosmocore\.so\.6/libosmocore.so\0\0/gs;s/libosmogsm\.so\.5/libosmogsm.so\0\0/gs' ${PARSER_DIR}/*.so
 
 	# The clean hack is to use: rename
-	rename -v 's/\.[0-9]$//' ${PARSER_DIR}/*.so.*
+	# rename -v 's/\.[0-9]$//' ${PARSER_DIR}/*.so.*
+	# this fails on systems where "rename" is an executable from util-linux-ng
+	# in this situation, rename wants 3 arguments - expression to search for; rename target; file list
+	# my version of rename did not want to behave with regexps, nor did it even work when using *.so.*
+	# so the next best option was a for loop, sed, a regexp and the mv command
+	for sofile in `ls ${PARSER_DIR}/*.so.*` ; do
+	  #echo "$sofile"
+	  #echo "$sofile" | sed s/'[.]so[.].*'/.so/	
+	  mv -fT "$sofile" `echo "$sofile" | sed s/'[.]so[.].*'/.so/` ;
+	done
 
 elif [ "$target" == "host" ]; then
 	#lecho "Installing files to: ${PARSER_DIR}/ ..."
